@@ -1,0 +1,32 @@
+#email_send_history_page{
+  width: 83.33%;
+  height: 100%;
+  position: absolute;
+  background-color: gainsboro;
+
+}
+#main_div_eshp{
+  margin-top: 10%;
+  height: 80%;
+  width: 100%;
+  position: absolute;
+}
+.send_history_list{
+  border: solid;
+  border-top: hidden;
+  border-width: 1px;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover{
+    background-color: white;
+  }
+}
+
+.sent_email_ul{
+  margin: 0;
+  padding: 0;
+}
+#list_0{
+  border-top:solid;
+  border-width: 1px;
+}

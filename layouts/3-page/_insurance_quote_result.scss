@@ -1,0 +1,59 @@
+#insurance_quote_0_result{
+  opacity:1;
+  background-color: $Yellow;
+}
+.result_display_div{
+  background-color: white;
+  margin-top: 10%;
+  height:80%;
+  width: 100%;
+}
+#thx_for_quote_div{
+  background-color: beige;
+}
+#blank_div{
+  background-color: white;
+
+}
+#thx_for_quote_text_div{
+  position: absolute;
+  margin: 20% 10% 20% 0%;
+  width: 80%;
+}
+#download_pdf_button{
+  top: 40%;
+}
+#send_to_email_button{
+  top: 50%;
+}
+#save_price_options{
+  padding-top: 5%;
+}
+#dianjizhijielianxiwenzi{
+  position: absolute;
+  top: 68%;
+  left:13%;
+}
+.save_price_options_button{
+  left: 38%;
+  width: 30%;
+  position: absolute;
+  height: 6vh;
+  border-radius: 6vh;
+  background-color: $Black;
+  color: white;
+  overflow: hidden;
+  transition: opacity 300ms ease-out;
+  opacity: 0.5;
+  cursor: default;
+  .save_price_options_button_text {
+    top:30%;
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+  }
+}
+.save_price_options_button:hover{
+  opacity: 0.8;
+}

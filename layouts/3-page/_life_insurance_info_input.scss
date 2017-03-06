@@ -1,0 +1,227 @@
+#insurance_quote_0{
+  background-color: $Green;
+  opacity: 1;
+}
+#life_insurance_information_input{
+  background-color: white;
+  margin-top: 10%;
+}
+.liii_submit_button{
+  position: absolute;
+  top:85%;
+  right: 10%;
+  z-index: 99;
+  width: 12vh;
+  padding-top: 6vh;
+  border-radius: 6vh;
+  background-color: $Black;
+  color: white;
+  overflow: hidden;
+  transition: opacity 300ms ease-out;
+  opacity: 0.8;
+  #liii_submit_button_text {
+    top:30%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+  }
+
+}
+
+
+
+.title_label{
+  top:5%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  font-size: 30px;
+}
+
+
+.basic_info_input_div{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 10%;
+}
+#name_input_div{
+  margin-top: 5%;
+  height: 5%;
+  width: 80%;
+  position: absolute;
+}
+.title_label_0{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  font-size: 32px;
+  @media (max-width: 1440px) {
+    font-size: 27px;
+
+  }
+}
+#title_mr{
+  border: thin solid;
+}
+#title_miss{
+  border: thin solid;
+  border-left: hidden;
+}
+.col-6{
+  padding:0;
+}
+
+.input_lii{
+  border: thin solid;
+  height: 100%;
+}
+#age_div{
+  padding:0;
+}
+#age_label{
+  left: 0;
+  position: absolute;
+  width: 50%;
+}
+#age_input{
+  right: 0;
+  position: absolute;
+  width: 50%;
+}
+#age_and_smoke_div{
+  margin-top: 15%;
+  height: 5%;
+  width: 80%;
+  position: absolute;
+}
+#smoke_yes{
+  border: thin solid;
+  padding: 0;
+}
+#smoke_no{
+  border: thin solid;
+  border-left: hidden;
+  padding: 0;
+
+}
+#phone_number_div{
+  width: 80%;
+  height: 5%;
+  margin-top:25%;
+  position: absolute;
+  #dianhuahaoma{
+    padding: 0;
+  }
+  #phone_#_input{
+    width: 51%;
+  }
+}
+#email_div{
+  width: 80%;
+  height: 5%;
+  margin-top:35%;
+  position: absolute;
+  #dianziyoujian{
+    padding: 0;
+  }
+  #email_input{
+    width: 90%;
+  }
+}
+#contact_method_div{
+  width: 80%;
+  height: 5%;
+  margin-top:45%;
+  position: absolute;
+}
+#contact_methods{
+  width: 80%;
+  height: 5%;
+  margin-top:55%;
+  position: absolute;
+  #message {
+    border: thin solid;
+    padding: 0;
+  }
+  #phone {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #email_0 {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #no_contact {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+}
+.specific_info_input_div{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 10%;
+}
+#baoe_xuanze_div{
+  width: 80%;
+  height: 5%;
+  margin-top:5%;
+  position: absolute;
+}
+#baoe_selection_row_0{
+  width: 80%;
+  height: 5%;
+  margin-top:25%;
+  position: absolute;
+  #_5wan {
+    border: thin solid;
+    padding: 0;
+  }
+  #_10wan{
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #_20wan {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #_30wan {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+
+}
+#baoe_selection_row_1{
+  width: 80%;
+  height: 5%;
+  margin-top:35%;
+  position: absolute;
+  #_40wan {
+    border: thin solid;
+    padding: 0;
+  }
+  #_50wan {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #_100wan {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+  #_200wan {
+    border: thin solid;
+    border-left: hidden;
+    padding: 0;
+  }
+}

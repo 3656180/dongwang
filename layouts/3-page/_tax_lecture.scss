@@ -1,0 +1,27 @@
+
+#main_container_3{
+  transform: translateY(100%);
+  background-color: $Blue;
+}
+#tl_main_div{
+  position: absolute;
+  margin-top: 10%;
+  height:90%;
+  width:100%;
+  background-color: white;
+}
+.post_title{
+  font-size: 20px;
+  color: $Black;
+  text-align: center;
+}
+.posts{
+  height: 30%;
+}
+#tl_main_top_div{
+  margin: 3%;
+  height: 80%;
+}
+#posts_row{
+  overflow: scroll;
+}

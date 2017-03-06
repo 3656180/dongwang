@@ -1,0 +1,403 @@
+body{
+    font-weight: lighter;
+
+}
+    .row{
+        height:100%;
+            padding: 0;
+            margin: 0;
+    }
+    .col-xl-3{
+        padding: 0;
+    }
+	.main_header {
+        position: fixed;
+        width: 100vw;
+        background: rgba(77, 175, 80, 0);
+        height: 6vh;
+        z-index: 999;
+
+
+    }
+
+    //menu button
+    //menu button
+    //menu button
+    .circle_button{
+        position: absolute;
+        margin: 6vh 10vh 10vh 10vh;
+        width: 6vh;
+        padding-top: 6vh;
+        border-radius: 50%;
+        background-color: white;
+        .rotated_icons{
+            top:25%;
+            left:25%;
+            height: 50%;
+            width: 50%;
+            position: absolute;
+            transition: all 300ms ease-out;
+            transform: rotate(0deg);
+            .bar_in_circle_button{
+                position: relative;
+                background-color: $Black;
+                width: 100%;
+                height: 12%;
+                //margin-bottom: 20%;
+                margin-top: 20%;
+            }
+            .dot_in_circle_button{
+
+            }
+        }
+    }
+    .circle_button_back{
+        position: absolute;
+        border-radius: 3vh;
+        //border-bottom-right-radius: 3vh;
+
+        width: 100%;
+        height: 100%;
+        top:0;
+        transition: width 200ms ease-out;
+        z-index: -1;
+        overflow: hidden;
+        .circle_button_background{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 3vh;
+            background-color: $Black;
+            opacity: 0.3;
+        }
+        .menu_text{
+            transition: opacity 300ms ease-out;
+            position: absolute;
+            top:30%;
+            right:20%;
+            font-size: 20px;
+            color: white;
+            opacity: 0;
+            @media (max-width: 1800px) {
+                font-size: 16px;
+            }
+            @media (max-width: 1024px) {
+                font-size: 25px;
+            }
+            @media (max-width: 768px) {
+                font-size: 20px;
+            }
+            @media (max-width: 768px) {
+                font-size: 15px;
+            }
+
+        }
+    }
+    //menu button
+    //menu button
+    //menu button
+
+
+    //365 financial button
+    //365 financial button
+    //365 financial button
+
+    ._365_financial_button{
+        position: absolute;
+        margin: 90vh 10vh 10vh 30vh;
+        @media (max-width: 1080px) {
+            margin: 90vh 10vh 10vh 15vh;
+
+
+        }
+
+        @media (max-width: 414px) {
+            margin: 90vh 10vh 10vh 8vh;
+
+        }
+        @media (max-width: 376px) {
+            font-size: 18px;
+
+        }
+        @media (max-width: 321px) {
+            font-size: 15px;
+
+        }
+        width: 6vh;
+        padding-top: 6vh;
+        border-radius: 50%;
+        background-color: $Black;
+        transition: opacity 300ms ease-out;
+        opacity: 0.5;
+        .rotated_icons{
+            top:25%;
+            left:25%;
+            height: 50%;
+            width: 50%;
+            position: absolute;
+            transition: all 300ms ease-out;
+            transform: rotate(0deg);
+        }
+        .first_dot{
+            background-color: white;
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            top:10%;
+            left: 10%;
+        }
+        .second_dot{
+            background-color: white;
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            top:10%;
+            right: 10%;
+        }
+        .third_dot{
+            background-color: white;
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            bottom:10%;
+            left: 10%;
+        }
+        .fourth_dot{
+            background-color: white;
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            bottom:10%;
+            right: 10%;
+        }
+    }
+
+    //365 financial button
+    //365 financial button
+    //365 financial button
+
+    
+    //login button
+    //login button
+    //login button
+    #login_button{
+        margin-top: 6vh;
+        margin-right: 0;
+        //overflow: hidden;
+    }
+    #login_button_back{
+        right:0;
+        top:0;
+    }
+    .login_image{
+        top:0;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        position: absolute;
+        overflow: hidden;
+        background-color: white;
+}
+    .login_image_inner{
+        top:12%;
+        right: 5%;
+        height:90%;
+        width: 90%;
+        border-radius: 50%;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    #login_text{
+        right: 50%;
+    }
+    #login_image_0{
+    }
+    //login button
+    //login button
+    //login button
+
+    //contact us button
+    //contact us button
+    //contact us button
+    .contact_us_button{
+        position: absolute;
+        margin-top:87vh;
+        margin-left: 10vw;
+        right: 10%;
+        z-index: 0;
+        width: 10vw;
+        padding-top: 6vh;
+        border-radius: 6vh;
+        background-color: $Black;
+        color: white;
+        overflow: hidden;
+        transition: opacity 300ms ease-out;
+        transition: width 300ms ease-out;
+        transition: all 300ms ease-out;
+        transform: translateX(0%);
+        opacity: 0.8;
+        #contact_us_text {
+            top:30%;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            text-align: center;
+        }
+
+    }
+    //contact us button
+    //contact us button
+    //contact us button
+
+//close button
+//close button
+//close button
+
+.close_button{
+    position: absolute;
+    top:0;
+    right:0;
+    margin: 6vh 10vh 10vh 10vh;
+    width: 6vh;
+    padding-top: 6vh;
+    border-radius: 50%;
+    background-color: white;
+    .rotated_icons{
+        top:25%;
+        left:25%;
+        height: 50%;
+        width: 50%;
+        position: absolute;
+        transition: all 300ms ease-out;
+        transform: rotate(0deg);
+        .X_in_close_button{
+            position: absolute;
+            background-color: $Black;
+            width: 100%;
+            height: 8%;
+            //margin-bottom: 20%;
+            margin-top: 46%;
+        }
+        #X_in_close_button_0{
+            transform: rotate(45deg);
+        }
+        #X_in_close_button_1{
+            transform: rotate(-45deg);
+        }
+
+    }
+}
+.close_button_front{
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.close_button_back{
+    position: absolute;
+    border-radius: 3vh;
+    //border-bottom-right-radius: 3vh;
+
+    width: 100%;
+    height: 100%;
+    top:0;
+    right:0;
+    transition: width 200ms ease-out;
+    z-index: -1;
+
+    .close_button_background{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        border-radius: 3vh;
+        background-color: $Black;
+        opacity: 0.3;
+    }
+    .menu_text{
+        transition: opacity 300ms ease-out;
+        position: absolute;
+        top:30%;
+        right:50%;
+        font-size: 20px;
+        color: white;
+        opacity: 0;
+        @media (max-width: 1800px) {
+            font-size: 16px;
+        }
+        @media (max-width: 1024px) {
+            font-size: 25px;
+        }
+        @media (max-width: 768px) {
+            font-size: 20px;
+        }
+        @media (max-width: 768px) {
+            font-size: 15px;
+        }
+
+    }
+}
+//close button
+//close button
+//close button
+
+
+#_365_logo_div{
+    position: absolute;
+    margin-top: 3vh;
+    height: 10vh;
+    width: 25vw;
+    margin-left: 20%;
+    background-size: cover;
+}
+
+
+
+
+
+    .buttons{
+        border: none;
+        outline:none;
+        background-color: rgba(234, 236, 237, 0);
+        color: white;
+        text-decoration: none;
+        font-family: Arial;
+        font-weight: 100;
+        font-size: 30px;
+        text-align: center;
+        width: 100%;
+        height: 20%;
+        @media (max-width: 1440px) {
+            font-size: 25px;
+
+        }
+        @media (max-width: 768px) {
+            font-size: 20px;
+
+        }
+        @media (max-width: 414px) {
+            font-size: 20px;
+
+        }
+        @media (max-width: 376px) {
+            font-size: 18px;
+
+        }
+        @media (max-width: 321px) {
+            font-size: 15px;
+
+        }
+    }
+.buttons:hover{
+    color: $Black;
+}
+    .login_button:hover {
+        color : $Gray;
+    }
+
+    .header_button:hover {
+        color : $Gray;
+    }

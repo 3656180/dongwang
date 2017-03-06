@@ -1,0 +1,121 @@
+.buttons_div{
+  position: absolute;
+  border: none;
+  outline:none;
+  //transition: all 600ms ease-out;
+  //transform: translateY(65%);
+  background-color: rgba(234, 236, 237, 0);
+  color: $Black;
+  text-decoration: none;
+  font-family: Arial;
+  font-weight: 100;
+  font-size: 35px;
+  text-align: center;
+  width: 95%;
+  height: 55%;
+  margin-top: 30%;
+  @media (max-width: 1440px) {
+    font-size: 27px;
+
+  }
+  @media (max-width: 768px) {
+    font-size: 20px;
+
+  }
+  @media (max-width: 414px) {
+    font-size: 20px;
+    transform: translateY(30%);
+
+  }
+  @media (max-width: 376px) {
+    font-size: 18px;
+
+  }
+  @media (max-width: 321px) {
+    font-size: 15px;
+
+  }
+  .buttons_div_background{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: $Blue;
+    opacity: 0.2;
+
+  }
+  .buttons_div_text{
+    position: relative;
+    top:10%;
+  }
+  .buttons_div_introduction_text{
+    position: relative;
+    font-size: 15px;
+    margin: 13% 10% 0 10%;
+    height:65%;
+    width: 80%;
+  }
+  .iq_hover_line{
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    height: 2px;
+    background-color: $Black;
+  }
+}
+
+
+
+#main_container_1{
+    transform: translateY(100%);
+    background-color: #00DD00;
+    #select_insurance_type_div{
+      transform: translateY(0%);
+      background-color: #00AA00;
+      #select_insurance_type_div_close_button{
+        z-index: 1;
+      }
+      #introduction_div{
+        background-color: #dbd9de ;
+        @media (max-width: 414px) {
+          display: none;
+        }
+        #iq_contact_info_div{
+          margin: 30% 10% 0% 10%;
+          #iq_phone_num{
+            color: black;
+            font-weight: bold;
+          }
+        }
+        #iq_borderline_div{
+          position: absolute;
+          margin-top: 0%;
+          width: 80%;
+          left: 10%;
+          height: 2px;
+          background-color: black;
+        }
+        #introduction_for_cent_text_div{
+          margin: 20% 10% 50% 10%;
+        }
+      }
+      #select_div{
+        background-color: white;
+
+        #group_insurance_button_div{
+          padding-right: 2%;
+        }
+        #illness_insurance_button_div{
+          background-color: white;
+          z-index: 1;
+        }
+        #general_insurance_button_div{
+          background-color: white;
+          z-index: 1;
+          padding-right: 2%;
+
+        }
+      }
+    }
+
+  }
+
