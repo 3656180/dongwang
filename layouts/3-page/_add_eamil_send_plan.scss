@@ -1,0 +1,68 @@
+#add_email_sned_plan_page{
+  width: 83.33%;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+
+}
+#main_div_aesp{
+  height: 90%;
+  background-color: gainsboro;
+  margin-top: 10%;
+}
+#left_sub_div_aesp{
+  padding: 10% 5% 5% 5%;
+}
+.custom_div_0{
+  margin-bottom: 5%;
+}
+.custom_label_0{
+  font-size: 22px;
+}
+.custom_text_input_0{
+  width: 20vw;
+}
+#send_period_aesp{
+  text-align: center;
+  font-size: 22px;
+}
+#pay_frequency_annually{
+  text-align: center;
+  border:solid;
+
+}
+#pay_frequency_monthly{
+  text-align: center;
+  border:solid;
+  border-left: hidden;
+}
+#right_sub_div_aesp{
+  padding: 10% 5% 5% 5%;
+
+}
+#day_aesp{
+  height: 10vh;
+  overflow: scroll;
+}
+#pay_date_day_div_aesp{
+  max-height: 10vh;
+  overflow: scroll;
+}
+#pay_date_month_aesp{
+  width: 100%;
+}
+#pay_date_day_aesp{
+  width: 100%;
+}
+.input_checkbox{
+  width: 10%;
+}
+#submit_button_aesp{
+  text-align: center;
+  width: 80%;
+  margin: 10%;
+  border: solid;
+  &:hover{
+    background-color: white;
+  }
+}

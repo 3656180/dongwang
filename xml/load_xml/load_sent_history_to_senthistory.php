@@ -10,7 +10,7 @@ $sort_direction='up';
 
 //set filter parameter
 $index='recipient';
-$value=false;
+$value='unknown';
 
     if(isset($_POST['issort'])){
         $issort=$_POST['issort'];
@@ -39,22 +39,21 @@ foreach ($xml->sent_email as $node) {
 }
 
 //                echo $xml->emails[0]->recipient;
-if($value!=false){
-    $emails = filter_by_value($emails,$index , $value);
-
+//filter the array
+if($value!='unknown'){
+    $result = filter_by_value($emails,'recipient' , $value);
+    $result2 = filter_by_value($emails,'email' , $value);
+    $result3 = filter_by_value($emails,'send_date' , $value);
+    $emails = $result+$result2+$result3;
 }
+//sort the array
 array_sort_by_column($emails, $sort_option, $sort_direction);
 
-
-
-
-
-
 //print to html
-echo "<ul class='sent_email_ul'>";
+echo "<ul class='history_and_plan_email_ul'>";
 foreach ($emails as &$node) {
     //echo $emails->recipient;
-    echo "<li class='send_history_list'  id='list_$index'>
+    echo "<li class='history_and_plan_email_list'  id='list_$index'>
                 <div class='row'>
                     <div class='col-2' id='col_1_list_$index' style='border-right:solid 1px '>
                         <div class='send_history_list_row'>".$node['recipient']."</div>

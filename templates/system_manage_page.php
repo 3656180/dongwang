@@ -73,7 +73,7 @@
    </div>
     <?php include "email_send_history.php"; ?>
     <?php include "email_send_plan.php"; ?>
-    <?php include "set_email_context.php"; ?>
+    <?php include "add_email_sned_plan.php"; ?>
     <?php include "general_set_page.php"; ?>
 
     <div class="pop_up_div_frame" id="pop_up_div_frame_smp">

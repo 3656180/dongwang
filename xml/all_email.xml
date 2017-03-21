@@ -97,4 +97,4 @@
                 请您提前做好准备，避免延误缴费时间&lt;/p&gt;
                 &lt;p&gt;如有任何疑问请致电xxx-xxx-xxxx&lt;/p&gt;
                 &lt;p&gt;王栋&lt;/p&gt;
-                &lt;p&gt;&lt;/p&gt;</html><type>canceled_email</type><id>1</id><recipient>dong</recipient><email>test@gmail.com</email><send_date>19980808</send_date><canceled_date>19991231</canceled_date><html>test_html</html><admin>root</admin><type>email_not_send_yet</type><id>1</id><recipient>dongwang</recipient><email>henqianda@gmail.com</email><send_date>20170320</send_date><html>send_plan_test_html</html></email></xml>
+                &lt;p&gt;&lt;/p&gt;</html><type>canceled_email</type><id>1</id><recipient>dong</recipient><email>test@gmail.com</email><send_date>19980808</send_date><canceled_date>19991231</canceled_date><html>test_html</html><admin>root</admin><type>email_not_send_yet</type><id>1</id><recipient>dongwang</recipient><email>henqianda@gmail.com</email><send_date>20170320</send_date><html>send_plan_test_html</html><type>email_not_send_yet</type><id>2</id><recipient>mengmengwang</recipient><email>yamaxunone@gmail.com</email><send_date>20170321</send_date><html>send_plan_test_html</html></email></xml>

@@ -31,7 +31,7 @@
                 </div>
             </li>
         </ul>
-        <div id="show_list_div_espp">
+        <div id="show_list_div_eshp">
             <?php get_template_part( 'xml/load_xml/load_sent_history_to_senthistory' ); ?>
         </div>
     </div>

@@ -49,7 +49,7 @@ $(document).ready(function(){
 
         $('#set_email_smp').on('click',  function() {
             resetall();
-            $('#set_email_context_page').css('transform', 'translateX(0px)');
+            $('#add_email_sned_plan_page').css('transform', 'translateX(0px)');
         });
 
         $('#general_set_smp').on('click',  function() {
@@ -81,7 +81,7 @@ $(document).ready(function(){
     function resetall () {
         $('#email_send_history_page').css('transform', 'translateX(-100%)');
         $('#email_send_plan_page').css('transform', 'translateX(-100%)');
-        $('#set_email_context_page').css('transform', 'translateX(-100%)');
+        $('#add_email_sned_plan_page').css('transform', 'translateX(-100%)');
         $('#general_set_page').css('transform', 'translateX(-100%)');
 
     };

@@ -9,12 +9,22 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+
+
 $sql_esh = "SELECT * FROM email_send_history";
 $result_esh = $conn->query($sql_esh);
 $sql_ce = "SELECT * FROM canceled_email";
 $result_ce = $conn->query($sql_ce);
 $sql_sp = "SELECT * FROM send_plan";
 $result_sp = $conn->query($sql_sp);
+
+//test
+$tableListSql="SELECT TABLE_NAME FROM information_schema.tables
+                WHERE table_schema='wordpress'
+                AND TABLE_NAME like'send_plan%'";
+$tableList=$conn->query($tableListSql);
+//test
 //database connection finished
 
 /* create a dom document with encoding utf8 */
@@ -155,6 +165,16 @@ if ($result_sp->num_rows > 0) {
 else {
     echo "0 results for canceled_email";
 }
+//test
+if($tableListSql->num_rows>0){
+    while($row=$tableList->fetch_assoc()){
+        $sql="SELECT * FROM".$row["TABLE_NAME"];
+        
+    }
+}
+//test
+
+
 $domtree_all->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/all_email.xml');
 
 
