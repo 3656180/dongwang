@@ -20,7 +20,7 @@ background-color: $Green;
   position: absolute;
   height: 70%;
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   border: solid black 2px;
 }
 #recent_send_smp_list_title{
