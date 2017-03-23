@@ -1025,7 +1025,7 @@ ul {
   position: absolute;
   height: 70%;
   width: 100%;
-  overflow-y: scroll;
+  overflow: scroll;
   border: solid black 2px; }
 
 #recent_send_smp_list_title {
@@ -1091,7 +1091,7 @@ ul {
   height: 95%;
   width: 90%;
   position: absolute;
-  overflow-y: scroll;
+  overflow: scroll;
   margin: 0 5% 5% 5%; }
 
 .history_and_plan_email_list {
@@ -1153,7 +1153,7 @@ ul {
   height: 95%;
   width: 90%;
   position: absolute;
-  overflow-y: scroll;
+  overflow: scroll;
   margin: 0 5% 5% 5%; }
 
 #espp_title {

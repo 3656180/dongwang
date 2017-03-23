@@ -43,7 +43,6 @@
                        <div class='row' >
                            <div class='col-3'>
                                姓名
-
                            </div>
                            <div class='col-6'>
                                邮箱

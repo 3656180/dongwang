@@ -1,5 +1,7 @@
 $(document).ready(function(){
     var frequency="monthly";
+
+
     $('#pay_frequency_annually').on('click', function(){
         $('#pay_frequency_annually').css('background-color', 'white');
         $('#pay_frequency_monthly').css('background-color', 'gainsboro');
@@ -47,190 +49,91 @@ $(document).ready(function(){
         $sql="";
         //posttodatabase ($sql);
         //test
-        // var testArray=getPaymentDate({startDate:'2013-09-12',
-        //                                  endDate:'2014-08-22',
-        //                                  payDateMonth:'1,',
-        //                                  payDateDay:'1',
-        //                                  frequency:'monthly'});
-        // var testsring='';
-        // for(var i=0;i<testArray.length;i++){
-        //             testsring=testsring+i+"th";
-        //             testsring=testsring+testArray[i].year;
-        //             testsring=testsring+ testArray[i].month;
-        //             testsring=testsring+ testArray[i].day;
-        //         }
-        // alert(testsring);
-        // for(var i=0;i<testArray.length;i++){
-        //
-        //     var testArray2=getSendDate(testArray[i],{ismonth:false,
-        //                                              istwoweeks:false,
-        //                                              isoneweek:false,
-        //                                              isthreedays:true,
-        //                                              istwodays:false,
-        //                                              isoneday:false,
-        //                                          })
-        //     //alert(testArray2[0].day);
-        //     for(var i=0;i<testArray2.length;i++){
-        //         testsring=testsring+i+"th";
-        //         testsring=testsring+testArray2[i].year;
-        //         testsring=testsring+ testArray2[i].month;
-        //         testsring=testsring+ testArray2[i].day;
-        //     }
-        //
-        // };
-        // alert(testsring);
+        var testArray=getSendDate(getPaymentDate(payDateInfo),sendPlan);
+        var testsring='';
+        for(var i=0;i<testArray.length;i++){
+            testsring=testsring+i+"th";
+
+            testsring=testArray[i].year;
+            testsring=testsring+ testArray[i].month;
+            testsring=testsring+ testArray[i].day
+        };
+        alert(testsring);
         //test
-        // var testsring='';
-        // var testArray2=getSendDate({year:2012,month:01,day:12},
-        //                             {ismonth:true, istwoweeks:true,
-        //                              isoneweek:true, isthreedays:true,
-        //                              istwodays:true, isoneday:true})
-        //
-        //         for(var i=0;i<testArray2.length;i++){
-        //             testsring=testsring+i+"th";
-        //             testsring=testsring+testArray2[i].year;
-        //             testsring=testsring+ testArray2[i].month;
-        //             testsring=testsring+ testArray2[i].day;
-        //         }
-        //
-        //     alert(testsring);
-
-       //  var name='dwang';
-       // insertToDatabase("INSERT INTO payment_event (recipient,email,phone_number," +
-       //     "payment_amount,payment_date,insurance_number,admin,event_status)" +
-       //     "VALUES ('"+name+"','test@email.com','1111111111','1111','2012','1111','dwang','1')");
-
-        //
-        InsertToDatabase(
-            {recipient:'dong',
-                email:'test@gmail.com',
-                paymentAmount:'1000',
-                insuranceNumber:'11111',
-                phoneNumber:'2222222222'},
-            {startDate:'2013-11-12',
-                endDate:'2014-02-22',
-                payDateMonth:'1,',
-                payDateDay:'1',
-                frequency:'monthly'},
-            {   ismonth:false,
-                istwoweeks:false,
-                isoneweek:false,
-                isthreedays:true,
-                istwodays:true,
-                isoneday:true,
-            }
-        );
+        //alert(addDate({day:1,month:3,year:2013},10).day);
 
     });
-
-
-
-
-
-
-
-
-
-
-
-    //---------------get insert sql array
-    function InsertToDatabase(sendInfo,payDateInfo,sendPlan){
-        var paymentDateArray=getPaymentDate(payDateInfo);
-        //var sqlArray= new Array();
-        //for loop of PAYMENT event table
-        //alert('paymentDateArray length'+paymentDateArray.length);
-        for(var i=0; i<paymentDateArray.length;i++){
-            //alert('i='+i);
-            var paymentDate='';
-            var resultday=('0' + paymentDate+paymentDateArray[i].day).slice(-2);
-            var resultmonth=('0' + paymentDate+paymentDateArray[i].month).slice(-2);
-            var resultyear=paymentDateArray[i].year;
-            paymentDate=paymentDate+resultyear;
-            paymentDate=paymentDate+resultmonth;
-            paymentDate=paymentDate+resultday;
-            //alert(paymentDate);
-            var sql="INSERT INTO payment_event (recipient,email,phone_number," +
-                "payment_amount,payment_date,insurance_number,admin,event_status)" +
-                "VALUES ('"+sendInfo.recipient+"','"+sendInfo.email+"','"+ sendInfo.phoneNumber+
-                "','"+sendInfo.paymentAmount+"','"+paymentDate+ "','"+ sendInfo.insuranceNumber+
-                "','dwang','1')";
-            var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
-            //
-            //alert('sendDateArray length = '+sendDateArray.length);
-            //
-            // for(var j=0; j<sendDateArray.length; j++) {
-            //     var sendDate = '';
-            //     sendDate = sendDate + sendDateArray[j].year;
-            //     sendDate = sendDate + sendDateArray[j].month;
-            //     sendDate = sendDate + sendDateArray[j].day;
-            //     alert(sendDate);
-            // }
-            //
-            //alert(i);
-
-            insertToDatabase(sql,sendDateArray,function(currentPayEventId,sendDateArray) {
-
-                //alert(i);
-                //for loop of SEND EMAIL event table
-                for(var j=0; j<sendDateArray.length;j++) {
-                    var sendDate = '';
-                    sendDate = sendDate + sendDateArray[j].year;
-                    sendDate = sendDate + sendDateArray[j].month;
-                    sendDate = sendDate + sendDateArray[j].day;
-                    alert('senddate = '+sendDate);
-
-                    var htmlInfo={  recipient:sendInfo.recipient,
-                        paymentAmount:sendInfo.paymentAmount,
-                        insuranceNumber:sendInfo.insuranceNumber,
-                        sendDate:sendDate,
-                    }
-                    var html=getHtml(htmlInfo);
-                    var tableName="send_plan_"+sendDateArray[j].year;
-                    isTableExistAndCreate(tableName);
-                    //sql for SEND EMAIL event table
-                    var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
-                        " (recipient,email,send_date,html,event_id) " +
-                        "VALUES ('"+sendInfo.recipient+"','"+sendInfo.email+"','"+sendDate+
-                        "','"+html+"','"+currentPayEventId+"')";
-                    //------edit event id above
-                    //------edit event id above
-                    //------edit event id above
-                    insertToDatabase(sql);
-                    //sqlArray.push(sql);
-                }
-
-            });
-
+    //------------inset send plan to database
+    function InsertSendPlantoDatabase(infoSet){
+        var sqlArray=getInsertSql(infoSet.sendInfo,infoSet.patDateInfo,infoSet.SendPlan);
+        for(var i=0; i<sqlArray.length;i++){
+            posttodatabase(sqlArray[i]);
         }
     }
-    //--------------------check if table exist, if not create one
-    function isTableExistAndCreate(tableName) {//pass
-        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables "+
-            "WHERE table_schema='wordpress' "+
-            "AND table_name = '"+tableName+"'";
-        // var isTableExist=posttodatabase(checkTableSql,'count_table');
-        // alert('isTableExist='+isTableExist);
 
-        checkIfTableExist(checkTableSql,function(output){
-            //alert('isTableExist='+output);
-            if(output==0){
-                var createTableSql="CREATE TABLE "+tableName+"("+
-                    "id INT NOT NULL AUTO_INCREMENT,"+
-                    "recipient VARCHAR(45) NOT NULL,"+
-                    "email VARCHAR(45) NOT NULL,"+
-                    "send_date VARCHAR(45) NOT NULL,"+
-                    "html VARCHAR(1000) NOT NULL,"+
-                    "cc_list VARCHAR(450),"+
-                    "event_id INT(10) NOT NULL,"+
-                    "PRIMARY KEY (id))";
-                postToDatabase(createTableSql);
+    //-----------------------post sql query
+    function posttodatabase (sql_query) {
+        $.ajax( { type : 'POST',
+            data : { sql_query:sql_query},
+            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                alert("new customer added");
+                return data;// <=== VALUE RETURNED FROM FUNCTION.
+            },
+            error: function ( xhr ) {
+                alert( "error" );
             }
-
         });
+    };
+    //---------------get insert sql array
+    function getInsertSql(sendInfo,payDateInfo,sendPlan){
+        var sendDateArray=getSendDate(getPaymentDate(payDateInfo),sendPlan);
+        var sqlArray= new Array();
+
+
+        for(var i=0; i<sendDateArray.length;i++){
+            var sendDate=sendDateArray[i].year+sendDateArray[i].month+sendDateArray[i].day;
+            var htmlInfo={  recipient:sendInfo.recipient,
+                            paymentAmount:sendInfo.paymentAmount,
+                            insuranceNumber:sendInfo.insuranceNumber,
+                            sendDate:sendDate,
+                            }
+            var html=getHtml(htmlInfo);
+            var tableName="send_plan_"+sendDateArray[i].year;
+            isTableExistAndCreate(tableName);
+
+            var sql="INSERT INTO send_plan_"+sendDateArray[i].year+
+                " (recipient,email,paymentAmount,insurance_number,send_date,html,dmin) " +
+                "VALUES ("+sendInfo.recipient+")";
+            sqlArray.push(sql);
+        }
+        return sqlArray
+    }
+    //--------------------check if table exist, if not create one
+    function isTableExistAndCreate(tableName) {//check if the send plan table exist, if not exist create one
+        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables"+
+            "WHERE table_schema='wordpress'"+
+            "AND table_name="+tableName+
+            "LIMIT 1";
+        var isTableExist=posttodatabase(checkTableSql);
+        if(isTableExist==0){
+            var createTableSql="CREATE TABLE "+tableName+"("+
+                "id INT NOT NULL AUTO_INCREMENT,"+
+                "recipient VARCHAR(45) NOT NULL,"+
+                "email VARCHAR(45) NOT NULL,"+
+                "sned_date VARCHAR(45) NOT NULL,"+
+                "payment_amount VARCHAR(45) NOT NULL,"+
+                "payment_date VARCHAR(45) NOT NULL,"+
+                "admin VARCHAR(45) NULL,"+
+                "template_id VARCHAR(45) NULL,"+
+                "html VARCHAR(45) NOT NULL,"+
+                "PRIMARY KEY (id))";
+            posttodatabase(createTableSql);
+        }
 
     }
     //--------------------make html content
-    function getHtml(htmlInfo){//pass
+    function getHtml(htmlInfo){
         var html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
             "<p>您所购买的xx保险，保单号后四位为"+htmlInfo.insuranceNumber+
@@ -243,17 +146,6 @@ $(document).ready(function(){
 
         return html;
     }
-
-
-
-
-
-
-
-
-
-
-
     //--------------------add days to date functions
     function addDate(paymentDate,days){//passed
         var year=parseInt(paymentDate.year);
@@ -265,15 +157,7 @@ $(document).ready(function(){
         var newmonth=addMonth(month,newday.month);
         var newyear=year+newmonth.year;
 
-
-
-        var resultyear=newyear;
-        var resultmonth=newmonth.month;
-        var resultday=newday.day;
-
-        resultday=('0' + resultday).slice(-2);
-        resultmonth=('0' + resultmonth).slice(-2);
-        return {day:resultday,month:resultmonth,year:resultyear};
+        return {day:newday.day,month:newmonth.month,year:newyear};
     }
     function addDay(day,month,year,days){//passed
         var newday=day-days;
@@ -282,13 +166,13 @@ $(document).ready(function(){
 
         if(newday<=0){
             resultMonth=-1;
-            if(month==2||month==4||month==6||month==8||month==9||month==11||month==1){
+            if(month==1||month==3||month==5||month==7||month==8||month==10||month==12){
                 resultDay=31+newday;
             }
-            else if(month==3&&isleapYear(year)){
+            else if(month==2&&isleapYear(year)){
                 resultDay=29+newday;
             }
-            else if (month==3){
+            else if (month==2){
                 resultDay=28+newday;
             }
             else{
@@ -300,7 +184,7 @@ $(document).ready(function(){
             resultDay=newday;
         }
 
-
+        resultDay=('0' + resultDay).slice(-2);
         return {day:resultDay,month:resultMonth};
     }
 
@@ -316,6 +200,7 @@ $(document).ready(function(){
             resultYear=0;
             resultMonth=newmonth;
         };
+        resultMonth=('0' + resultMonth).slice(-2);
         return {month:resultMonth,year:resultYear};
     }
 
@@ -373,105 +258,36 @@ $(document).ready(function(){
         return payDateArray;
     }
     //---------------calculate send date function
-    function getSendDate(payDate,sendPlan){//pass
+    function getSendDate(payDateArray,sendPlan){//pass
         var sendDateArray=new Array();
         var sendDate;
+        for(var i=0; i<payDateArray.length; i++){
             if(sendPlan.ismonth==true){
-                sendDate=addDate(payDate,30)
+                sendDate=addDate(payDateArray[i],30)
                 sendDateArray.push(sendDate);
             }
             if(sendPlan.istwoweeks==true){
-                sendDate=addDate(payDate,14)
+                sendDate=addDate(payDateArray[i],14)
                 sendDateArray.push(sendDate);
             }
             if(sendPlan.isoneweek==true){
-                sendDate=addDate(payDate,7)
+                sendDate=addDate(payDateArray[i],7)
                 sendDateArray.push(sendDate);
             }
             if(sendPlan.isthreedays==true){
-                sendDate=addDate(payDate,3)
+                sendDate=addDate(payDateArray[i],3)
                 sendDateArray.push(sendDate);
             }
             if(sendPlan.istwodays==true){
-                sendDate=addDate(payDate,2)
+                sendDate=addDate(payDateArray[i],2)
                 sendDateArray.push(sendDate);
             }
             if(sendPlan.isoneday==true){
-                sendDate=addDate(payDate,1)
+                sendDate=addDate(payDateArray[i],1)
                 sendDateArray.push(sendDate);
             }
+        }
         return sendDateArray;
     }
-    // function getSendDate(payDateArray,sendPlan){//pass
-    //     var sendDateArray=new Array();
-    //     var sendDate;
-    //     for(var i=0; i<payDateArray.length; i++){
-    //         if(sendPlan.ismonth==true){
-    //             sendDate=addDate(payDateArray[i],30)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //         if(sendPlan.istwoweeks==true){
-    //             sendDate=addDate(payDateArray[i],14)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //         if(sendPlan.isoneweek==true){
-    //             sendDate=addDate(payDateArray[i],7)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //         if(sendPlan.isthreedays==true){
-    //             sendDate=addDate(payDateArray[i],3)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //         if(sendPlan.istwodays==true){
-    //             sendDate=addDate(payDateArray[i],2)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //         if(sendPlan.isoneday==true){
-    //             sendDate=addDate(payDateArray[i],1)
-    //             sendDateArray.push(sendDate);
-    //         }
-    //     }
-    //     return sendDateArray;
-    // }
 
-    //-----------------------post sql query
-    function checkIfTableExist (sql_query,handleData) {//pass
-        $.ajax( { type : 'POST',
-            data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/check_if_table_exist.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert("data="+data);
-                handleData(data);
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-
-    function insertToDatabase (sql_query,sendDateArray,handleData) {//pass
-        $.ajax( { type : 'POST',
-            data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/insert_to_database.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert("data="+data);
-                handleData(data,sendDateArray);
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-    function postToDatabase (sql_query) {//pass
-        $.ajax( { type : 'POST',
-            data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert("data="+data);
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
 });
