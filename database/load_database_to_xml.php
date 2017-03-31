@@ -68,12 +68,13 @@ if($tableList->num_rows>0) {
                 $currentTrack_all->appendChild($domtree_all->createElement('html', $row["html"]));
 
             }
-            $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/sent_history.xml');
 
         } else {
             echo "0 results for email_send_history";
         }
     }
+    $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/sent_history.xml');
+
 }
 
 
@@ -107,7 +108,6 @@ if($tableList->num_rows>0) {
                 $currentTrack->appendChild($domtree->createElement('send_date', $row["send_date"]));
                 $currentTrack->appendChild($domtree->createElement('canceled_date', $row["canceled_date"]));
                 $currentTrack->appendChild($domtree->createElement('html', $row["html"]));
-                $currentTrack->appendChild($domtree->createElement('admin', $row["admin"]));
 
                 //add data to all_email.xml
                 $currentTrack_all->appendChild($domtree_all->createElement('type', 'canceled_email'));
@@ -118,14 +118,14 @@ if($tableList->num_rows>0) {
                 $currentTrack_all->appendChild($domtree_all->createElement('send_date', $row["send_date"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('canceled_date', $row["canceled_date"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('html', $row["html"]));
-                $currentTrack_all->appendChild($domtree_all->createElement('admin', $row["admin"]));
             }
-            $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/canceled_email.xml');
 
         } else {
             echo "0 results for canceled_email";
         }
     }
+    $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/canceled_email.xml');
+
 }
 
 
@@ -168,8 +168,9 @@ if($tableList->num_rows>0){
                 $currentTrack_all->appendChild($domtree_all->createElement('html',$row["html"]));
             }
         }
-        $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/send_plan.xml');
     }
+    $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/send_plan.xml');
+
 }
 
 

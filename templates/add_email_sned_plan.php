@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="recipient_input_aesp"
-                               type="text" placeholder="recipient">
+                               type="text" placeholder="Recipient">
                     </div>
                 </div>
             </div>
@@ -19,10 +19,36 @@
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="email_address_input_asep"
-                               type="text" placeholder="email address">
+                               type="text" placeholder="Email Address">
                     </div>
                 </div>
             </div>
+
+
+            <div class="custom_div_0" id="phone_number_aesp">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">电话号码:</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="custom_text_input_0" id=phone_number_input_asep"
+                               type="text" placeholder="Phone Number">
+                    </div>
+                </div>
+            </div>
+            <div class="custom_div_0" id="wehcat_number_aesp">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">微信号:</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="custom_text_input_0" id="wehcat_number_input_asep"
+                               type="text" placeholder="Wechat">
+                    </div>
+                </div>
+            </div>
+
+
             <div class="custom_div_0" id="payment_amount_aesp">
                 <div class="row">
                     <div class="col-4">
@@ -30,7 +56,7 @@
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="payment_amount_input_asep"
-                               type="text" placeholder="payment amount">
+                               type="text" placeholder="Payment Amount">
                     </div>
                 </div>
             </div>
@@ -41,7 +67,7 @@
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="insurance_number_input_asep"
-                               type="text" placeholder="insurance number">
+                               type="text" placeholder="Insurance Number">
                     </div>
                 </div>
             </div>
@@ -60,6 +86,39 @@
             </div>
         </div>
         <div class="col-6" id="right_sub_div_aesp">
+            <div class="custom_div_0" id="insurance_type_aesp">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">保险种类:</label>
+                    </div>
+                    <div class="col-4">
+                        <select id="insurance_type">
+                            <option value="人寿保险">人寿保险 </option>
+                            <option value="大病保险">大病保险 </option>
+                            <option value="房屋保险">房屋保险 </option>
+                        </select>
+                    </div>
+                   <div class="col-4">
+                       <select id="home_insurance_usability">
+                           <option value="0">主要用途 </option>
+                           <option value="自住">自住 </option>
+                           <option value="空屋">空屋 </option>
+                           <option value="出租">出租 </option>
+                       </select>
+                   </div>
+                </div>
+            </div>
+            <div class="custom_div_0" id="insured_address">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">受保地址:</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="custom_text_input_0" id="insured_address_input_asep"
+                               type="text" placeholder="Address">
+                    </div>
+                </div>
+            </div>
             <div class="custom_div_0" id="pay_frequency">
                <div class="row">
                    <div class="col-4">
@@ -141,22 +200,50 @@
                        <label class="custom_label_0">何时提醒</label>
                     </div>
                     <div class="col-4">
-                        <div id="month_aesp" >
-                            <input type="checkbox" class="input_checkbox"
-                                  id="check_box_month" value="month"> 提前一个月<br>
-                        </div>
-                        <div id="twomonth_aesp" >
-                            <input type="checkbox" class="input_checkbox"
-                                   id="check_box_twoweeks" value="twoweeks"> 提前两星期<br>
-                        </div>
+                        <input type="checkbox" class="input_checkbox"
+                              id="check_box_month" value="month"> 提前一个月<br>
+                        <input type="checkbox" class="input_checkbox"
+                               id="check_box_twoweeks" value="twoweeks"> 提前两星期<br>
                         <input type="checkbox" class="input_checkbox"
                                id="chesck_box_oneweek" value="oneweek"> 提前一星期<br>
+                    </div>
+                    <div class="col-4">
                         <input type="checkbox" class="input_checkbox"
                                id="chesck_box_threedays" value="threedays"> 提前三天<br>
                         <input type="checkbox" class="input_checkbox"
                                id="chesck_box_twodays" value="twodays"> 提前两天<br>
                         <input type="checkbox" class="input_checkbox"
                                id="chesck_box_oneday" value="oneday"> 提前一天<br>
+                    </div>
+                </div>
+            </div>
+            <div class="custom_div_0" id="admin_cc_list">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">抄送列表</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="custom_text_input_0" id="admin_cc_list_input_asep"
+                               type="text" placeholder="example@email.com,example2@email.com,...">
+                    </div>
+                </div>
+            </div>
+            <div class="custom_div_0" id="remind_method">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">推送方式</label>
+                    </div>
+                    <div class="col-2" id="remind_method_check_box" >
+                        <input type="checkbox" class="input_checkbox"
+                               id="chesck_box_email" value="email"> 邮件
+                    </div>
+                    <div class="col-2" id="remind_method_check_box" >
+                        <input type="checkbox" class="input_checkbox"
+                               id="chesck_box_message" value="message"> 短信
+                    </div>
+                    <div class="col-2" id="remind_method_check_box" >
+                        <input type="checkbox" class="input_checkbox"
+                               id="chesck_box_wechat" value="wechat"> 微信
                     </div>
                 </div>
             </div>

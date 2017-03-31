@@ -14,11 +14,11 @@ foreach ($xml->sent_email as $emails) {
                     <div class='col-3' id='col_1_list_$index' style='border-right:solid 1px '>
                         <div class='send_history_list_row'>".$emails->recipient."</div>
                     </div>
-                    <div class='col-6' id='col_2_list_$index' style='border-right:solid 1px '>
-                        <div class='send_history_list_row'>".$emails->recipient_email."</div>
+                    <div class='col-6'  id='col_2_list_$index' style='border-right:solid 1px '>
+                        <div class='send_history_list_row' id='email_list_rssl'>".$emails->recipient_email."</div>
                     </div>
                     <div class='col-3' id='col_3_list_$index' style='border-right:solid 1px '>
-                    <div class='send_history_list_row'>".$emails->sent_date."</div>
+                        <div class='send_history_list_row'>".$emails->sent_date."</div>
                     </div>
                 </div>
                </li>

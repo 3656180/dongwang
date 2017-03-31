@@ -57,17 +57,26 @@ echo "<ul class='history_and_plan_email_ul'>";
 
 foreach ($emails as &$node) {
     //echo $emails->recipient;
+    $email_array=explode(",", $node['email']);
+
+    $email_list="<ul>";
+    for ($i=0; $i<count($email_array);$i++) {
+        $email_list=$email_list."<li>".$email_array[$i]."</li>";
+    }
+    $email_list=$email_list."</ul>";
+
     echo "<li class='history_and_plan_email_list'  id='list_$index'>
                 <div class='row'>
                     <div class='col-2' id='col_1_list_$index' style='border-right:solid 1px '>
                         <div class='send_history_list_row'>".$node['recipient']."</div>
                     </div>
                     <div class='col-3' id='col_2_list_$index' style='border-right:solid 1px '>
-                        <div class='send_history_list_row'>".$node['email']."</div>
+                        <div class='send_history_list_row'>".$email_list."</div>
                     </div>
                     <div class='col-2' id='col_3_list_$index' style='border-right:solid 1px '>
                     <div class='send_history_list_row'>".$node['send_date']."</div>
                     </div>
+
                     <div class='col-5' id='col_3_list_$index' style='border-right:solid 1px '>
                     <div class='send_history_list_row'>".$node['html']."</div>
                     </div>
