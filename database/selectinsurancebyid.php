@@ -1,12 +1,11 @@
 <?php
-$servername = "127.0.0.1";
-$username = "WpTestAcc";
-$password = "liuying123";
-$dbname = "wordpress";
+$configs = include('config.php');
+
 
 $insurance_num=$_POST['insurance_num'];
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($configs->host, $configs->username, $configs->password, $configs->dbname);
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

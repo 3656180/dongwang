@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 1);
 ///MySQLi Object-oriented
 //echo'hello world';
 require('../email/mailin.php');
@@ -6,17 +7,20 @@ $mailin = new Mailin("https://api.sendinblue.com/v2.0","wNG3kT54xIQpr0H1");
 
 
 
-$servername = "127.0.0.1";
-$username = "WpTestAcc";
-$password = "liuying123";
-$dbname = "wordpress";
+//$servername = "127.0.0.1";
+//$username = "WpTestAcc";
+//$password = "liuying123";
+//$dbname = "wordpress";
+
+$configs = include('../database/config.php');
 
 
 $date = date('Ymd');
 $year =date('Y');
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($configs->host, $configs->username, $configs->password, $configs->dbname);
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

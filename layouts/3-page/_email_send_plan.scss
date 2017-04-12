@@ -14,14 +14,14 @@
 #show_list_div_espp{
   border:solid;
   height: 95%;
-  width: 90%;
+  width: 95%;
   position: absolute;
   overflow: scroll;
-  margin: 0 5% 5% 5%;
+  margin: 0 2% 5% 2%;
 }
 #espp_title{
-  width: 90%;
-  margin: 0 5%;
+  width: 95%;
+  margin: 0 2%;
   text-align: center;
 }
 #search_div_espp{
@@ -41,4 +41,8 @@
   &:hover{
     border: solid 2px $Black ;
   }
+}
+#title_esp{
+  padding: 0;
+  margin: 0;
 }

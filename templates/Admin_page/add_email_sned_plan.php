@@ -100,7 +100,6 @@
                     </div>
                    <div class="col-4">
                        <select id="home_insurance_usability">
-                           <option value="0">主要用途 </option>
                            <option value="自住">自住 </option>
                            <option value="空屋">空屋 </option>
                            <option value="出租">出租 </option>
@@ -188,8 +187,8 @@
                             <option value="27">27号</option>
                             <option value="28">28号</option>
                             <option value="29">29号</option>
-                            <option value="30">30号</option>
-                            <option value="31">31号</option>
+                            <option value="30" id="option_30">30号</option>
+                            <option value="31" id="option_31">31号</option>
                         </select>
                     </div>
                 </div>

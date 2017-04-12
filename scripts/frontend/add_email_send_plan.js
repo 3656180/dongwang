@@ -1,5 +1,18 @@
 $(document).ready(function(){
     var frequency="annually";
+    //set all checkbox checked by default
+    $( "#check_box_month").prop('checked', true);
+    $( "#check_box_twoweeks").prop('checked', true);
+    $( "#chesck_box_oneweek").prop('checked', true);
+    $( "#chesck_box_threedays").prop('checked', true);
+    $( "#chesck_box_twodays").prop('checked', true);
+    $( "#chesck_box_oneday").prop('checked', true);
+    $( "#chesck_box_email").prop('checked', true);
+    $( "#chesck_box_message").prop('checked', true);
+    $( "#chesck_box_wechat").prop('checked', true);
+
+
+
     $('#pay_frequency_annually').on('click', function(){
         $('#pay_frequency_annually').css('background-color', 'white');
         $('#pay_frequency_monthly').css('background-color', 'gainsboro');
@@ -32,6 +45,26 @@ $(document).ready(function(){
         }
     });
 
+    $('#pay_date_month_div_aesp').on('change','#pay_date_month_aesp',function(){
+        //alert('called');
+        var value=$('#pay_date_month_aesp').val();
+        //alert(value);
+        if(value=='1'||value=='3'||value=='5'||value=='7'||value=='8'||value=='10'||value=='12'){
+            $('#option_30').css('display', 'block');
+            $('#option_31').css('display', 'block');
+        }
+        else if(value=='2'){
+            $('#option_30').css('display', 'none');
+            $('#option_31').css('display', 'none');
+        }
+        else{
+            $('#option_30').css('display', 'block');
+            $('#option_31').css('display', 'none');
+        }
+    });
+
+
+
     $('#submit_button_aesp').on('click', function(){
         var isSendEmial='0';
         var isSendMessage='0';
@@ -46,7 +79,6 @@ $(document).ready(function(){
             isSendWechat='1';
         }
         var sendOption=isSendEmial+'-'+isSendMessage+'-'+isSendWechat;
-
 
         var sendInfo={  recipient:$('#recipient_input_aesp').val(),
                         email:$('#email_address_input_asep').val(),
@@ -79,9 +111,7 @@ $(document).ready(function(){
                         payDateInfo:payDateInfo,
                         sendPlan:sendPlan
                     }
-        $sql="";
-
-
+        //
         InsertToDatabase(
             {recipient:'dong',
                 email:'henqianda@gmail.com',
@@ -97,7 +127,7 @@ $(document).ready(function(){
             {startDate:'2017-11-12',
                 endDate:'2018-02-22',
                 payDateMonth:'1,',
-                payDateDay:'2',
+                payDateDay:'31',
                 frequency:'monthly'},
             {   ismonth:false,
                 istwoweeks:false,
@@ -108,18 +138,7 @@ $(document).ready(function(){
             }
         );
 
-
     });
-
-
-
-
-
-
-
-
-
-
 
     //---------------get insert sql array
     function InsertToDatabase(sendInfo,payDateInfo,sendPlan){
@@ -166,6 +185,7 @@ $(document).ready(function(){
                                     paymentAmount:sendInfo.paymentAmount,
                                     insuranceNumber:sendInfo.insuranceNumber,
                                     paymentDate:paymentDate,
+                                    sendDate:sendDate,
                                     insuranceType:sendInfo.insuranceType,
                                     homeinsuranceUsability:sendInfo.homeinsuranceUsability,
                                     insuredAdress:sendInfo.insuredAdress,
@@ -174,23 +194,16 @@ $(document).ready(function(){
                     }
                     var html=getHtml(htmlInfo);
 
-
-
-
-
                     var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
                         " (recipient,email,send_date,html,event_id,phone_number,wechat,send_option) " +
                         "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
                         "','"+html+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
                         "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
 
-
                     var tableName="send_plan_"+sendDateArray[j].year;
                     validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
                     var tableName="send_history_"+sendDateArray[j].year;
                     validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
-
-                    //postToDatabase(sql);
                 }
 
             });
@@ -222,12 +235,10 @@ $(document).ready(function(){
                     "PRIMARY KEY (id))";
                 postToDatabase(createTableSql);
             }
-
             if(insertSql!='0'){
                 postToDatabase(insertSql);
             }
         });
-
     }
     //--------------------get current date in yyyymmdd
     function getCurrentDate(){
@@ -235,62 +246,14 @@ $(document).ready(function(){
         var dd = today.getDate();
         var mm = today.getMonth()+1; //January is 0!
         var yyyy = today.getFullYear();
-
         if(dd<10) {
             dd='0'+dd
         }
-
         if(mm<10) {
             mm='0'+mm
         }
         return yyyy+mm+dd;
     }
-    //--------------------make html content
-    function getHtml(htmlInfo){//pass
-        var url="http://localhost/wp-content/themes/dongwang/cancel_event_by_url/cancel_event_by_url.php" +
-            "?eventIdAndTableName="+htmlInfo.eventId+"-"+htmlInfo.tableName;
-            url=url.replace(/\s/g, '');
-            var paymentDate=htmlInfo.paymentDate[0]+htmlInfo.paymentDate[1]+htmlInfo.paymentDate[2]+
-                htmlInfo.paymentDate[3]+"年"+htmlInfo.paymentDate[4]+htmlInfo.paymentDate[5]+
-                "月"+htmlInfo.paymentDate[6]+htmlInfo.paymentDate[7]+"日";
-
-
-        var html= "<head>缴费通知</head>"+
-            "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
-            "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-            "需要于"+paymentDate+"之前缴纳"+
-            "共计$"+htmlInfo.paymentAmount +"保费"+
-            "请您提前做好准备，避免延误缴费时间</p>"+
-            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-            "<p>王栋</p>"+
-            "<p></p>"+
-            "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
-            "您将不会再收到有关本次缴费的通知</p>";
-        if(htmlInfo.insuranceType=='房屋保险'){
-            html= "<head>缴费通知</head>"+
-                "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
-                "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-                "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
-                ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
-                "请您提前做好准备，避免延误缴费时间</p>"+
-                "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-                "<p>王栋</p>"+
-                "<p></p>"+
-                "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
-                "您将不会再收到有关本次缴费的通知</p>";
-        }
-        return html;
-    }
-
-
-
-
-
-
-
-
-
-
 
     //--------------------add days to date functions
     function addDate(paymentDate,days){//passed
@@ -334,11 +297,25 @@ $(document).ready(function(){
             }
         }
         else{
-            resultMonth=0;
-            resultDay=newday;
+            if(month==1||month==3||month==5||month==7||month==8||month==10||month==12){
+                resultDay=newday%31;
+                resultMonth=parseInt(newday/31);
+            }
+            else if(month==2&&isleapYear(year)){
+                resultDay=newday%29;
+                resultMonth=parseInt(newday/29);
+            }
+            else if (month==2){
+                resultDay=newday%28;
+                resultMonth=parseInt(newday/28);
+            }
+            else{
+                resultDay=newday%30;
+                resultMonth=parseInt(newday/30);
+            }
+            // resultMonth=0;
+            // resultDay=newday;
         }
-
-
         return {day:resultDay,month:resultMonth};
     }
 
@@ -377,26 +354,30 @@ $(document).ready(function(){
             for(var currentYear=startYear; currentYear<=endYear;currentYear++){
                 if(currentYear!=startYear&&currentYear!=endYear){
                     for(var currentMonth=1;currentMonth<=12;currentMonth++){
-                        payDateArray.push({year:currentYear,month:currentMonth,
-                                            day:payDateInfo.payDateDay});
+                        var resultDayAndMonth=setPaymentDate(payDateInfo.payDateDay,currentMonth);
+                        payDateArray.push({year:currentYear,month:resultDayAndMonth.month,
+                            day:resultDayAndMonth.day});
                     }
                 }
                 else if(currentYear==startYear&&currentYear==endYear){
                     for(var currentMonth=startMonth; currentMonth<=endMonth;currentMonth++){
-                        payDateArray.push({year:currentYear,month:currentMonth,
-                            day:payDateInfo.payDateDay});
+                        var resultDayAndMonth=setPaymentDate(payDateInfo.payDateDay,currentMonth);
+                        payDateArray.push({year:currentYear,month:resultDayAndMonth.month,
+                            day:resultDayAndMonth.day});
                     }
                 }
                 else if(currentYear==startYear){
                     for(var currentMonth=startMonth; currentMonth<=12;currentMonth++){
-                        payDateArray.push({year:currentYear,month:currentMonth,
-                            day:payDateInfo.payDateDay});
+                        var resultDayAndMonth=setPaymentDate(payDateInfo.payDateDay,currentMonth);
+                        payDateArray.push({year:currentYear,month:resultDayAndMonth.month,
+                            day:resultDayAndMonth.day});
                     }
                 }
                 else{
                     for(var currentMonth=1; currentMonth<=endMonth;currentMonth++){
-                        payDateArray.push({year:currentYear,month:currentMonth,
-                                            day:payDateInfo.payDateDay});
+                        var resultDayAndMonth=setPaymentDate(payDateInfo.payDateDay,currentMonth);
+                        payDateArray.push({year:currentYear,month:resultDayAndMonth.month,
+                            day:resultDayAndMonth.day});
                     }
                 }
             }
@@ -408,7 +389,28 @@ $(document).ready(function(){
             }
         }
         else;
+
         return payDateArray;
+    }
+    //-------------------set proper date
+    function setPaymentDate(day,month) {
+        var resultDay=day;
+        var resultMonth=month;
+        if(day==31){
+            if(month==4||month==6||month==9||month==11){
+                resultDay=1;
+                resultMonth=month+1;
+            }
+        }
+        if(day==29||day==30||day==31){
+            if(month==2){
+                resultDay=1;
+                resultMonth=month+1;
+            }
+        }
+
+
+        return {day:resultDay,month:resultMonth}
     }
     //---------------calculate send date function
     function getSendDate(payDate,sendPlan){//pass
@@ -438,6 +440,11 @@ $(document).ready(function(){
                 sendDate=addDate(payDate,1)
                 sendDateArray.push(sendDate);
             }
+
+            for(var i=0; i<=7;i++){
+                sendDate=addDate(payDate,-i)
+                sendDateArray.push(sendDate);
+            }
         return sendDateArray;
     }
 
@@ -445,7 +452,7 @@ $(document).ready(function(){
     function checkIfTableExist (sql_query,handleData) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/check_if_table_exist.php',              // <=== CALL THE PHP FUNCTION HERE.
+            url  : host+'wp-content/themes/dongwang/database/check_if_table_exist.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
                 //alert("data="+data);
                 handleData(data);
@@ -459,7 +466,7 @@ $(document).ready(function(){
     function insertToDatabase (sql_query,sendDateArray,paymentDate,handleData) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/insert_to_database.php',              // <=== CALL THE PHP FUNCTION HERE.
+            url  : host+'wp-content/themes/dongwang/database/insert_to_database.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
                 //alert("data="+data);
                 handleData(data,sendDateArray,paymentDate);
@@ -472,7 +479,7 @@ $(document).ready(function(){
     function postToDatabase (sql_query) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
+            url  : host+'wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
                 //alert("data="+data);
             },
@@ -482,3 +489,66 @@ $(document).ready(function(){
         });
     };
 });
+//--------------------make html content
+function getHtml(htmlInfo){//pass
+    var url=host+"wp-content/themes/dongwang/cancel_event_by_url/cancel_event_by_url.php" +
+        "?eventIdAndTableName="+htmlInfo.eventId+"-"+htmlInfo.tableName;
+    url=url.replace(/\s/g, '');
+    var paymentDate=htmlInfo.paymentDate[0]+htmlInfo.paymentDate[1]+htmlInfo.paymentDate[2]+
+        htmlInfo.paymentDate[3]+"年"+htmlInfo.paymentDate[4]+htmlInfo.paymentDate[5]+
+        "月"+htmlInfo.paymentDate[6]+htmlInfo.paymentDate[7]+"日";
+
+    var html= "<head>缴费通知</head>"+
+        "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
+        "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+        "需要于"+paymentDate+"之前缴纳"+
+        "共计$"+htmlInfo.paymentAmount +"保费"+
+        "请您提前做好准备，避免延误缴费时间</p>"+
+        "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
+        "<p>王栋</p>"+
+        "<p></p>"+
+        "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
+        "您将不会再收到有关本次缴费的通知</p>";
+    if(htmlInfo.insuranceType=='房屋保险'){
+        html= "<head>缴费通知</head>"+
+            "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
+            "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
+            ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
+            "请您提前做好准备，避免延误缴费时间</p>"+
+            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
+            "<p>王栋</p>"+
+            "<p></p>"+
+            "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
+            "您将不会再收到有关本次缴费的通知</p>";
+    }
+
+    if(htmlInfo.sendDate>=htmlInfo.paymentDate){
+        html= "<head>缴费通知</head>"+
+            "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
+            "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "需要于"+paymentDate+"之前缴纳"+
+            "共计$"+htmlInfo.paymentAmount +"保费</p>"+
+            "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
+            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
+            "<p>王栋</p>"+
+            "<p></p>"+
+            "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
+            "您将不会再收到有关本次缴费的通知</p>";
+        if(htmlInfo.insuranceType=='房屋保险') {
+            html = "<head>缴费通知</head>" +
+                "<p>尊敬的" + htmlInfo.recipient + "先生/女士</p>" +
+                "<p>您所购买的" + htmlInfo.insuranceType + "保险，保单号后四位为" + htmlInfo.insuranceNumber +
+                "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
+                ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费</p>" +
+                "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
+                "<p>如有任何疑问请致电xxx-xxx-xxxx</p>" +
+                "<p>王栋</p>" +
+                "<p></p>" +
+                "<p>如果您已完成付款请点击[<a href=" + url + ">已付款</a>]," +
+                "您将不会再收到有关本次缴费的通知</p>";
+        }
+
+    }
+    return html;
+}

@@ -1,9 +1,10 @@
-<?php //get_template_part( 'database/load_database_to_xml' ); ?>
+<?php /* Template Name: Admin page */ ?>
+<?php get_header(); ?>
 <?php get_template_part( 'database/load_database_to_xml' ); ?>
 
 
 
-<div class="menu" id="system_manage_page">
+<div id="system_manage_page">
    <div class="row" id ="main_smp_div">
        <div class="col-5" id="recent_send_smp">
            <div id="recent_send_smp_title">
@@ -26,8 +27,7 @@
                    </li>
                </ul>
                <div class="smp_list_show_div">
-                   <?php include 'recent_sent_smp_list.php'?>
-
+                   <?php get_template_part( 'templates/Admin_page/recent_sent_smp_list' ); ?>
                </div>
 
 
@@ -54,8 +54,7 @@
                    </li>
                </ul>
                <div class="smp_list_show_div">
-                   <?php include 'send_plan_smp_list.php'?>
-
+                   <?php get_template_part( 'templates/Admin_page/send_plan_smp_list' ); ?>
                </div>
 
 
@@ -71,11 +70,10 @@
 
        </div>
    </div>
-    <?php include "email_send_history.php"; ?>
-    <?php include "email_send_plan.php"; ?>
-    <?php include "add_email_sned_plan.php"; ?>
-    <?php include "general_set_page.php"; ?>
-
+    <?php get_template_part( 'templates/Admin_page/email_send_history' ); ?>
+    <?php get_template_part( 'templates/Admin_page/email_send_plan' ); ?>
+    <?php get_template_part( 'templates/Admin_page/add_email_sned_plan' ); ?>
+    <?php get_template_part( 'templates/Admin_page/general_set_page' ); ?>
     <div class="pop_up_div_frame" id="pop_up_div_frame_smp">
         <div class="close_button_bud" id="close_button_puds">X</div>
         <div class="pop_up_div" id="pop_up_div_smp">
@@ -86,3 +84,6 @@
 
 
 </div>
+<?php
+get_footer();
+?>

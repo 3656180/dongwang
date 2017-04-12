@@ -1,6 +1,4 @@
 <?php
-//echo "<table style='border: solid 1px black;'>";
-//echo "<tr><th>Id</th><th>Firstname</th><th>Lastname</th></tr>";
 $sql = $_POST['sql_query'];
 
 function validate_email($sql)
@@ -29,14 +27,10 @@ function validate_email($sql)
     }
 
     //echo($_POST['sql_query']);
-    $servername = "127.0.0.1";
-    $username = "WpTestAcc";
-    $password = "liuying123";
-    $dbname = "wordpress";
-
+    $configs = include('config.php');
     try {
 
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn = new PDO("mysql:host=$configs->host;dbname=$configs->dbname", $configs->username, $configs->password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->prepare($sql);
         $stmt->execute();

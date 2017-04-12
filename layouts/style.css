@@ -1004,7 +1004,12 @@ ul {
   color: white; }
 
 #system_manage_page {
-  background-color: #70C1b3; }
+  background-color: #70C1b3;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  bottom: 0; }
 
 #main_smp_div {
   position: absolute;
@@ -1092,10 +1097,10 @@ ul {
 #show_list_div_eshp {
   border: solid;
   height: 95%;
-  width: 90%;
+  width: 95%;
   position: absolute;
   overflow: scroll;
-  margin: 0 5% 5% 5%; }
+  margin: 0 2% 5% 2%; }
 
 .history_and_plan_email_list {
   border: solid;
@@ -1115,8 +1120,8 @@ ul {
   border-width: 1px; }
 
 #eshp_title {
-  width: 90%;
-  margin: 0 5%;
+  width: 95%;
+  margin: 0 2%;
   text-align: center; }
 
 .sort_button {
@@ -1154,14 +1159,14 @@ ul {
 #show_list_div_espp {
   border: solid;
   height: 95%;
-  width: 90%;
+  width: 95%;
   position: absolute;
   overflow: scroll;
-  margin: 0 5% 5% 5%; }
+  margin: 0 2% 5% 2%; }
 
 #espp_title {
-  width: 90%;
-  margin: 0 5%;
+  width: 95%;
+  margin: 0 2%;
   text-align: center; }
 
 #search_div_espp {
@@ -1180,6 +1185,10 @@ ul {
   background-color: white; }
   #search_button_espp:hover {
     border: solid 2px #2C3044; }
+
+#title_esp {
+  padding: 0;
+  margin: 0; }
 
 #add_email_sned_plan_page {
   width: 83.33%;

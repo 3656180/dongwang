@@ -17,14 +17,11 @@ $tableName_1=$tableNameSplit[0]."_".$tableNameSplit[1]."_".$year;//table for nex
 //echo $tableName_1;
 //echo $id;
 
-$servername = "127.0.0.1";
-$username = "WpTestAcc";
-$password = "liuying123";
-$dbname = "wordpress";
+$configs = include('config.php');
+$conn = new mysqli($configs->host, $configs->username, $configs->password, $configs->dbname);
 
 $date = date('Ymd');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

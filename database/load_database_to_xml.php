@@ -1,11 +1,9 @@
 <?php
-$servername = "127.0.0.1";
-$username = "WpTestAcc";
-$password = "liuying123";
-$dbname = "wordpress";
 
+$configs = include('config.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($configs->host, $configs->username, $configs->password, $configs->dbname);
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -47,6 +45,13 @@ if($tableList->num_rows>0) {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 //add data to sent_history.xml
+                //------------
+                $sql = "SELECT payment_date FROM payment_event
+                        WHERE id='".$row["event_id"]."'";
+                $paymentDate = $conn->query($sql);
+                $paymentDate=($paymentDate->fetch_assoc())["payment_date"];
+                //------------
+
                 $currentTrack = $domtree->createElement("sent_email");
 
                 $currentTrack = $xmlRoot->appendChild($currentTrack);
@@ -55,6 +60,7 @@ if($tableList->num_rows>0) {
                 $currentTrack->appendChild($domtree->createElement('recipient', $row["recipient"]));
                 $currentTrack->appendChild($domtree->createElement('recipient_email', $row["email"]));
                 $currentTrack->appendChild($domtree->createElement('sent_date', $row["sent_date"]));
+                $currentTrack->appendChild($domtree->createElement('payment_date', $paymentDate));
                 $currentTrack->appendChild($domtree->createElement('html', $row["html"]));
 
 
@@ -65,6 +71,7 @@ if($tableList->num_rows>0) {
                 $currentTrack_all->appendChild($domtree_all->createElement('recipient', $row["recipient"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('recipient_email', $row["email"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('sent_date', $row["sent_date"]));
+                $currentTrack_all->appendChild($domtree_all->createElement('payment_date', $paymentDate));
                 $currentTrack_all->appendChild($domtree_all->createElement('html', $row["html"]));
 
             }
@@ -98,6 +105,12 @@ if($tableList->num_rows>0) {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 //add data to canceled_email.xml
+                //------------
+                $sql = "SELECT payment_date FROM payment_event
+                        WHERE id='".$row["event_id"]."'";
+                $paymentDate = $conn->query($sql);
+                $paymentDate=($paymentDate->fetch_assoc())["payment_date"];
+                //------------
                 $currentTrack = $domtree->createElement("canceled_email");
 
                 $currentTrack = $xmlRoot->appendChild($currentTrack);
@@ -106,6 +119,7 @@ if($tableList->num_rows>0) {
                 $currentTrack->appendChild($domtree->createElement('recipient', $row["recipient"]));
                 $currentTrack->appendChild($domtree->createElement('email', $row["email"]));
                 $currentTrack->appendChild($domtree->createElement('send_date', $row["send_date"]));
+                $currentTrack->appendChild($domtree->createElement('payment_date', $paymentDate));
                 $currentTrack->appendChild($domtree->createElement('canceled_date', $row["canceled_date"]));
                 $currentTrack->appendChild($domtree->createElement('html', $row["html"]));
 
@@ -116,6 +130,7 @@ if($tableList->num_rows>0) {
                 $currentTrack_all->appendChild($domtree_all->createElement('recipient', $row["recipient"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('email', $row["email"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('send_date', $row["send_date"]));
+                $currentTrack_all->appendChild($domtree_all->createElement('payment_date', $paymentDate));
                 $currentTrack_all->appendChild($domtree_all->createElement('canceled_date', $row["canceled_date"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('html', $row["html"]));
             }
@@ -151,6 +166,12 @@ if($tableList->num_rows>0){
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 //add data to send_plan.xml
+                //------------
+                $sql = "SELECT payment_date FROM payment_event
+                        WHERE id='".$row["event_id"]."'";
+                $paymentDate = $conn->query($sql);
+                $paymentDate=($paymentDate->fetch_assoc())["payment_date"];
+                //------------
                 $currentTrack = $domtree->createElement("email_not_send_yet");
                 $currentTrack = $xmlRoot->appendChild($currentTrack);
                 /* you should enclose the following two lines in a cicle */
@@ -158,6 +179,7 @@ if($tableList->num_rows>0){
                 $currentTrack->appendChild($domtree->createElement('recipient', $row["recipient"]));
                 $currentTrack->appendChild($domtree->createElement('email', $row["email"]));
                 $currentTrack->appendChild($domtree->createElement('send_date', $row["send_date"]));
+                $currentTrack->appendChild($domtree->createElement('payment_date', $paymentDate));
                 $currentTrack->appendChild($domtree->createElement('html',$row["html"]));
                 //add data to all_email.xml
                 $currentTrack_all->appendChild($domtree_all->createElement('type', 'email_not_send_yet'));
@@ -165,6 +187,7 @@ if($tableList->num_rows>0){
                 $currentTrack_all->appendChild($domtree_all->createElement('recipient', $row["recipient"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('email', $row["email"]));
                 $currentTrack_all->appendChild($domtree_all->createElement('send_date', $row["send_date"]));
+                $currentTrack_all->appendChild($domtree_all->createElement('payment_date', $paymentDate));
                 $currentTrack_all->appendChild($domtree_all->createElement('html',$row["html"]));
             }
         }
