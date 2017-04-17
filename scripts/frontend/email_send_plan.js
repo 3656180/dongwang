@@ -4,27 +4,14 @@ $(document).ready(function(){
     $sort_option='id';
     $sort_direction='up';
     $sort_type='string';
-    // $name='unknown';
-    // $email='unknown';
-    // $start_sendDate='unknown';
-    // $end_sendDate='unknown';
-    // $start_payDate='unknown';
-    // $end_payDate='unknown';
-
-
     function set_sort_parameter(issort,sort_option,sort_direction,sort_type){
         $issort=issort;
         $sort_option=sort_option;
         $sort_direction=sort_direction;
         $sort_type=sort_type;
     }
-    function set_filter_parameter(name,email,startSendDate,endSendDate,startPayDate,endPayDate){
-        $name=name;
-        $email=email;
-        $start_sendDate=startSendDate;
-        $end_sendDate=endSendDate;
-        $start_payDate=startPayDate;
-        $end_payDate=endPayDate;
+    function set_filter_parameter(value){
+        $value=value;
     }
     function post_sortORfilter_request () {
         $.ajax( { type : 'POST',
@@ -33,12 +20,7 @@ $(document).ready(function(){
                 sort_option:$sort_option,//sort option && index
                 sort_direction:$sort_direction,//sort direction && value
                 sort_type:$sort_type,
-                name:$name,
-                email:$email,
-                start_sendDate:$start_sendDate,
-                end_sendDate:$end_sendDate,
-                start_payDate:$start_payDate,
-                end_payDate:$end_payDate
+                value:$value
             },
             url  : host+'wp-content/themes/dongwang/xml/load_xml/load_send_plan_to_sendplan.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
@@ -54,6 +36,7 @@ $(document).ready(function(){
 
 
 
+    $(function(){
         //sort by name
         $('#name_sort_up_espp').on('click', function(){
             set_sort_parameter(true,'recipient','up','string');
@@ -91,37 +74,13 @@ $(document).ready(function(){
         });
         //search
         $('#search_button_espp').on('click', function(){
-
-            $name='unknown';
-            $email='unknown';
-            $start_sendDate='unknown';
-            $end_sendDate='unknown';
-            $start_payDate='unknown';
-            $end_payDate='unknown';
-
-            if($('#name_input_espp').val()!=''){
-                $name=$('#name_input_espp').val();
+            if($('#search_input_espp').val()!=''){
+                set_filter_parameter($('#search_input_espp').val());
             }
-            if($('#email_input_espp').val()!=''){
-                $email=$('#email_input_espp').val();
+            else{
+                set_filter_parameter('unknown');
             }
-            if($('#senddate_start_input_espp').val()!==undefined){
-                $start_sendDate=$('#senddate_start_input_espp').val();
-                alert($start_sendDate);
-            }
-            if($('#senddate_end_input_espp').val()!=''){
-                $end_sendDate=$('#senddate_end_input_espp').val();
-            }
-            if($('#paydate_start_input_espp').val()!=''){
-                $start_payDate=$('#paydate_start_input_espp').val();
-            }
-            if($('#paydate_end_input_espp').val()!=''){
-                $end_payDate=$('#paydate_end_input_espp').val();
-            }
-
-
-            //set_filter_parameter($name,$email,$start_sendDate,$end_sendDate,$start_payDate,$end_payDate);
             post_sortORfilter_request();
         });
-
+    });
 });

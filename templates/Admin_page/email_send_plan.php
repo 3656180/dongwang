@@ -2,28 +2,9 @@
 
     <div id="main_div_espp">
         <div class="row" id="search_div_espp">
-<!--            <div class="col-1"></div>-->
-            <div class="col-1">
-                <input class="filter_inputs_espp" id="name_input_espp" type="text" placeholder="姓名">
-            </div>
-            <div class="col-2">
-                <input class="filter_inputs_espp" id="email_input_espp" type="text" placeholder="邮箱">
-            </div>
-            <div class="col-2">
-                <input class="filter_inputs_espp" id=senddate_start_input_espp" type="text"
-                       onfocus="(this.type='date')" placeholder="起始发送日期">
-            </div>
-            <div class="col-2">
-                <input class="filter_inputs_espp" id=senddate_end_input_espp" type="text"
-                       onfocus="(this.type='date')" placeholder="结束发送日期">
-            </div>
-            <div class="col-2">
-                <input class="filter_inputs_espp" id=paydate_start_input_espp" type="text"
-                       onfocus="(this.type='date')" placeholder="起始付款日期">
-            </div>
-            <div class="col-2">
-                <input class="filter_inputs_espp" id=paydate_end_input_espp" type="text"
-                       onfocus="(this.type='date')" placeholder="结束付款日期">
+            <div class="col-1"></div>
+            <div class="col-8">
+                <input id="search_input_espp" type="text" placeholder="通过姓名，邮箱或发送日期搜索">
             </div>
             <div class="col-1" id="search_button_espp">搜索</div>
         </div>

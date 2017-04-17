@@ -50,7 +50,7 @@ if($value!='unknown'){
     $result = filter_by_value($emails,'recipient' , $value);
     $result2 = filter_by_value($emails,'email' , $value);
     $result3 = filter_by_value($emails,'send_date' , $value);
-    $result4 = filter_by_value($emails,'payment_date' , $value);
+    $result4 = filter_by_value_sp($emails,'payment_date' , $value);
 
     $emails = $result+$result2+$result3+$result4;
 }
