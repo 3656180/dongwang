@@ -14,6 +14,14 @@ $sort_type='string';
 $index='recipient';
 $value='unknown';
 
+$name='unknown';
+$email='unknown';
+$startSendDate='unknown';
+$endSendDate='unknown';
+$startPayDate='unknown';
+$endPayDate='unknown';
+
+
 if(isset($_POST['issort'])){
     $issort=$_POST['issort'];
 }
@@ -28,6 +36,24 @@ if(isset($_POST['sort_type'])){
 }
 if(isset($_POST['value'])){
     $value=$_POST['value'];
+}
+if(isset($_POST['name'])){
+    $name=$_POST['name'];
+}
+if(isset($_POST['email'])){
+    $email=$_POST['email'];
+}
+if(isset($_POST['start_sendDate'])){
+    $startSendDate=$_POST['start_sendDate'];
+}
+if(isset($_POST['endSendDate'])){
+    $endSendDate=$_POST['end_sendDate'];
+}
+if(isset($_POST['startPayDate'])){
+    $startPayDate=$_POST['start_payDate'];
+}
+if(isset($_POST['endPayDate'])){
+    $endPayDate=$_POST['end_payDate'];
 }
 
 
@@ -47,15 +73,35 @@ foreach ($xml->email_not_send_yet as $node) {
 }
 
 //                echo $xml->emails[0]->recipient;
-//filter the array
-if($value!='unknown'){
-    $result = filter_by_value_sp($emails,'recipient' , $value);
-    $result2 = filter_by_value_sp($emails,'email' , $value);
-    $result3 = filter_by_value_sp($emails,'send_date' , $value);
-    $result4 = filter_by_value_sp($emails,'payment_date' , $value);
 
-    $emails = $result+$result2+$result3+$result4;
+
+
+//new filter function
+if($name!='unknown'){
+    $emails = filter_by_value_sp($emails,'recipient' , $name);
+    if($email!='unknown'){
+        $emails = filter_by_value_sp($emails,'email' , $email);
+        if($startSendDate!='unknown'&&$endSendDate!='unknown'){
+            $emails = filter_by_range_sp($emails,'email' , $startSendDate,$endSendDate);
+            if($startPayDate!='unknown'&&$endPayDate!='unknown'){
+                $emails = filter_by_range_sp($emails,'email' , $startPayDate,$endPayDate);
+            }
+        }
+    }
 }
+//new filter function
+
+
+
+//filter the array
+//if($value!='unknown'){
+//    $result = filter_by_value_sp($emails,'recipient' , $value);
+//    $result2 = filter_by_value_sp($emails,'email' , $value);
+//    $result3 = filter_by_value_sp($emails,'send_date' , $value);
+//    $result4 = filter_by_value_sp($emails,'payment_date' , $value);
+//
+//    $emails = $result+$result2+$result3+$result4;
+//}
 //sort the array
 array_sort_by_column_sp($emails, $sort_option,$sort_type, $sort_direction);
 
@@ -104,6 +150,20 @@ function filter_by_value_sp ($array, $index, $value){
             $temp[$key] = $array[$key][$index];
 
             if ($temp[$key] == $value){
+                $newarray[$key] = $array[$key];
+            }
+        }
+    }
+    return $newarray;
+}
+function filter_by_range_sp ($array, $index, $value_1, $value_2){
+    $newarray=array();
+    if(is_array($array) && count($array)>0)
+    {
+        foreach(array_keys($array) as $key){
+            $temp[$key] = $array[$key][$index];
+
+            if ($temp[$key] >= $value_1&&$temp[$key] <= $value_2){
                 $newarray[$key] = $array[$key];
             }
         }

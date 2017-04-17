@@ -1,7 +1,7 @@
 <?php /* Template Name: Admin page */ ?>
 <?php get_header(); ?>
 <?php get_template_part( 'database/load_database_to_xml' ); ?>
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 
 
 <div id="system_manage_page">

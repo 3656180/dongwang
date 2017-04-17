@@ -1,12 +1,16 @@
-<?php 
-require('mailin.php');
-$html = $_POST['html'];
-$mailin = new Mailin("https://api.sendinblue.com/v2.0","wNG3kT54xIQpr0H1");
-$data = array( "to" => array("henqianda@gmail.com"=>"to whom!"),
-    "from" => array("from@email.com", "from email!"),
-    "subject" => "My subject",
-    "html" => $html
-);
+<?php
+ini_set('display_errors', 1);
+require('sms_api.php');
+$mailin = new MailinSms('wNG3kT54xIQpr0H1');
 
-var_dump($mailin->send_email($data));
+$mailin->addTo('335198606330')
+
+    ->setFrom('DONG WANG') // If numeric, then maximum length is 17 characters and if alphanumeric maximum length is 11 characters.
+    ->setText('Text message to send') // 160 characters per SMS.
+    ->setTag('Your tag name')
+
+    ->setType('') // Two possible values: marketing or transactional.
+    ->setCallback('http://callbackurl.com/');
+
+$res = $mailin->send();
 ?>
