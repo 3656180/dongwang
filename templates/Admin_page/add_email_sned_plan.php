@@ -31,7 +31,7 @@
                         <label class="custom_label_0">电话号码:</label>
                     </div>
                     <div class="col-8">
-                        <input class="custom_text_input_0" id=phone_number_input_asep"
+                        <input class="custom_text_input_0" id="phone_number_input_asep"
                                type="text" placeholder="Phone Number">
                     </div>
                 </div>

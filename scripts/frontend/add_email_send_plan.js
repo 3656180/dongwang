@@ -111,32 +111,33 @@ $(document).ready(function(){
                         payDateInfo:payDateInfo,
                         sendPlan:sendPlan
                     }
+                    alert($('#phone_number_input_asep').val());
         //
-        InsertToDatabase(
-            {recipient:'dong',
-                email:'henqianda@gmail.com',
-                paymentAmount:'1000',
-                insuranceNumber:'11111',
-                phoneNumber:'2222222222',
-                wechat:'546025862',
-                insuranceType:'房屋保险',
-                homeinsuranceUsability:'自住',
-                insuredAdress:'7288 blundell rd',
-                cc_list:'example@email.com,example2@email.com',
-                sendOption:'1-1-1'},
-            {startDate:'2017-11-12',
-                endDate:'2018-02-22',
-                payDateMonth:'1,',
-                payDateDay:'31',
-                frequency:'monthly'},
-            {   ismonth:false,
-                istwoweeks:false,
-                isoneweek:false,
-                isthreedays:true,
-                istwodays:true,
-                isoneday:true,
-            }
-        );
+        // InsertToDatabase(
+        //     {recipient:'dong',
+        //         email:'henqianda@gmail.com',
+        //         paymentAmount:'1000',
+        //         insuranceNumber:'11111',
+        //         phoneNumber:'2222222222',
+        //         wechat:'546025862',
+        //         insuranceType:'房屋保险',
+        //         homeinsuranceUsability:'自住',
+        //         insuredAdress:'7288 blundell rd',
+        //         cc_list:'example@email.com,example2@email.com',
+        //         sendOption:'1-1-1'},
+        //     {startDate:'2017-11-12',
+        //         endDate:'2018-02-22',
+        //         payDateMonth:'1,',
+        //         payDateDay:'31',
+        //         frequency:'monthly'},
+        //     {   ismonth:false,
+        //         istwoweeks:false,
+        //         isoneweek:false,
+        //         isthreedays:true,
+        //         istwodays:true,
+        //         isoneday:true,
+        //     }
+        // );
 
     });
 
