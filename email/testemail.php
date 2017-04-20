@@ -1,12 +1,14 @@
-<?php 
+<?php
+ini_set('display_errors', 1);
 require('mailin.php');
-$html = $_POST['html'];
 $mailin = new Mailin("https://api.sendinblue.com/v2.0","wNG3kT54xIQpr0H1");
-$data = array( "to" => array("henqianda@gmail.com"=>"to whom!"),
-    "from" => array("from@email.com", "from email!"),
-    "subject" => "My subject",
-    "html" => $html
+$data = array( "to" => "+15198606330",
+    "from" => "From",
+    "text" => "Good morning - test",
+    "web_url" => "http://example.com",
+    "tag" => "Tag1",
+    "type" => "transactional"
 );
 
-var_dump($mailin->send_email($data));
+var_dump($mailin->send_sms($data));
 ?>

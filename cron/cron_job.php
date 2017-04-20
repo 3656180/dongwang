@@ -28,6 +28,7 @@ if ($conn->connect_error) {
 
 $sql = "SELECT * FROM send_plan_$year";
 
+echo $sql;
 $result = $conn->query($sql);
 //echo $date;
 if ($result->num_rows > 0) {
@@ -47,6 +48,15 @@ if ($result->num_rows > 0) {
                 );
                 var_dump($mailin->send_email($data));// send a copy to admin
             }
+            $data = array( "to" => "+1".$row["phone_number"],
+                "from" => "365FSC",
+                "text" => $row["text"],
+                "web_url" => "http://www.365financial.com",
+                "tag" => "Tag1",
+                "type" => "transactional"
+            );
+
+            var_dump($mailin->send_sms($data));
 
             //insert sent email to send history table
             $sql = "INSERT INTO send_history_$year 

@@ -117,33 +117,33 @@ $(document).ready(function(){
                         payDateInfo:payDateInfo,
                         sendPlan:sendPlan
                     }
-                    alert($('#phone_number_input_asep').val());
+                     // alert($('#recipient_input_aesp').val());
         //
-        // InsertToDatabase(
-        //     {recipient:'dong',
-        //         email:'henqianda@gmail.com',
-        //         paymentAmount:'1000',
-        //         insuranceNumber:'11111',
-        //         phoneNumber:'2222222222',
-        //         wechat:'546025862',
-        //         insuranceType:'房屋保险',
-        //         homeinsuranceUsability:'自住',
-        //         insuredAdress:'7288 blundell rd',
-        //         cc_list:'example@email.com,example2@email.com',
-        //         sendOption:'1-1-1'},
-        //     {startDate:'2017-11-12',
-        //         endDate:'2018-02-22',
-        //         payDateMonth:'1,',
-        //         payDateDay:'31',
-        //         frequency:'monthly'},
-        //     {   ismonth:false,
-        //         istwoweeks:false,
-        //         isoneweek:false,
-        //         isthreedays:true,
-        //         istwodays:true,
-        //         isoneday:true,
-        //     }
-        // );
+        InsertToDatabase(
+            {recipient:'dong',
+                email:'henqianda@gmail.com',
+                paymentAmount:'1000',
+                insuranceNumber:'11111',
+                phoneNumber:'2222222222',
+                wechat:'546025862',
+                insuranceType:'房屋保险',
+                homeinsuranceUsability:'自住',
+                insuredAdress:'7288 blundell rd',
+                cc_list:'example@email.com,example2@email.com',
+                sendOption:'1-1-1'},
+            {startDate:'2017-11-12',
+                endDate:'2018-02-22',
+                payDateMonth:'1,',
+                payDateDay:'31',
+                frequency:'monthly'},
+            {   ismonth:false,
+                istwoweeks:false,
+                isoneweek:false,
+                isthreedays:true,
+                istwodays:true,
+                isoneday:true,
+            }
+        );
 
     });
 
@@ -199,12 +199,12 @@ $(document).ready(function(){
                                     eventId:currentPayEventId,
                                     tableName:"send_plan_"+sendDateArray[j].year
                     }
-                    var html=getHtml(htmlInfo);
+                    var htmlAndText=getHtml(htmlInfo);
 
                     var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
-                        " (recipient,email,send_date,html,event_id,phone_number,wechat,send_option) " +
+                        " (recipient,email,send_date,html,text,event_id,phone_number,wechat,send_option) " +
                         "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
-                        "','"+html+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
+                        "','"+htmlAndText.html+"','"+htmlAndText.text+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
                         "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
 
                     var tableName="send_plan_"+sendDateArray[j].year;
@@ -237,6 +237,7 @@ $(document).ready(function(){
                     "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "html VARCHAR(1000) NOT NULL DEFAULT 0,"+
+                    "text VARCHAR(1000) NOT NULL DEFAULT 0,"+
                     "event_id INT(10) NOT NULL DEFAULT 0,"+
                     "send_option VARCHAR(45) DEFAULT 0,"+
                     "PRIMARY KEY (id))";
@@ -516,6 +517,16 @@ function getHtml(htmlInfo){//pass
         "<p></p>"+
         "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
         "您将不会再收到有关本次缴费的通知</p>";
+    var text="缴费通知:"+
+        "尊敬的"+htmlInfo.recipient +"先生/女士"+
+        "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+        "需要于"+paymentDate+"之前缴纳"+
+        "共计$"+htmlInfo.paymentAmount +"保费"+
+        "请您提前做好准备，避免延误缴费时间"+
+        "如有任何疑问请致电xxx-xxx-xxxx"+
+        "王栋"+
+        "如果您已完成付款请点击"+url+
+        "您将不会再收到有关本次缴费的通知";
     if(htmlInfo.insuranceType=='房屋保险'){
         html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
@@ -528,6 +539,16 @@ function getHtml(htmlInfo){//pass
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
+        text= "缴费通知:"+
+            "尊敬的"+htmlInfo.recipient +"先生/女士"+
+            "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
+            ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
+            "请您提前做好准备，避免延误缴费时间"+
+            "如有任何疑问请致电xxx-xxx-xxxx"+
+            "王栋"+
+            "如果您已完成付款请点击"+url+
+            "您将不会再收到有关本次缴费的通知";
     }
 
     if(htmlInfo.sendDate>=htmlInfo.paymentDate){
@@ -542,6 +563,16 @@ function getHtml(htmlInfo){//pass
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
+        text= "缴费通知:"+
+            "尊敬的"+htmlInfo.recipient +"先生/女士"+
+            "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "需要于"+paymentDate+"之前缴纳"+
+            "共计$"+htmlInfo.paymentAmount +"保费"+
+            "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
+            "如有任何疑问请致电xxx-xxx-xxxx"+
+            "王栋"+
+            "如果您已完成付款请点击"+url+
+            "您将不会再收到有关本次缴费的通知";
         if(htmlInfo.insuranceType=='房屋保险') {
             html = "<head>缴费通知</head>" +
                 "<p>尊敬的" + htmlInfo.recipient + "先生/女士</p>" +
@@ -554,10 +585,20 @@ function getHtml(htmlInfo){//pass
                 "<p></p>" +
                 "<p>如果您已完成付款请点击[<a href=" + url + ">已付款</a>]," +
                 "您将不会再收到有关本次缴费的通知</p>";
+            text = "缴费通知:" +
+                "尊敬的" + htmlInfo.recipient + "先生/女士" +
+                "您所购买的" + htmlInfo.insuranceType + "保险，保单号后四位为" + htmlInfo.insuranceNumber +
+                "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
+                ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费" +
+                "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
+                "如有任何疑问请致电xxx-xxx-xxxx" +
+                "王栋" +
+                "如果您已完成付款请点击" + url +
+                "您将不会再收到有关本次缴费的通知";
         }
 
     }
-    return html;
+    return {html:html,text:text};
 }
 
 
@@ -863,23 +904,46 @@ $(document).ready(function(){
     $sort_option='id';
     $sort_direction='up';
     $sort_type='string';
+    // $name='unknown';
+    // $email='unknown';
+    // $start_sendDate='unknown';
+    // $end_sendDate='unknown';
+    // $start_payDate='unknown';
+    // $end_payDate='unknown';
+
+
     function set_sort_parameter(issort,sort_option,sort_direction,sort_type){
         $issort=issort;
         $sort_option=sort_option;
         $sort_direction=sort_direction;
         $sort_type=sort_type;
     }
-    function set_filter_parameter(value){
-        $value=value;
+    function set_filter_parameter(name,email,startSendDate,endSendDate,startPayDate,endPayDate){
+        $name=name;
+        $email=email;
+        $start_sendDate=startSendDate;
+        $end_sendDate=endSendDate;
+        $start_payDate=startPayDate;
+        $end_payDate=endPayDate;
+    }
+    function set_date_format(date){
+        date=date.split("-");
+        return date[0]+date[1]+date[2];
     }
     function post_sortORfilter_request () {
+        //alert($start_payDate);
         $.ajax( { type : 'POST',
             data : {
                 issort:$issort,
                 sort_option:$sort_option,//sort option && index
                 sort_direction:$sort_direction,//sort direction && value
                 sort_type:$sort_type,
-                value:$value
+                name:$name,
+                email:$email,
+                start_sendDate:$start_sendDate,
+                end_sendDate:$end_sendDate,
+                start_payDate:$start_payDate,
+                end_payDate:$end_payDate
             },
             url  : host+'wp-content/themes/dongwang/xml/load_xml/load_send_plan_to_sendplan.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
@@ -895,7 +959,6 @@ $(document).ready(function(){
 
 
 
-    $(function(){
         //sort by name
         $('#name_sort_up_espp').on('click', function(){
             set_sort_parameter(true,'recipient','up','string');
@@ -933,15 +996,43 @@ $(document).ready(function(){
         });
         //search
         $('#search_button_espp').on('click', function(){
-            if($('#search_input_espp').val()!=''){
-                set_filter_parameter($('#search_input_espp').val());
+
+            $name='unknown';
+            $email='unknown';
+            $start_sendDate='unknown';
+            $end_sendDate='unknown';
+            $start_payDate='unknown';
+            $end_payDate='unknown';
+
+            if($('#name_input_espp').val()!=''){
+                $name=$('#name_input_espp').val();
             }
-            else{
-                set_filter_parameter('unknown');
+            if($('#email_input_espp').val()!=''){
+                $email=$('#email_input_espp').val();
             }
+            if($('#senddate_start_input_espp').val()!=''){
+                $start_sendDate=$('#senddate_start_input_espp').val();
+                $start_sendDate=set_date_format($start_sendDate);
+            }
+            if($('#senddate_end_input_espp').val()!=''){
+                $end_sendDate=$('#senddate_end_input_espp').val();
+                $end_sendDate=set_date_format($end_sendDate);
+            }
+            if($('#paydate_start_input_espp').val()!=''){
+                $start_payDate=$('#paydate_start_input_espp').val();
+                $start_payDate=set_date_format($start_payDate);
+            }
+            if($('#paydate_end_input_espp').val()!=''){
+                $end_payDate=$('#paydate_end_input_espp').val();
+                $end_payDate=set_date_format($end_payDate);
+            }
+
+            //alert($start_sendDate);
+
+            //set_filter_parameter($name,$email,$start_sendDate,$end_sendDate,$start_payDate,$end_payDate);
             post_sortORfilter_request();
         });
-    });
+
 });
 $(document).ready(function(){
     $(function(){
