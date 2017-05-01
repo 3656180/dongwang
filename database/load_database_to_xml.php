@@ -23,7 +23,7 @@ $currentTrack_all = $domtree_all->createElement("email");
 $currentTrack_all = $xmlRoot_all->appendChild($currentTrack_all);
 
 
-//--------------------------load sent history from all send_plan tables
+//--------------------------load sent history from  all send_history tables
 $tableListSql="SELECT TABLE_NAME FROM information_schema.tables
                 WHERE table_schema='wordpress'
                 AND TABLE_NAME like'sent_history%'";
@@ -85,6 +85,7 @@ if($tableList->num_rows>0) {
 }
 
 
+//--------------------------load cancelled email from cancelled_email tables
 $tableListSql="SELECT TABLE_NAME FROM information_schema.tables
                 WHERE table_schema='wordpress'
                 AND TABLE_NAME like'canceled_email%'";
@@ -196,8 +197,42 @@ if($tableList->num_rows>0){
 
 }
 
-
 $domtree_all->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/all_email.xml');
+
+
+//--------------------------load payment from payment_event tables
+
+    /* create a dom document with encoding utf8 */
+    $domtree = new DOMDocument('1.0', 'UTF-8');
+    /* create the root element of the xml tree */
+    $xmlRoot = $domtree->createElement("xml");
+    /* append it to the document created */
+    $xmlRoot = $domtree->appendChild($xmlRoot);
+
+    $sql="SELECT * FROM payment_event";
+    //load send plan from current send plan table
+    $result=$conn->query($sql);
+    //-------------
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+
+            $currentTrack = $domtree->createElement("payment_events");
+            $currentTrack = $xmlRoot->appendChild($currentTrack);
+            /* you should enclose the following two lines in a cicle */
+            $currentTrack->appendChild($domtree->createElement('id', $row["id"]));
+            $currentTrack->appendChild($domtree->createElement('recipient', $row["recipient"]));
+            $currentTrack->appendChild($domtree->createElement('email', $row["email"]));
+            $currentTrack->appendChild($domtree->createElement('phone_number', $row["phone_number"]));
+            $currentTrack->appendChild($domtree->createElement('wechat', $row["wechat"]));
+            $currentTrack->appendChild($domtree->createElement('payment_amount', $row["payment_amount"]));
+            $currentTrack->appendChild($domtree->createElement('payment_date', $row["payment_date"]));
+            $currentTrack->appendChild($domtree->createElement('admin', $row["admin"]));
+            $currentTrack->appendChild($domtree->createElement('insurance_number', $row["insurance_number"]));
+            $currentTrack->appendChild($domtree->createElement('event_status', $row["event_status"]));
+            $currentTrack->appendChild($domtree->createElement('insurance_type', $row["insurance_type"]));
+        }
+    }
+    $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/payment_event.xml');
 
 
 $conn->close();

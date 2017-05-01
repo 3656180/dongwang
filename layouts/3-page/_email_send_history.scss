@@ -1,19 +1,13 @@
-#email_send_history_page{
-  width: 83.33%;
-  height: 100%;
-  position: absolute;
-  background-color: gainsboro;
 
-}
 #main_div_eshp{
   margin-top: 10%;
-  height: 80%;
+  height: 90%;
   width: 100%;
   position: absolute;
 }
 #show_list_div_eshp{
   border:solid;
-  height: 95%;
+  height: 80%;
   width: 95%;
   position: absolute;
   overflow: scroll;
@@ -24,10 +18,8 @@
   border-top: hidden;
   border-width: 1px;
   overflow: hidden;
-  cursor: pointer;
-  &:hover{
-    background-color: white;
-  }
+  cursor: default;
+
 }
 
 .history_and_plan_email_ul{
@@ -47,9 +39,9 @@
   cursor: pointer;
 }
 #search_div_eshp{
-  width: 100%;
+  width: 90%;
   height: 7%;
-  margin-left: 5%;
+  margin-left: 3%;
 }
 #search_input_eshp{
   width: 100%;

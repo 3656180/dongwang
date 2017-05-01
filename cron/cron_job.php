@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ///MySQLi Object-oriented
 //echo'hello world';
-require('../email/mailin.php');
+require('../email/Mailin.php');
 $mailin = new Mailin("https://api.sendinblue.com/v2.0","wNG3kT54xIQpr0H1");
 
 

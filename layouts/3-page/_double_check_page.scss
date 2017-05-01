@@ -1,0 +1,39 @@
+#double_check_page{
+  position: fixed;
+  height: 80vh;
+  width: 83.33vw;
+  left: 0;
+  bottom:0;
+  background-color: white;
+  transform: translateY(100%);
+  transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#double_check_title{
+  text-align: center;
+  font-size: 25px;
+  margin: 3%;
+}
+#main_table_dcp{
+  height: 55vh;
+}
+#submit_button_dcp{
+  font-size: 25px;
+  height: 5vh;
+  border: solid;
+  text-align: center;
+  cursor: pointer;
+  &:hover{
+    background-color: gainsboro;
+  }
+}
+#back_button_dcp{
+  font-size: 25px;
+  height: 5vh;
+  border: solid;
+  text-align: center;
+  border-left: none;
+  cursor: pointer;
+  &:hover{
+    background-color: gainsboro;
+  }
+}

@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 $sql=$_POST['sql_query'];
-$conn->query($sql);
+$result=$conn->query($sql);
 $conn->close();
 
 ?>

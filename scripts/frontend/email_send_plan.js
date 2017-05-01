@@ -1,31 +1,21 @@
 $(document).ready(function(){
-    $issort=false;
     $value='unknown';
     $sort_option='id';
     $sort_direction='up';
     $sort_type='string';
-    // $name='unknown';
-    // $email='unknown';
-    // $start_sendDate='unknown';
-    // $end_sendDate='unknown';
-    // $start_payDate='unknown';
-    // $end_payDate='unknown';
+    $name='unknown';
+    $email='unknown';
+    $start_sendDate='unknown';
+    $end_sendDate='unknown';
+    $start_payDate='unknown';
+    $end_payDate='unknown';
 
-
-    function set_sort_parameter(issort,sort_option,sort_direction,sort_type){
-        $issort=issort;
+    function set_sort_parameter(sort_option,sort_direction,sort_type){
         $sort_option=sort_option;
         $sort_direction=sort_direction;
         $sort_type=sort_type;
     }
-    function set_filter_parameter(name,email,startSendDate,endSendDate,startPayDate,endPayDate){
-        $name=name;
-        $email=email;
-        $start_sendDate=startSendDate;
-        $end_sendDate=endSendDate;
-        $start_payDate=startPayDate;
-        $end_payDate=endPayDate;
-    }
+
     function set_date_format(date){
         date=date.split("-");
         return date[0]+date[1]+date[2];
@@ -34,7 +24,6 @@ $(document).ready(function(){
         //alert($start_payDate);
         $.ajax( { type : 'POST',
             data : {
-                issort:$issort,
                 sort_option:$sort_option,//sort option && index
                 sort_direction:$sort_direction,//sort direction && value
                 sort_type:$sort_type,
@@ -61,37 +50,37 @@ $(document).ready(function(){
 
         //sort by name
         $('#name_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'recipient','up','string');
+            set_sort_parameter('recipient','up','string');
             post_sortORfilter_request();
         });
         $('#name_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'recipient','down','string');
+            set_sort_parameter('recipient','down','string');
             post_sortORfilter_request();
         });
         //sort by email
         $('#email_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'email','up','string');
+            set_sort_parameter('email','up','string');
             post_sortORfilter_request();
         });
         $('#email_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'email','down','string');
+            set_sort_parameter('email','down','string');
             post_sortORfilter_request();
         });
         //sort by sent date
         $('#date_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'send_date','up','number');
+            set_sort_parameter('send_date','up','number');
             post_sortORfilter_request();
         });
         $('#date_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'send_date','down','number');
+            set_sort_parameter('send_date','down','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'payment_date','up','number');
+            set_sort_parameter('payment_date','up','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'payment_date','down','number');
+            set_sort_parameter('payment_date','down','number');
             post_sortORfilter_request();
         });
         //search

@@ -46,11 +46,12 @@ $(document).ready(function(){
         $('#set_email_smp').on('click', function () {
             resetall();
             $('#add_email_sned_plan_page').css('transform', 'translateX(0px)');
+            $('#double_check_page').css('transform', 'translateY(100%)');
         });
 
-        $('#general_set_smp').on('click', function () {
+        $('#manage_payment_event_smp').on('click', function () {
             resetall();
-            $('#general_set_page').css('transform', 'translateX(0px)');
+            $('#manage_payment_event_page').css('transform', 'translateX(0px)');
         });
         $('.send_history_list').on('click', function () {
             //alert(jQuery(this).attr("id"));
@@ -78,6 +79,8 @@ $(document).ready(function(){
         $('#email_send_plan_page').css('transform', 'translateX(-100%)');
         $('#add_email_sned_plan_page').css('transform', 'translateX(-100%)');
         $('#general_set_page').css('transform', 'translateX(-100%)');
+        $('#manage_payment_event_page').css('transform', 'translateX(-100%)');
+
 
     };
     function writeToPopupDiv(id, file, towhichphp) {

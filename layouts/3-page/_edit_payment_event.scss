@@ -1,0 +1,10 @@
+#edit_payment_event_page{
+  position: fixed;
+  height: 80vh;
+  width: 83.33vw;
+  left: 0;
+  bottom:0;
+  background-color: white;
+  transform: translateY(100%);
+  transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}

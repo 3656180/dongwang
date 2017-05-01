@@ -63,9 +63,13 @@ $(document).ready(function(){
         }
     });
 
+    //-----------double check page functions
+    $('#back_button_dcp').on('click', function(){
+        $('#double_check_page').css('transform', 'translateY(100%)');
 
+    });
 
-    $('#submit_button_aesp').on('click', function(){
+    $('#submit_button_dcp').on('click', function(){
         var isSendEmial='0';
         var isSendMessage='0';
         var isSendWechat='0';
@@ -112,34 +116,36 @@ $(document).ready(function(){
                         sendPlan:sendPlan
                     }
                      // alert($('#recipient_input_aesp').val());
-        //
-        InsertToDatabase(
-            {recipient:'dong',
-                email:'henqianda@gmail.com',
-                paymentAmount:'1000',
-                insuranceNumber:'11111',
-                phoneNumber:'2222222222',
-                wechat:'546025862',
-                insuranceType:'房屋保险',
-                homeinsuranceUsability:'自住',
-                insuredAdress:'7288 blundell rd',
-                cc_list:'example@email.com,example2@email.com',
-                sendOption:'1-1-1'},
-            {startDate:'2017-11-12',
-                endDate:'2018-02-22',
-                payDateMonth:'1,',
-                payDateDay:'31',
-                frequency:'monthly'},
-            {   ismonth:false,
-                istwoweeks:false,
-                isoneweek:false,
-                isthreedays:true,
-                istwodays:true,
-                isoneday:true,
-            }
-        );
+        alert('添加完毕');
+        $('#double_check_page').css('transform', 'translateY(100%)');
+        InsertToDatabase(sendInfo,payDateInfo,sendPlan);
 
     });
+
+
+    //-----------
+
+    $('#submit_button_aesp').on('click', function(){
+        $('#double_check_page').css('transform', 'translateY(0px)');
+        $('#recipient_dcp').html($('#recipient_input_aesp').val());
+        $('#email_dcp').html($('#email_address_input_asep').val());
+        $('#phone_number_dcp').html($('#phone_number_input_asep').val());
+        $('#wechat_dcp').html($('#wehcat_number_input_asep').val());
+        $('#payment_amount_dcp').html($('#payment_amount_input_asep').val());
+        $('#insurance_number_dcp').html($('#insurance_number_input_asep').val());
+        $('#send_period_dcp').html($('#send_period_start_aesp').val()+"至"+$('#send_period_end_aesp').val());
+        $('#insurance_type_dcp').html($('#insurance_type').val());
+        $('#payment_frequency_dcp').html(frequency);
+        $('#payment_date_dcp').html($('#pay_date_month_aesp').val()+"月"+$('#pay_date_day_aesp').val()+"日");
+        if(frequency=='monthly'){
+            $('#payment_date_dcp').html($('#pay_date_day_aesp').val()+"号");
+        }
+        //$('#reminder_time_dcp').html($('#recipient_input_aesp').val());
+        $('#cc_list_dcp').html($('#admin_cc_list_input_asep').val());
+        //$('#reminder_method_dcp').html($('#recipient_input_aesp').val());
+
+    });
+
 
     //---------------get insert sql array
     function InsertToDatabase(sendInfo,payDateInfo,sendPlan){
@@ -148,12 +154,12 @@ $(document).ready(function(){
         var insuranceInfo='';
         var emails='';
         if(sendInfo.insuranceType=='房屋保险'){
-            insuranceInfo=sendInfo.homeinsuranceUsability+"&"+sendInfo.insuredAdress;
+            insuranceInfo=sendInfo.homeinsuranceUsability+"?"+sendInfo.insuredAdress;
         }
         emails=emails+sendInfo.email+',';//add customer's email to email list;
         emails=emails+sendInfo.cc_list;//emails list contain customer's email which is the
                                         //the first one, and admin email list 2nd to nth
-        alert(emails);
+        //alert(emails);
         //for loop of PAYMENT event table
         for(var i=0; i<paymentDateArray.length;i++){
             //alert('i='+i);
@@ -170,7 +176,7 @@ $(document).ready(function(){
                 "insurance_info)" +
                 "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
                 "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
-                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付&"+currentDate+"','"+
+                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
                 sendInfo.insuranceType+"','"+insuranceInfo+"')";
             var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
 
@@ -226,12 +232,12 @@ $(document).ready(function(){
                 var createTableSql="CREATE TABLE "+tableName+"("+
                     "id INT NOT NULL AUTO_INCREMENT,"+
                     "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "email VARCHAR(100) NOT NULL,"+
+                    "email VARCHAR(1000) NOT NULL,"+
                     "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "html VARCHAR(1000) NOT NULL DEFAULT 0,"+
-                    "text VARCHAR(1000) NOT NULL DEFAULT 0,"+
+                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
                     "event_id INT(10) NOT NULL DEFAULT 0,"+
                     "send_option VARCHAR(45) DEFAULT 0,"+
                     "PRIMARY KEY (id))";
@@ -328,6 +334,10 @@ $(document).ready(function(){
         if(newmonth==0){
             resultYear=-1;
             resultMonth=12;
+        }
+        else if(newmonth==13){
+            resultYear=1;
+            resultMonth=1;
         }
         else{
             resultYear=0;
@@ -506,8 +516,8 @@ function getHtml(htmlInfo){//pass
         "需要于"+paymentDate+"之前缴纳"+
         "共计$"+htmlInfo.paymentAmount +"保费"+
         "请您提前做好准备，避免延误缴费时间</p>"+
-        "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-        "<p>王栋</p>"+
+        "<p>如有任何疑问请致电778-895-5678</p>"+
+        "<p>Vicky Huang</p>"+
         "<p></p>"+
         "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
         "您将不会再收到有关本次缴费的通知</p>";
@@ -517,10 +527,8 @@ function getHtml(htmlInfo){//pass
         "需要于"+paymentDate+"之前缴纳"+
         "共计$"+htmlInfo.paymentAmount +"保费"+
         "请您提前做好准备，避免延误缴费时间"+
-        "如有任何疑问请致电xxx-xxx-xxxx"+
-        "王栋"+
-        "如果您已完成付款请点击"+url+
-        "您将不会再收到有关本次缴费的通知";
+        "如有任何疑问请致电778-895-5678"+
+        "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     if(htmlInfo.insuranceType=='房屋保险'){
         html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
@@ -528,8 +536,8 @@ function getHtml(htmlInfo){//pass
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
             ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
             "请您提前做好准备，避免延误缴费时间</p>"+
-            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-            "<p>王栋</p>"+
+            "<p>如有任何疑问请致电778-895-5678/p>"+
+            "<p>Vicky Huang</p>"+
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
@@ -539,10 +547,8 @@ function getHtml(htmlInfo){//pass
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
             ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
             "请您提前做好准备，避免延误缴费时间"+
-            "如有任何疑问请致电xxx-xxx-xxxx"+
-            "王栋"+
-            "如果您已完成付款请点击"+url+
-            "您将不会再收到有关本次缴费的通知";
+            "如有任何疑问请致电778-895-5678"+
+            "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     }
 
     if(htmlInfo.sendDate>=htmlInfo.paymentDate){
@@ -552,8 +558,8 @@ function getHtml(htmlInfo){//pass
             "需要于"+paymentDate+"之前缴纳"+
             "共计$"+htmlInfo.paymentAmount +"保费</p>"+
             "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-            "<p>王栋</p>"+
+            "<p>如有任何疑问请致电778-895-5678</p>"+
+            "<p>Vicky Huang</p>"+
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
@@ -563,10 +569,8 @@ function getHtml(htmlInfo){//pass
             "需要于"+paymentDate+"之前缴纳"+
             "共计$"+htmlInfo.paymentAmount +"保费"+
             "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-            "如有任何疑问请致电xxx-xxx-xxxx"+
-            "王栋"+
-            "如果您已完成付款请点击"+url+
-            "您将不会再收到有关本次缴费的通知";
+            "如有任何疑问请致电778-895-5678"+
+            "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         if(htmlInfo.insuranceType=='房屋保险') {
             html = "<head>缴费通知</head>" +
                 "<p>尊敬的" + htmlInfo.recipient + "先生/女士</p>" +
@@ -574,8 +578,8 @@ function getHtml(htmlInfo){//pass
                 "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
                 ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费</p>" +
                 "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-                "<p>如有任何疑问请致电xxx-xxx-xxxx</p>" +
-                "<p>王栋</p>" +
+                "<p>如有任何疑问请致电778-895-5678</p>" +
+                "<p>Vicky Huang</p>" +
                 "<p></p>" +
                 "<p>如果您已完成付款请点击[<a href=" + url + ">已付款</a>]," +
                 "您将不会再收到有关本次缴费的通知</p>";
@@ -585,10 +589,8 @@ function getHtml(htmlInfo){//pass
                 "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
                 ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费" +
                 "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-                "如有任何疑问请致电xxx-xxx-xxxx" +
-                "王栋" +
-                "如果您已完成付款请点击" + url +
-                "您将不会再收到有关本次缴费的通知";
+                "如有任何疑问请致电778-895-5678" +
+                "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         }
 
     }

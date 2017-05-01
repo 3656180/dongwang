@@ -4,6 +4,7 @@ a.removeEventListener("load",R),r.ready()}"complete"===d.readyState||"loading"!=
 void 0!==c?null===c?void r.removeAttr(a,b):e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:(a.setAttribute(b,c+""),c):e&&"get"in e&&null!==(d=e.get(a,b))?d:(d=r.find.attr(a,b),null==d?void 0:d))},attrHooks:{type:{set:function(a,b){if(!o.radioValue&&"radio"===b&&r.nodeName(a,"input")){var c=a.value;return a.setAttribute("type",b),c&&(a.value=c),b}}}},removeAttr:function(a,b){var c,d=0,e=b&&b.match(K);if(e&&1===a.nodeType)while(c=e[d++])a.removeAttribute(c)}}),ib={set:function(a,b,c){return b===!1?r.removeAttr(a,c):a.setAttribute(c,c),c}},r.each(r.expr.match.bool.source.match(/\w+/g),function(a,b){var c=jb[b]||r.find.attr;jb[b]=function(a,b,d){var e,f,g=b.toLowerCase();return d||(f=jb[g],jb[g]=e,e=null!=c(a,b,d)?g:null,jb[g]=f),e}});var kb=/^(?:input|select|textarea|button)$/i,lb=/^(?:a|area)$/i;r.fn.extend({prop:function(a,b){return S(this,r.prop,a,b,arguments.length>1)},removeProp:function(a){return this.each(function(){delete this[r.propFix[a]||a]})}}),r.extend({prop:function(a,b,c){var d,e,f=a.nodeType;if(3!==f&&8!==f&&2!==f)return 1===f&&r.isXMLDoc(a)||(b=r.propFix[b]||b,e=r.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!==(d=e.get(a,b))?d:a[b]},propHooks:{tabIndex:{get:function(a){var b=r.find.attr(a,"tabindex");return b?parseInt(b,10):kb.test(a.nodeName)||lb.test(a.nodeName)&&a.href?0:-1}}},propFix:{"for":"htmlFor","class":"className"}}),o.optSelected||(r.propHooks.selected={get:function(a){var b=a.parentNode;return b&&b.parentNode&&b.parentNode.selectedIndex,null},set:function(a){var b=a.parentNode;b&&(b.selectedIndex,b.parentNode&&b.parentNode.selectedIndex)}}),r.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){r.propFix[this.toLowerCase()]=this});function mb(a){var b=a.match(K)||[];return b.join(" ")}function nb(a){return a.getAttribute&&a.getAttribute("class")||""}r.fn.extend({addClass:function(a){var b,c,d,e,f,g,h,i=0;if(r.isFunction(a))return this.each(function(b){r(this).addClass(a.call(this,b,nb(this)))});if("string"==typeof a&&a){b=a.match(K)||[];while(c=this[i++])if(e=nb(c),d=1===c.nodeType&&" "+mb(e)+" "){g=0;while(f=b[g++])d.indexOf(" "+f+" ")<0&&(d+=f+" ");h=mb(d),e!==h&&c.setAttribute("class",h)}}return this},removeClass:function(a){var b,c,d,e,f,g,h,i=0;if(r.isFunction(a))return this.each(function(b){r(this).removeClass(a.call(this,b,nb(this)))});if(!arguments.length)return this.attr("class","");if("string"==typeof a&&a){b=a.match(K)||[];while(c=this[i++])if(e=nb(c),d=1===c.nodeType&&" "+mb(e)+" "){g=0;while(f=b[g++])while(d.indexOf(" "+f+" ")>-1)d=d.replace(" "+f+" "," ");h=mb(d),e!==h&&c.setAttribute("class",h)}}return this},toggleClass:function(a,b){var c=typeof a;return"boolean"==typeof b&&"string"===c?b?this.addClass(a):this.removeClass(a):r.isFunction(a)?this.each(function(c){r(this).toggleClass(a.call(this,c,nb(this),b),b)}):this.each(function(){var b,d,e,f;if("string"===c){d=0,e=r(this),f=a.match(K)||[];while(b=f[d++])e.hasClass(b)?e.removeClass(b):e.addClass(b)}else void 0!==a&&"boolean"!==c||(b=nb(this),b&&V.set(this,"__className__",b),this.setAttribute&&this.setAttribute("class",b||a===!1?"":V.get(this,"__className__")||""))})},hasClass:function(a){var b,c,d=0;b=" "+a+" ";while(c=this[d++])if(1===c.nodeType&&(" "+mb(nb(c))+" ").indexOf(b)>-1)return!0;return!1}});var ob=/\r/g;r.fn.extend({val:function(a){var b,c,d,e=this[0];{if(arguments.length)return d=r.isFunction(a),this.each(function(c){var e;1===this.nodeType&&(e=d?a.call(this,c,r(this).val()):a,null==e?e="":"number"==typeof e?e+="":r.isArray(e)&&(e=r.map(e,function(a){return null==a?"":a+""})),b=r.valHooks[this.type]||r.valHooks[this.nodeName.toLowerCase()],b&&"set"in b&&void 0!==b.set(this,e,"value")||(this.value=e))});if(e)return b=r.valHooks[e.type]||r.valHooks[e.nodeName.toLowerCase()],b&&"get"in b&&void 0!==(c=b.get(e,"value"))?c:(c=e.value,"string"==typeof c?c.replace(ob,""):null==c?"":c)}}}),r.extend({valHooks:{option:{get:function(a){var b=r.find.attr(a,"value");return null!=b?b:mb(r.text(a))}},select:{get:function(a){var b,c,d,e=a.options,f=a.selectedIndex,g="select-one"===a.type,h=g?null:[],i=g?f+1:e.length;for(d=f<0?i:g?f:0;d<i;d++)if(c=e[d],(c.selected||d===f)&&!c.disabled&&(!c.parentNode.disabled||!r.nodeName(c.parentNode,"optgroup"))){if(b=r(c).val(),g)return b;h.push(b)}return h},set:function(a,b){var c,d,e=a.options,f=r.makeArray(b),g=e.length;while(g--)d=e[g],(d.selected=r.inArray(r.valHooks.option.get(d),f)>-1)&&(c=!0);return c||(a.selectedIndex=-1),f}}}}),r.each(["radio","checkbox"],function(){r.valHooks[this]={set:function(a,b){if(r.isArray(b))return a.checked=r.inArray(r(a).val(),b)>-1}},o.checkOn||(r.valHooks[this].get=function(a){return null===a.getAttribute("value")?"on":a.value})});var pb=/^(?:focusinfocus|focusoutblur)$/;r.extend(r.event,{trigger:function(b,c,e,f){var g,h,i,j,k,m,n,o=[e||d],p=l.call(b,"type")?b.type:b,q=l.call(b,"namespace")?b.namespace.split("."):[];if(h=i=e=e||d,3!==e.nodeType&&8!==e.nodeType&&!pb.test(p+r.event.triggered)&&(p.indexOf(".")>-1&&(q=p.split("."),p=q.shift(),q.sort()),k=p.indexOf(":")<0&&"on"+p,b=b[r.expando]?b:new r.Event(p,"object"==typeof b&&b),b.isTrigger=f?2:3,b.namespace=q.join("."),b.rnamespace=b.namespace?new RegExp("(^|\\.)"+q.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,b.result=void 0,b.target||(b.target=e),c=null==c?[b]:r.makeArray(c,[b]),n=r.event.special[p]||{},f||!n.trigger||n.trigger.apply(e,c)!==!1)){if(!f&&!n.noBubble&&!r.isWindow(e)){for(j=n.delegateType||p,pb.test(j+p)||(h=h.parentNode);h;h=h.parentNode)o.push(h),i=h;i===(e.ownerDocument||d)&&o.push(i.defaultView||i.parentWindow||a)}g=0;while((h=o[g++])&&!b.isPropagationStopped())b.type=g>1?j:n.bindType||p,m=(V.get(h,"events")||{})[b.type]&&V.get(h,"handle"),m&&m.apply(h,c),m=k&&h[k],m&&m.apply&&T(h)&&(b.result=m.apply(h,c),b.result===!1&&b.preventDefault());return b.type=p,f||b.isDefaultPrevented()||n._default&&n._default.apply(o.pop(),c)!==!1||!T(e)||k&&r.isFunction(e[p])&&!r.isWindow(e)&&(i=e[k],i&&(e[k]=null),r.event.triggered=p,e[p](),r.event.triggered=void 0,i&&(e[k]=i)),b.result}},simulate:function(a,b,c){var d=r.extend(new r.Event,c,{type:a,isSimulated:!0});r.event.trigger(d,null,b)}}),r.fn.extend({trigger:function(a,b){return this.each(function(){r.event.trigger(a,b,this)})},triggerHandler:function(a,b){var c=this[0];if(c)return r.event.trigger(a,b,c,!0)}}),r.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "),function(a,b){r.fn[b]=function(a,c){return arguments.length>0?this.on(b,null,a,c):this.trigger(b)}}),r.fn.extend({hover:function(a,b){return this.mouseenter(a).mouseleave(b||a)}}),o.focusin="onfocusin"in a,o.focusin||r.each({focus:"focusin",blur:"focusout"},function(a,b){var c=function(a){r.event.simulate(b,a.target,r.event.fix(a))};r.event.special[b]={setup:function(){var d=this.ownerDocument||this,e=V.access(d,b);e||d.addEventListener(a,c,!0),V.access(d,b,(e||0)+1)},teardown:function(){var d=this.ownerDocument||this,e=V.access(d,b)-1;e?V.access(d,b,e):(d.removeEventListener(a,c,!0),V.remove(d,b))}}});var qb=a.location,rb=r.now(),sb=/\?/;r.parseXML=function(b){var c;if(!b||"string"!=typeof b)return null;try{c=(new a.DOMParser).parseFromString(b,"text/xml")}catch(d){c=void 0}return c&&!c.getElementsByTagName("parsererror").length||r.error("Invalid XML: "+b),c};var tb=/\[\]$/,ub=/\r?\n/g,vb=/^(?:submit|button|image|reset|file)$/i,wb=/^(?:input|select|textarea|keygen)/i;function xb(a,b,c,d){var e;if(r.isArray(b))r.each(b,function(b,e){c||tb.test(a)?d(a,e):xb(a+"["+("object"==typeof e&&null!=e?b:"")+"]",e,c,d)});else if(c||"object"!==r.type(b))d(a,b);else for(e in b)xb(a+"["+e+"]",b[e],c,d)}r.param=function(a,b){var c,d=[],e=function(a,b){var c=r.isFunction(b)?b():b;d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(null==c?"":c)};if(r.isArray(a)||a.jquery&&!r.isPlainObject(a))r.each(a,function(){e(this.name,this.value)});else for(c in a)xb(c,a[c],b,e);return d.join("&")},r.fn.extend({serialize:function(){return r.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var a=r.prop(this,"elements");return a?r.makeArray(a):this}).filter(function(){var a=this.type;return this.name&&!r(this).is(":disabled")&&wb.test(this.nodeName)&&!vb.test(a)&&(this.checked||!ia.test(a))}).map(function(a,b){var c=r(this).val();return null==c?null:r.isArray(c)?r.map(c,function(a){return{name:b.name,value:a.replace(ub,"\r\n")}}):{name:b.name,value:c.replace(ub,"\r\n")}}).get()}});var yb=/%20/g,zb=/#.*$/,Ab=/([?&])_=[^&]*/,Bb=/^(.*?):[ \t]*([^\r\n]*)$/gm,Cb=/^(?:about|app|app-storage|.+-extension|file|res|widget):$/,Db=/^(?:GET|HEAD)$/,Eb=/^\/\//,Fb={},Gb={},Hb="*/".concat("*"),Ib=d.createElement("a");Ib.href=qb.href;function Jb(a){return function(b,c){"string"!=typeof b&&(c=b,b="*");var d,e=0,f=b.toLowerCase().match(K)||[];if(r.isFunction(c))while(d=f[e++])"+"===d[0]?(d=d.slice(1)||"*",(a[d]=a[d]||[]).unshift(c)):(a[d]=a[d]||[]).push(c)}}function Kb(a,b,c,d){var e={},f=a===Gb;function g(h){var i;return e[h]=!0,r.each(a[h]||[],function(a,h){var j=h(b,c,d);return"string"!=typeof j||f||e[j]?f?!(i=j):void 0:(b.dataTypes.unshift(j),g(j),!1)}),i}return g(b.dataTypes[0])||!e["*"]&&g("*")}function Lb(a,b){var c,d,e=r.ajaxSettings.flatOptions||{};for(c in b)void 0!==b[c]&&((e[c]?a:d||(d={}))[c]=b[c]);return d&&r.extend(!0,a,d),a}function Mb(a,b,c){var d,e,f,g,h=a.contents,i=a.dataTypes;while("*"===i[0])i.shift(),void 0===d&&(d=a.mimeType||b.getResponseHeader("Content-Type"));if(d)for(e in h)if(h[e]&&h[e].test(d)){i.unshift(e);break}if(i[0]in c)f=i[0];else{for(e in c){if(!i[0]||a.converters[e+" "+i[0]]){f=e;break}g||(g=e)}f=f||g}if(f)return f!==i[0]&&i.unshift(f),c[f]}function Nb(a,b,c,d){var e,f,g,h,i,j={},k=a.dataTypes.slice();if(k[1])for(g in a.converters)j[g.toLowerCase()]=a.converters[g];f=k.shift();while(f)if(a.responseFields[f]&&(c[a.responseFields[f]]=b),!i&&d&&a.dataFilter&&(b=a.dataFilter(b,a.dataType)),i=f,f=k.shift())if("*"===f)f=i;else if("*"!==i&&i!==f){if(g=j[i+" "+f]||j["* "+f],!g)for(e in j)if(h=e.split(" "),h[1]===f&&(g=j[i+" "+h[0]]||j["* "+h[0]])){g===!0?g=j[e]:j[e]!==!0&&(f=h[0],k.unshift(h[1]));break}if(g!==!0)if(g&&a["throws"])b=g(b);else try{b=g(b)}catch(l){return{state:"parsererror",error:g?l:"No conversion from "+i+" to "+f}}}return{state:"success",data:b}}r.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:qb.href,type:"GET",isLocal:Cb.test(qb.protocol),global:!0,processData:!0,async:!0,contentType:"application/x-www-form-urlencoded; charset=UTF-8",accepts:{"*":Hb,text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript"},contents:{xml:/\bxml\b/,html:/\bhtml/,json:/\bjson\b/},responseFields:{xml:"responseXML",text:"responseText",json:"responseJSON"},converters:{"* text":String,"text html":!0,"text json":JSON.parse,"text xml":r.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(a,b){return b?Lb(Lb(a,r.ajaxSettings),b):Lb(r.ajaxSettings,a)},ajaxPrefilter:Jb(Fb),ajaxTransport:Jb(Gb),ajax:function(b,c){"object"==typeof b&&(c=b,b=void 0),c=c||{};var e,f,g,h,i,j,k,l,m,n,o=r.ajaxSetup({},c),p=o.context||o,q=o.context&&(p.nodeType||p.jquery)?r(p):r.event,s=r.Deferred(),t=r.Callbacks("once memory"),u=o.statusCode||{},v={},w={},x="canceled",y={readyState:0,getResponseHeader:function(a){var b;if(k){if(!h){h={};while(b=Bb.exec(g))h[b[1].toLowerCase()]=b[2]}b=h[a.toLowerCase()]}return null==b?null:b},getAllResponseHeaders:function(){return k?g:null},setRequestHeader:function(a,b){return null==k&&(a=w[a.toLowerCase()]=w[a.toLowerCase()]||a,v[a]=b),this},overrideMimeType:function(a){return null==k&&(o.mimeType=a),this},statusCode:function(a){var b;if(a)if(k)y.always(a[y.status]);else for(b in a)u[b]=[u[b],a[b]];return this},abort:function(a){var b=a||x;return e&&e.abort(b),A(0,b),this}};if(s.promise(y),o.url=((b||o.url||qb.href)+"").replace(Eb,qb.protocol+"//"),o.type=c.method||c.type||o.method||o.type,o.dataTypes=(o.dataType||"*").toLowerCase().match(K)||[""],null==o.crossDomain){j=d.createElement("a");try{j.href=o.url,j.href=j.href,o.crossDomain=Ib.protocol+"//"+Ib.host!=j.protocol+"//"+j.host}catch(z){o.crossDomain=!0}}if(o.data&&o.processData&&"string"!=typeof o.data&&(o.data=r.param(o.data,o.traditional)),Kb(Fb,o,c,y),k)return y;l=r.event&&o.global,l&&0===r.active++&&r.event.trigger("ajaxStart"),o.type=o.type.toUpperCase(),o.hasContent=!Db.test(o.type),f=o.url.replace(zb,""),o.hasContent?o.data&&o.processData&&0===(o.contentType||"").indexOf("application/x-www-form-urlencoded")&&(o.data=o.data.replace(yb,"+")):(n=o.url.slice(f.length),o.data&&(f+=(sb.test(f)?"&":"?")+o.data,delete o.data),o.cache===!1&&(f=f.replace(Ab,"$1"),n=(sb.test(f)?"&":"?")+"_="+rb++ +n),o.url=f+n),o.ifModified&&(r.lastModified[f]&&y.setRequestHeader("If-Modified-Since",r.lastModified[f]),r.etag[f]&&y.setRequestHeader("If-None-Match",r.etag[f])),(o.data&&o.hasContent&&o.contentType!==!1||c.contentType)&&y.setRequestHeader("Content-Type",o.contentType),y.setRequestHeader("Accept",o.dataTypes[0]&&o.accepts[o.dataTypes[0]]?o.accepts[o.dataTypes[0]]+("*"!==o.dataTypes[0]?", "+Hb+"; q=0.01":""):o.accepts["*"]);for(m in o.headers)y.setRequestHeader(m,o.headers[m]);if(o.beforeSend&&(o.beforeSend.call(p,y,o)===!1||k))return y.abort();if(x="abort",t.add(o.complete),y.done(o.success),y.fail(o.error),e=Kb(Gb,o,c,y)){if(y.readyState=1,l&&q.trigger("ajaxSend",[y,o]),k)return y;o.async&&o.timeout>0&&(i=a.setTimeout(function(){y.abort("timeout")},o.timeout));try{k=!1,e.send(v,A)}catch(z){if(k)throw z;A(-1,z)}}else A(-1,"No Transport");function A(b,c,d,h){var j,m,n,v,w,x=c;k||(k=!0,i&&a.clearTimeout(i),e=void 0,g=h||"",y.readyState=b>0?4:0,j=b>=200&&b<300||304===b,d&&(v=Mb(o,y,d)),v=Nb(o,v,y,j),j?(o.ifModified&&(w=y.getResponseHeader("Last-Modified"),w&&(r.lastModified[f]=w),w=y.getResponseHeader("etag"),w&&(r.etag[f]=w)),204===b||"HEAD"===o.type?x="nocontent":304===b?x="notmodified":(x=v.state,m=v.data,n=v.error,j=!n)):(n=x,!b&&x||(x="error",b<0&&(b=0))),y.status=b,y.statusText=(c||x)+"",j?s.resolveWith(p,[m,x,y]):s.rejectWith(p,[y,x,n]),y.statusCode(u),u=void 0,l&&q.trigger(j?"ajaxSuccess":"ajaxError",[y,o,j?m:n]),t.fireWith(p,[y,x]),l&&(q.trigger("ajaxComplete",[y,o]),--r.active||r.event.trigger("ajaxStop")))}return y},getJSON:function(a,b,c){return r.get(a,b,c,"json")},getScript:function(a,b){return r.get(a,void 0,b,"script")}}),r.each(["get","post"],function(a,b){r[b]=function(a,c,d,e){return r.isFunction(c)&&(e=e||d,d=c,c=void 0),r.ajax(r.extend({url:a,type:b,dataType:e,data:c,success:d},r.isPlainObject(a)&&a))}}),r._evalUrl=function(a){return r.ajax({url:a,type:"GET",dataType:"script",cache:!0,async:!1,global:!1,"throws":!0})},r.fn.extend({wrapAll:function(a){var b;return this[0]&&(r.isFunction(a)&&(a=a.call(this[0])),b=r(a,this[0].ownerDocument).eq(0).clone(!0),this[0].parentNode&&b.insertBefore(this[0]),b.map(function(){var a=this;while(a.firstElementChild)a=a.firstElementChild;return a}).append(this)),this},wrapInner:function(a){return r.isFunction(a)?this.each(function(b){r(this).wrapInner(a.call(this,b))}):this.each(function(){var b=r(this),c=b.contents();c.length?c.wrapAll(a):b.append(a)})},wrap:function(a){var b=r.isFunction(a);return this.each(function(c){r(this).wrapAll(b?a.call(this,c):a)})},unwrap:function(a){return this.parent(a).not("body").each(function(){r(this).replaceWith(this.childNodes)}),this}}),r.expr.pseudos.hidden=function(a){return!r.expr.pseudos.visible(a)},r.expr.pseudos.visible=function(a){return!!(a.offsetWidth||a.offsetHeight||a.getClientRects().length)},r.ajaxSettings.xhr=function(){try{return new a.XMLHttpRequest}catch(b){}};var Ob={0:200,1223:204},Pb=r.ajaxSettings.xhr();o.cors=!!Pb&&"withCredentials"in Pb,o.ajax=Pb=!!Pb,r.ajaxTransport(function(b){var c,d;if(o.cors||Pb&&!b.crossDomain)return{send:function(e,f){var g,h=b.xhr();if(h.open(b.type,b.url,b.async,b.username,b.password),b.xhrFields)for(g in b.xhrFields)h[g]=b.xhrFields[g];b.mimeType&&h.overrideMimeType&&h.overrideMimeType(b.mimeType),b.crossDomain||e["X-Requested-With"]||(e["X-Requested-With"]="XMLHttpRequest");for(g in e)h.setRequestHeader(g,e[g]);c=function(a){return function(){c&&(c=d=h.onload=h.onerror=h.onabort=h.onreadystatechange=null,"abort"===a?h.abort():"error"===a?"number"!=typeof h.status?f(0,"error"):f(h.status,h.statusText):f(Ob[h.status]||h.status,h.statusText,"text"!==(h.responseType||"text")||"string"!=typeof h.responseText?{binary:h.response}:{text:h.responseText},h.getAllResponseHeaders()))}},h.onload=c(),d=h.onerror=c("error"),void 0!==h.onabort?h.onabort=d:h.onreadystatechange=function(){4===h.readyState&&a.setTimeout(function(){c&&d()})},c=c("abort");try{h.send(b.hasContent&&b.data||null)}catch(i){if(c)throw i}},abort:function(){c&&c()}}}),r.ajaxPrefilter(function(a){a.crossDomain&&(a.contents.script=!1)}),r.ajaxSetup({accepts:{script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},contents:{script:/\b(?:java|ecma)script\b/},converters:{"text script":function(a){return r.globalEval(a),a}}}),r.ajaxPrefilter("script",function(a){void 0===a.cache&&(a.cache=!1),a.crossDomain&&(a.type="GET")}),r.ajaxTransport("script",function(a){if(a.crossDomain){var b,c;return{send:function(e,f){b=r("<script>").prop({charset:a.scriptCharset,src:a.url}).on("load error",c=function(a){b.remove(),c=null,a&&f("error"===a.type?404:200,a.type)}),d.head.appendChild(b[0])},abort:function(){c&&c()}}}});var Qb=[],Rb=/(=)\?(?=&|$)|\?\?/;r.ajaxSetup({jsonp:"callback",jsonpCallback:function(){var a=Qb.pop()||r.expando+"_"+rb++;return this[a]=!0,a}}),r.ajaxPrefilter("json jsonp",function(b,c,d){var e,f,g,h=b.jsonp!==!1&&(Rb.test(b.url)?"url":"string"==typeof b.data&&0===(b.contentType||"").indexOf("application/x-www-form-urlencoded")&&Rb.test(b.data)&&"data");if(h||"jsonp"===b.dataTypes[0])return e=b.jsonpCallback=r.isFunction(b.jsonpCallback)?b.jsonpCallback():b.jsonpCallback,h?b[h]=b[h].replace(Rb,"$1"+e):b.jsonp!==!1&&(b.url+=(sb.test(b.url)?"&":"?")+b.jsonp+"="+e),b.converters["script json"]=function(){return g||r.error(e+" was not called"),g[0]},b.dataTypes[0]="json",f=a[e],a[e]=function(){g=arguments},d.always(function(){void 0===f?r(a).removeProp(e):a[e]=f,b[e]&&(b.jsonpCallback=c.jsonpCallback,Qb.push(e)),g&&r.isFunction(f)&&f(g[0]),g=f=void 0}),"script"}),o.createHTMLDocument=function(){var a=d.implementation.createHTMLDocument("").body;return a.innerHTML="<form></form><form></form>",2===a.childNodes.length}(),r.parseHTML=function(a,b,c){if("string"!=typeof a)return[];"boolean"==typeof b&&(c=b,b=!1);var e,f,g;return b||(o.createHTMLDocument?(b=d.implementation.createHTMLDocument(""),e=b.createElement("base"),e.href=d.location.href,b.head.appendChild(e)):b=d),f=B.exec(a),g=!c&&[],f?[b.createElement(f[1])]:(f=pa([a],b,g),g&&g.length&&r(g).remove(),r.merge([],f.childNodes))},r.fn.load=function(a,b,c){var d,e,f,g=this,h=a.indexOf(" ");return h>-1&&(d=mb(a.slice(h)),a=a.slice(0,h)),r.isFunction(b)?(c=b,b=void 0):b&&"object"==typeof b&&(e="POST"),g.length>0&&r.ajax({url:a,type:e||"GET",dataType:"html",data:b}).done(function(a){f=arguments,g.html(d?r("<div>").append(r.parseHTML(a)).find(d):a)}).always(c&&function(a,b){g.each(function(){c.apply(this,f||[a.responseText,b,a])})}),this},r.each(["ajaxStart","ajaxStop","ajaxComplete","ajaxError","ajaxSuccess","ajaxSend"],function(a,b){r.fn[b]=function(a){return this.on(b,a)}}),r.expr.pseudos.animated=function(a){return r.grep(r.timers,function(b){return a===b.elem}).length};function Sb(a){return r.isWindow(a)?a:9===a.nodeType&&a.defaultView}r.offset={setOffset:function(a,b,c){var d,e,f,g,h,i,j,k=r.css(a,"position"),l=r(a),m={};"static"===k&&(a.style.position="relative"),h=l.offset(),f=r.css(a,"top"),i=r.css(a,"left"),j=("absolute"===k||"fixed"===k)&&(f+i).indexOf("auto")>-1,j?(d=l.position(),g=d.top,e=d.left):(g=parseFloat(f)||0,e=parseFloat(i)||0),r.isFunction(b)&&(b=b.call(a,c,r.extend({},h))),null!=b.top&&(m.top=b.top-h.top+g),null!=b.left&&(m.left=b.left-h.left+e),"using"in b?b.using.call(a,m):l.css(m)}},r.fn.extend({offset:function(a){if(arguments.length)return void 0===a?this:this.each(function(b){r.offset.setOffset(this,a,b)});var b,c,d,e,f=this[0];if(f)return f.getClientRects().length?(d=f.getBoundingClientRect(),d.width||d.height?(e=f.ownerDocument,c=Sb(e),b=e.documentElement,{top:d.top+c.pageYOffset-b.clientTop,left:d.left+c.pageXOffset-b.clientLeft}):d):{top:0,left:0}},position:function(){if(this[0]){var a,b,c=this[0],d={top:0,left:0};return"fixed"===r.css(c,"position")?b=c.getBoundingClientRect():(a=this.offsetParent(),b=this.offset(),r.nodeName(a[0],"html")||(d=a.offset()),d={top:d.top+r.css(a[0],"borderTopWidth",!0),left:d.left+r.css(a[0],"borderLeftWidth",!0)}),{top:b.top-d.top-r.css(c,"marginTop",!0),left:b.left-d.left-r.css(c,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){var a=this.offsetParent;while(a&&"static"===r.css(a,"position"))a=a.offsetParent;return a||qa})}}),r.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(a,b){var c="pageYOffset"===b;r.fn[a]=function(d){return S(this,function(a,d,e){var f=Sb(a);return void 0===e?f?f[b]:a[d]:void(f?f.scrollTo(c?f.pageXOffset:e,c?e:f.pageYOffset):a[d]=e)},a,d,arguments.length)}}),r.each(["top","left"],function(a,b){r.cssHooks[b]=Oa(o.pixelPosition,function(a,c){if(c)return c=Na(a,b),La.test(c)?r(a).position()[b]+"px":c})}),r.each({Height:"height",Width:"width"},function(a,b){r.each({padding:"inner"+a,content:b,"":"outer"+a},function(c,d){r.fn[d]=function(e,f){var g=arguments.length&&(c||"boolean"!=typeof e),h=c||(e===!0||f===!0?"margin":"border");return S(this,function(b,c,e){var f;return r.isWindow(b)?0===d.indexOf("outer")?b["inner"+a]:b.document.documentElement["client"+a]:9===b.nodeType?(f=b.documentElement,Math.max(b.body["scroll"+a],f["scroll"+a],b.body["offset"+a],f["offset"+a],f["client"+a])):void 0===e?r.css(b,c,h):r.style(b,c,e,h)},b,g?e:void 0,g)}})}),r.fn.extend({bind:function(a,b,c){return this.on(a,null,b,c)},unbind:function(a,b){return this.off(a,null,b)},delegate:function(a,b,c,d){return this.on(b,a,c,d)},undelegate:function(a,b,c){return 1===arguments.length?this.off(a,"**"):this.off(b,a||"**",c)}}),r.parseJSON=JSON.parse,"function"==typeof define&&define.amd&&define("jquery",[],function(){return r});var Tb=a.jQuery,Ub=a.$;return r.noConflict=function(b){return a.$===r&&(a.$=Ub),b&&a.jQuery===r&&(a.jQuery=Tb),r},b||(a.jQuery=a.$=r),r});
 
 var host='http://localhost:3000/';
+//var host='http://34.208.123.152/';
 $(document).ready(function(){
     var frequency="annually";
     //set all checkbox checked by default
@@ -69,9 +70,13 @@ $(document).ready(function(){
         }
     });
 
+    //-----------double check page functions
+    $('#back_button_dcp').on('click', function(){
+        $('#double_check_page').css('transform', 'translateY(100%)');
 
+    });
 
-    $('#submit_button_aesp').on('click', function(){
+    $('#submit_button_dcp').on('click', function(){
         var isSendEmial='0';
         var isSendMessage='0';
         var isSendWechat='0';
@@ -118,34 +123,36 @@ $(document).ready(function(){
                         sendPlan:sendPlan
                     }
                      // alert($('#recipient_input_aesp').val());
-        //
-        InsertToDatabase(
-            {recipient:'dong',
-                email:'henqianda@gmail.com',
-                paymentAmount:'1000',
-                insuranceNumber:'11111',
-                phoneNumber:'2222222222',
-                wechat:'546025862',
-                insuranceType:'房屋保险',
-                homeinsuranceUsability:'自住',
-                insuredAdress:'7288 blundell rd',
-                cc_list:'example@email.com,example2@email.com',
-                sendOption:'1-1-1'},
-            {startDate:'2017-11-12',
-                endDate:'2018-02-22',
-                payDateMonth:'1,',
-                payDateDay:'31',
-                frequency:'monthly'},
-            {   ismonth:false,
-                istwoweeks:false,
-                isoneweek:false,
-                isthreedays:true,
-                istwodays:true,
-                isoneday:true,
-            }
-        );
+        alert('添加完毕');
+        $('#double_check_page').css('transform', 'translateY(100%)');
+        InsertToDatabase(sendInfo,payDateInfo,sendPlan);
 
     });
+
+
+    //-----------
+
+    $('#submit_button_aesp').on('click', function(){
+        $('#double_check_page').css('transform', 'translateY(0px)');
+        $('#recipient_dcp').html($('#recipient_input_aesp').val());
+        $('#email_dcp').html($('#email_address_input_asep').val());
+        $('#phone_number_dcp').html($('#phone_number_input_asep').val());
+        $('#wechat_dcp').html($('#wehcat_number_input_asep').val());
+        $('#payment_amount_dcp').html($('#payment_amount_input_asep').val());
+        $('#insurance_number_dcp').html($('#insurance_number_input_asep').val());
+        $('#send_period_dcp').html($('#send_period_start_aesp').val()+"至"+$('#send_period_end_aesp').val());
+        $('#insurance_type_dcp').html($('#insurance_type').val());
+        $('#payment_frequency_dcp').html(frequency);
+        $('#payment_date_dcp').html($('#pay_date_month_aesp').val()+"月"+$('#pay_date_day_aesp').val()+"日");
+        if(frequency=='monthly'){
+            $('#payment_date_dcp').html($('#pay_date_day_aesp').val()+"号");
+        }
+        //$('#reminder_time_dcp').html($('#recipient_input_aesp').val());
+        $('#cc_list_dcp').html($('#admin_cc_list_input_asep').val());
+        //$('#reminder_method_dcp').html($('#recipient_input_aesp').val());
+
+    });
+
 
     //---------------get insert sql array
     function InsertToDatabase(sendInfo,payDateInfo,sendPlan){
@@ -154,12 +161,12 @@ $(document).ready(function(){
         var insuranceInfo='';
         var emails='';
         if(sendInfo.insuranceType=='房屋保险'){
-            insuranceInfo=sendInfo.homeinsuranceUsability+"&"+sendInfo.insuredAdress;
+            insuranceInfo=sendInfo.homeinsuranceUsability+"?"+sendInfo.insuredAdress;
         }
         emails=emails+sendInfo.email+',';//add customer's email to email list;
         emails=emails+sendInfo.cc_list;//emails list contain customer's email which is the
                                         //the first one, and admin email list 2nd to nth
-        alert(emails);
+        //alert(emails);
         //for loop of PAYMENT event table
         for(var i=0; i<paymentDateArray.length;i++){
             //alert('i='+i);
@@ -176,7 +183,7 @@ $(document).ready(function(){
                 "insurance_info)" +
                 "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
                 "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
-                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付&"+currentDate+"','"+
+                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
                 sendInfo.insuranceType+"','"+insuranceInfo+"')";
             var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
 
@@ -232,12 +239,12 @@ $(document).ready(function(){
                 var createTableSql="CREATE TABLE "+tableName+"("+
                     "id INT NOT NULL AUTO_INCREMENT,"+
                     "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "email VARCHAR(100) NOT NULL,"+
+                    "email VARCHAR(1000) NOT NULL,"+
                     "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
                     "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "html VARCHAR(1000) NOT NULL DEFAULT 0,"+
-                    "text VARCHAR(1000) NOT NULL DEFAULT 0,"+
+                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
                     "event_id INT(10) NOT NULL DEFAULT 0,"+
                     "send_option VARCHAR(45) DEFAULT 0,"+
                     "PRIMARY KEY (id))";
@@ -334,6 +341,10 @@ $(document).ready(function(){
         if(newmonth==0){
             resultYear=-1;
             resultMonth=12;
+        }
+        else if(newmonth==13){
+            resultYear=1;
+            resultMonth=1;
         }
         else{
             resultYear=0;
@@ -512,8 +523,8 @@ function getHtml(htmlInfo){//pass
         "需要于"+paymentDate+"之前缴纳"+
         "共计$"+htmlInfo.paymentAmount +"保费"+
         "请您提前做好准备，避免延误缴费时间</p>"+
-        "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-        "<p>王栋</p>"+
+        "<p>如有任何疑问请致电778-895-5678</p>"+
+        "<p>Vicky Huang</p>"+
         "<p></p>"+
         "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
         "您将不会再收到有关本次缴费的通知</p>";
@@ -523,10 +534,8 @@ function getHtml(htmlInfo){//pass
         "需要于"+paymentDate+"之前缴纳"+
         "共计$"+htmlInfo.paymentAmount +"保费"+
         "请您提前做好准备，避免延误缴费时间"+
-        "如有任何疑问请致电xxx-xxx-xxxx"+
-        "王栋"+
-        "如果您已完成付款请点击"+url+
-        "您将不会再收到有关本次缴费的通知";
+        "如有任何疑问请致电778-895-5678"+
+        "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     if(htmlInfo.insuranceType=='房屋保险'){
         html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
@@ -534,8 +543,8 @@ function getHtml(htmlInfo){//pass
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
             ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
             "请您提前做好准备，避免延误缴费时间</p>"+
-            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-            "<p>王栋</p>"+
+            "<p>如有任何疑问请致电778-895-5678/p>"+
+            "<p>Vicky Huang</p>"+
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
@@ -545,10 +554,8 @@ function getHtml(htmlInfo){//pass
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
             ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
             "请您提前做好准备，避免延误缴费时间"+
-            "如有任何疑问请致电xxx-xxx-xxxx"+
-            "王栋"+
-            "如果您已完成付款请点击"+url+
-            "您将不会再收到有关本次缴费的通知";
+            "如有任何疑问请致电778-895-5678"+
+            "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     }
 
     if(htmlInfo.sendDate>=htmlInfo.paymentDate){
@@ -558,8 +565,8 @@ function getHtml(htmlInfo){//pass
             "需要于"+paymentDate+"之前缴纳"+
             "共计$"+htmlInfo.paymentAmount +"保费</p>"+
             "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-            "<p>如有任何疑问请致电xxx-xxx-xxxx</p>"+
-            "<p>王栋</p>"+
+            "<p>如有任何疑问请致电778-895-5678</p>"+
+            "<p>Vicky Huang</p>"+
             "<p></p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
@@ -569,10 +576,8 @@ function getHtml(htmlInfo){//pass
             "需要于"+paymentDate+"之前缴纳"+
             "共计$"+htmlInfo.paymentAmount +"保费"+
             "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-            "如有任何疑问请致电xxx-xxx-xxxx"+
-            "王栋"+
-            "如果您已完成付款请点击"+url+
-            "您将不会再收到有关本次缴费的通知";
+            "如有任何疑问请致电778-895-5678"+
+            "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         if(htmlInfo.insuranceType=='房屋保险') {
             html = "<head>缴费通知</head>" +
                 "<p>尊敬的" + htmlInfo.recipient + "先生/女士</p>" +
@@ -580,8 +585,8 @@ function getHtml(htmlInfo){//pass
                 "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
                 ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费</p>" +
                 "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-                "<p>如有任何疑问请致电xxx-xxx-xxxx</p>" +
-                "<p>王栋</p>" +
+                "<p>如有任何疑问请致电778-895-5678</p>" +
+                "<p>Vicky Huang</p>" +
                 "<p></p>" +
                 "<p>如果您已完成付款请点击[<a href=" + url + ">已付款</a>]," +
                 "您将不会再收到有关本次缴费的通知</p>";
@@ -591,250 +596,58 @@ function getHtml(htmlInfo){//pass
                 "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
                 ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费" +
                 "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-                "如有任何疑问请致电xxx-xxx-xxxx" +
-                "王栋" +
-                "如果您已完成付款请点击" + url +
-                "您将不会再收到有关本次缴费的通知";
+                "如有任何疑问请致电778-895-5678" +
+                "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         }
 
     }
     return {html:html,text:text};
 }
 
-
-$(document).ready(function() {
-    //var sidebarWidth = $('#menu').outerWidth();
-    //hover menu button
-    //hover menu button
-    //hover menu button
-    $('#Menu_button').on('mouseover', function() {
-
-        $('#hamburger').css('transform', 'rotate(90deg)');
-        $('#Menu_button_menu').css('width', '250%');
-        $('#menu_text').css('opacity', '1');
-
-    });
-    $('#Menu_button').on('mouseout', function() {
-
-        $('#hamburger').css('transform', 'rotate(0deg)');
-        $('#menu_text').css('opacity', '0');
-        $('#Menu_button_menu').css('width', '100%');
-
-    });
-    //hover menu button
-    //hover menu button
-    //hover menu button
-
-    //hover 365 financial button
-    //hover 365 financial button
-    //hover 365 financial button
-    $('#365_financial_button').on('mouseover', function() {
-
-        $('#365_financial_button').css('opacity', '0.8');
-        $('#365_financial_icon').css('width', '450%');
-        $('#365_financial_icon_text').css('display', 'block');
-        $('#365_financial_icon_text').css('opacity', '1');
-
-    });
-    $('#365_financial_button').on('mouseout', function() {
-
-        $('#365_financial_button').css('opacity', '0.5');
-        $('#365_financial_icon_text').css('display', 'none');
-        $('#365_financial_icon_text').css('opacity', '0');
-        $('#365_financial_icon').css('width', '100%');
-
-    });
-    //hover 365 financial button
-    //hover 365 financial button
-    //hover 365 financial button
-
-    //hover login button
-    //hover login button
-    //hover login button
-    $('#login_button').on('mouseover', function() {
-
-        $('#login_button').css('opacity', '0.8');
-        $('#login_button_back').css('width', '250%');
-        $('#login_text').css('opacity', '1');
-
-    });
-    $('#login_button').on('mouseout', function() {
-
-        $('#login_button').css('opacity', '1');
-        $('#login_text').css('opacity', '0');
-        $('#login_button_back').css('width', '100%');
-
-    });
-    //hover login button
-    //hover login button
-    //hover login button
-
-
-
-    //hover contact us button
-    //hover contact us button
-    //hover contact us button
-    $('#contact_us_button').on('mouseover',  function() {
-        $('#contact_us_button').css('opacity', '0.9');
-        $('#contact_us_button').css('width', '15vw');
-        $('#contact_us_button').css('transform', 'translateX(2.5vw)');
-
-
-    });
-    $('#contact_us_button').on('mouseout',  function() {
-        $('#contact_us_button').css('opacity', '0.7');
-        $('#contact_us_button').css('width', '10vw');
-        $('#contact_us_button').css('transform', 'translateX(0%)');
-    });
-    //hover contact us button
-    //hover contact us button
-    //hover contact us button
-
-
-    //click contact us button
-    //click contact us button
-    //click contact us button
-    $('#contact_us_button').on('click',  function() {
-        $('#contact_us_page').css('transform', 'translateY(0%)');
+$(document).ready(function(){
+    $('#close_button_epep').on('click', function () {
+        $('#edit_payment_event_page').css('transform', 'translateY(100%)');
     });
 
-    //click contact us button
-    //click contact us button
-    //click contact us button
-
-    //open or back to menu page by click menu button
-    $('.main_header').on('click', '#Menu_button', function() {
-
-        $('#menu').css('transform', 'translate3d(0px,0px,0px)');
-        $('#add_customer').css('transform', 'translate3d(-100%,0px,0px)');
-        $('#login_page').css('transform', 'translate3d(100%,0px,0px)');
-        $('#contact_us_page').css('transform', 'translateY(-100%)');
-        $('#system_manage_page').css('transform', 'translate3d(-100%,0px,0px)');
-
-        //$('#home-page').css(' overflow-x: hidden');
-
-    });
-
-
-
-    //back to menu page by click close button in add customer page
-    $('#add_customer').on('click', '#add_customer_close_button', function() {
-
-        $('#add_customer').css('transform', 'translate3d(-100%,0px,0px)');
-        $('#menu').css('transform', 'translate3d(0px,0px,0px)');
-
-    });
-    //back to homepage by click home-page button
-    $('.main_header').on('click', '#365_financial_button', function() {
-        //menu page or login page displayed case
-        $('#menu').css('transform', 'translate3d(-100%,0px,0px)');
-        $('#login_page').css('transform', 'translate3d(100%,0px,0px)');
-        $('#contact_us_page').css('transform', 'translateY(-100%)');
-
-        //
-        //-------
-        $('#main_container_0').css('transform','translateY(0%)');
-        $('#main_container_1').css('transform','translateY(100%)');
-        //-------
-        $('#main_container_2').css('transform','translateY(100%)');
-        //-------
-        $('#main_container_3').css('transform','translateY(100%)');
-        //-------
-        $('#main_container_4').css('transform','translateY(100%)');
-        //
-        var position =$('#menu').css('-webkit-transform');
-
-        //add customer page displayed case
-        if(position!="matrix(1, 0, 0, 1, 0, 0)"){
-            $('#menu').css('display', 'none');
-            $('#add_customer').css('transform', 'translate3d(-100%,0px,0px)');
-            $('#menu').css('transform', 'translate3d(-100%,0px,0px)');
-            $('#system_manage_page').css('transform', 'translate3d(-100%,0px,0px)');
-
-            setTimeout(function() {
-                $('#menu').css('display', 'block');
-            }, 600);
-        }
-    });
-    //open login page when click login button
-    $('.main_header').on('click', '#login_button', function() {
-        $('#contact_us_page').css('transform', 'translateY(-100%)');
-        $('#login_page').css('transform', 'translate3d(0px,0px,0px)');
-        $('#menu').css('transform', 'translate3d(-100%,0px,0px)');
-        //$('#add_customer').css('transform', 'translate3d(-100%,0px,0px)');
-        //$('#home-page').css(' overflow-x: hidden');
-        //add customer page displayed case
-        var position =$('#menu').css('-webkit-transform');
-        if(position!="matrix(1, 0, 0, 1, 0, 0)") {
-            $('#menu').css('display', 'none');
-            $('#add_customer').css('transform', 'translate3d(-100%,0px,0px)');
-            $('#menu').css('transform', 'translate3d(-100%,0px,0px)');
-            setTimeout(function () {
-                $('#menu').css('display', 'block');
-            }, 600);
-        }
-    });
 
 
 });
 
-
- 
-
 $(document).ready(function(){
-    $(function(){
-
-    //close button hover functions
-    //close button hover functions
-    //close button hover functions
-
-            $('#contact_us_close_button').on('mouseover',  function() {
-                $('#contact_us_close_button_cross_X').css('transform', 'rotate(90deg)');
-                $('#contact_us_close_button_back').css('width', '250%');
-                $('#contact_us_close_button_text').css('opacity', '1');
-
-            });
-            $('#contact_us_close_button').on('mouseout',  function() {
-                $('#contact_us_close_button_cross_X').css('transform', 'rotate(0deg)');
-                $('#contact_us_close_button_back').css('width', '100%');
-                $('#contact_us_close_button_text').css('opacity', '0');
-            });
-    //close button hover functions
-    //close button hover functions
-    //close button hover functions
-
-            $('#contact_us_close_button').on('click',  function() {
-                $('#contact_us_page').css('transform', 'translateY(-100%)');
-            });
-    });
-});
-$(document).ready(function(){
-    //post to load_sent_history_to_senthistory.php and load_send_plan_to_sendplan.php
-    //functions, called by functions in email_send_history.js and email_send_plan.js
-    $issort=false;
     $value='unknown';
     $sort_option='id';
     $sort_direction='up';
     $sort_type='string';
+    $name='unknown';
+    $email='unknown';
+    $start_sendDate='unknown';
+    $end_sendDate='unknown';
+    $start_payDate='unknown';
+    $end_payDate='unknown';
 
-    function set_sort_parameter(issort,sort_option,sort_direction,sort_type){
-        $issort=issort;
+    function set_sort_parameter(sort_option,sort_direction,sort_type){
         $sort_option=sort_option;
         $sort_direction=sort_direction;
         $sort_type=sort_type;
     }
-    function set_filter_parameter(value){
-        $value=value;
+
+    function set_date_format(date){
+        date=date.split("-");
+        return date[0]+date[1]+date[2];
     }
     function post_sortORfilter_request () {
-
+        //alert($start_payDate);
         $.ajax( { type : 'POST',
             data : {
-                issort:$issort,
                 sort_option:$sort_option,//sort option && index
                 sort_direction:$sort_direction,//sort direction && value
                 sort_type:$sort_type,
-                value:$value
+                name:$name,
+                email:$email,
+                start_sendDate:$start_sendDate,
+                end_sendDate:$end_sendDate,
+                start_payDate:$start_payDate,
+                end_payDate:$end_payDate
             },
             url  : host+'wp-content/themes/dongwang/xml/load_xml/load_sent_history_to_senthistory.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
@@ -846,86 +659,104 @@ $(document).ready(function(){
             }
         });
     };
+
     //----------------------------------------------------------------------------------
 
 
 
-    $(function(){
+
         //sort by name
         $('#name_sort_up').on('click', function(){
-            set_sort_parameter(true,'recipient','up','string');
+            set_sort_parameter('recipient','up','string');
             post_sortORfilter_request();
         });
         $('#name_sort_down').on('click', function(){
-            set_sort_parameter(true,'recipient','down','string');
+            set_sort_parameter('recipient','down','string');
             post_sortORfilter_request();
         });
         //sort by email
         $('#email_sort_up').on('click', function(){
-            set_sort_parameter(true,'email','up','string');
+            set_sort_parameter('email','up','string');
             post_sortORfilter_request();
         });
         $('#email_sort_down').on('click', function(){
-            set_sort_parameter(true,'email','down','string');
+            set_sort_parameter('email','down','string');
             post_sortORfilter_request();
         });
         //sort by sent date
         $('#date_sort_up').on('click', function(){
-            set_sort_parameter(true,'send_date','up','number');
+            set_sort_parameter('send_date','up','number');
             post_sortORfilter_request();
         });
         $('#date_sort_down').on('click', function(){
-            set_sort_parameter(true,'send_date','down','number');
+            set_sort_parameter('send_date','down','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_up').on('click', function(){
-            set_sort_parameter(true,'payment_date','up','number');
+            set_sort_parameter('payment_date','up','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_down').on('click', function(){
-            set_sort_parameter(true,'payment_date','down','number');
+            set_sort_parameter('payment_date','down','number');
             post_sortORfilter_request();
         });
         //search
         $('#search_button_eshp').on('click', function(){
-            if($('#search_input_eshp').val()!=''){
-                set_filter_parameter($('#search_input_eshp').val());
+            $name='unknown';
+            $email='unknown';
+            $start_sendDate='unknown';
+            $end_sendDate='unknown';
+            $start_payDate='unknown';
+            $end_payDate='unknown';
+
+            if($('#name_input_eshp').val()!=''){
+                $name=$('#name_input_eshp').val();
             }
-            else{
-                set_filter_parameter('unknown');
+            if($('#email_input_eshp').val()!=''){
+                $email=$('#email_input_eshp').val();
             }
+            if($('#senddate_start_input_eshp').val()!=''){
+                $start_sendDate=$('#senddate_start_input_eshp').val();
+                $start_sendDate=set_date_format($start_sendDate);
+            }
+            if($('#senddate_end_input_eshp').val()!=''){
+                $end_sendDate=$('#senddate_end_input_eshp').val();
+                $end_sendDate=set_date_format($end_sendDate);
+            }
+            if($('#paydate_start_input_eshp').val()!=''){
+                $start_payDate=$('#paydate_start_input_eshp').val();
+                $start_payDate=set_date_format($start_payDate);
+            }
+            if($('#paydate_end_input_eshp').val()!=''){
+                $end_payDate=$('#paydate_end_input_eshp').val();
+                $end_payDate=set_date_format($end_payDate);
+            }
+
+            //alert($start_sendDate);
+
+            //set_filter_parameter($name,$email,$start_sendDate,$end_sendDate,$start_payDate,$end_payDate);
             post_sortORfilter_request();
         });
-    });
+
 });
 $(document).ready(function(){
-    $issort=false;
     $value='unknown';
     $sort_option='id';
     $sort_direction='up';
     $sort_type='string';
-    // $name='unknown';
-    // $email='unknown';
-    // $start_sendDate='unknown';
-    // $end_sendDate='unknown';
-    // $start_payDate='unknown';
-    // $end_payDate='unknown';
+    $name='unknown';
+    $email='unknown';
+    $start_sendDate='unknown';
+    $end_sendDate='unknown';
+    $start_payDate='unknown';
+    $end_payDate='unknown';
 
-
-    function set_sort_parameter(issort,sort_option,sort_direction,sort_type){
-        $issort=issort;
+    function set_sort_parameter(sort_option,sort_direction,sort_type){
         $sort_option=sort_option;
         $sort_direction=sort_direction;
         $sort_type=sort_type;
     }
-    function set_filter_parameter(name,email,startSendDate,endSendDate,startPayDate,endPayDate){
-        $name=name;
-        $email=email;
-        $start_sendDate=startSendDate;
-        $end_sendDate=endSendDate;
-        $start_payDate=startPayDate;
-        $end_payDate=endPayDate;
-    }
+
     function set_date_format(date){
         date=date.split("-");
         return date[0]+date[1]+date[2];
@@ -934,7 +765,6 @@ $(document).ready(function(){
         //alert($start_payDate);
         $.ajax( { type : 'POST',
             data : {
-                issort:$issort,
                 sort_option:$sort_option,//sort option && index
                 sort_direction:$sort_direction,//sort direction && value
                 sort_type:$sort_type,
@@ -961,37 +791,37 @@ $(document).ready(function(){
 
         //sort by name
         $('#name_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'recipient','up','string');
+            set_sort_parameter('recipient','up','string');
             post_sortORfilter_request();
         });
         $('#name_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'recipient','down','string');
+            set_sort_parameter('recipient','down','string');
             post_sortORfilter_request();
         });
         //sort by email
         $('#email_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'email','up','string');
+            set_sort_parameter('email','up','string');
             post_sortORfilter_request();
         });
         $('#email_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'email','down','string');
+            set_sort_parameter('email','down','string');
             post_sortORfilter_request();
         });
         //sort by sent date
         $('#date_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'send_date','up','number');
+            set_sort_parameter('send_date','up','number');
             post_sortORfilter_request();
         });
         $('#date_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'send_date','down','number');
+            set_sort_parameter('send_date','down','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_up_espp').on('click', function(){
-            set_sort_parameter(true,'payment_date','up','number');
+            set_sort_parameter('payment_date','up','number');
             post_sortORfilter_request();
         });
         $('#pay_date_sort_down_espp').on('click', function(){
-            set_sort_parameter(true,'payment_date','down','number');
+            set_sort_parameter('payment_date','down','number');
             post_sortORfilter_request();
         });
         //search
@@ -1035,1030 +865,277 @@ $(document).ready(function(){
 
 });
 $(document).ready(function(){
-    $(function(){
-
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#financial_advisor_close_button').on('mouseover',  function() {
-            $('#financial_advisor_cross_X').css('transform', 'rotate(90deg)');
-            $('#financial_advisor_close_button_close_button_back').css('width', '250%');
-            $('#financial_advisor_close_button_close_button_text').css('opacity', '1');
-
-        });
-        $('#financial_advisor_close_button').on('mouseout',  function() {
-            $('#financial_advisor_cross_X').css('transform', 'rotate(0deg)');
-            $('#financial_advisor_close_button_close_button_back').css('width', '100%');
-            $('#financial_advisor_close_button_close_button_text').css('opacity', '0');
-        });
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#financial_advisor_close_button').on('click',  function() {
-            $('#main_container_4').css('transform','translateY(100%)');
-            $('#main_container_0').css('transform','translateY(0%)');
-        });
-    });
-});
-$(document).ready(function(){
-    //1st or top left div
-    //1st or top left div
-    //1st or top left div
-    $(function(){
-        $('#item_container_0').on("mouseover", function() {
-            $('#background_container_0').css('opacity','0.8');
-            $('#sub_title_0').css('transform','translateY(-100%)');
-            $('#sub_title_0_back').css('transform','translateY(0%)');
-        });
-    });
-
-    $(function(){
-        $('#item_container_0').on("mouseout", function() {
-            $('#background_container_0').css('opacity','1');
-            $('#sub_title_0').css('transform','translateY(0%)');
-            $('#sub_title_0_back').css('transform','translateY(200%)');
-
-        });
-    });
-    $(function(){
-        $('#item_container_0').on("click", function() {
-            $('#main_container_0').css('transform','translateY(-100%)');
-            $('#main_container_1').css('transform','translateY(0px)');
-
-        });
-    });
-    //1st or top left div
-    //1st or top left div
-    //1st or top left div
-
-
-    //2nd or top right div
-    //2nd or top right div
-    //2nd or top right div
-    $(function(){
-        $('#item_container_1').on("mouseover", function() {
-            $('#background_container_1').css('opacity','0.8');
-            $('#sub_title_1').css('transform','translateY(-100%)');
-            $('#sub_title_1_back').css('transform','translateY(0%)');
-        });
-    });
-
-    $(function(){
-        $('#item_container_1').on("mouseout", function() {
-            $('#background_container_1').css('opacity','1');
-            $('#sub_title_1').css('transform','translateY(0%)');
-            $('#sub_title_1_back').css('transform','translateY(200%)');
-        });
-    });
-
-    $(function(){
-        $('#item_container_1').on("click", function() {
-            $('#main_container_0').css('transform','translateY(-100%)');
-            $('#main_container_2').css('transform','translateY(0px)');
-
-        });
-    });
-    //2nd or top right div
-    //2nd or top right div
-    //2nd or top right div
-
-    //3rd or bottom left div
-    //3rd or bottom left div
-    //3rd or bottom left div
-    $(function(){
-        $('#item_container_2').on("mouseover", function() {
-            $('#background_container_2').css('opacity','0.8');
-            $('#sub_title_2').css('transform','translateY(-100%)');
-            $('#sub_title_2_back').css('transform','translateY(0%)');
-        });
-    });
-
-    $(function(){
-        $('#item_container_2').on("mouseout", function() {
-            $('#background_container_2').css('opacity','1');
-            $('#sub_title_2').css('transform','translateY(0%)');
-            $('#sub_title_2_back').css('transform','translateY(200%)');
-        });
-    });
-    $(function(){
-        $('#item_container_2').on("click", function() {
-            $('#main_container_0').css('transform','translateY(-100%)');
-            $('#main_container_3').css('transform','translateY(0px)');
-
-        });
-    });
-    //3rd or bottom left div
-    //3rd or bottom left div
-    //3rd or bottom left div
-
-    //4th or bottom right div
-    //4th or bottom right div
-    //4th or bottom right div
-    $(function(){
-        $('#item_container_3').on("mouseover", function() {
-            $('#background_container_3').css('opacity','0.8');
-            $('#sub_title_3').css('transform','translateY(-100%)');
-            $('#sub_title_3_back').css('transform','translateY(0%)');
-        });
-    });
-
-    $(function(){
-        $('#item_container_3').on("mouseout", function() {
-            $('#background_container_3').css('opacity','1');
-            $('#sub_title_3').css('transform','translateY(0%)');
-            $('#sub_title_3_back').css('transform','translateY(200%)');
-        });
-    });
-    $(function(){
-        $('#item_container_3').on("click", function() {
-            $('#main_container_0').css('transform','translateY(-100%)');
-            $('#main_container_4').css('transform','translateY(0px)');
-
-        });
-    });
-    //4th or bottom right div
-    //4th or bottom right div
-    //4th or bottom right div
-
-
-
-});
-
-
-
-$(document).ready(function(){
-
-    var isInsuranceQuoteDisplay=0;
-    var isInsuranceInputDisplay=0;
-    var isInsuranceResultDisplay=0;
-
-
-
-    $(function(){//insurance select page fucntions
-
-
-        $('#select_insurance_type_div_close_button').on("click", function() {
-            $('#main_container_1').css('transform','translateY(100%)');
-            $('#main_container_0').css('transform','translateY(0%)');
-
-        });
-
-        //life insurance button
-        //life insurance button
-        //life insurance button
-        $('#life_insurance_button_div').on("click", function() {
-            $('#insurance_quote_0').css('transform','translateY(5%)');
-            setTimeout(function() {
-                isInsuranceInputDisplay=1;
-            }, 10);
-        });
-        //life insurance button
-        //life insurance button
-        //life insurance button
-
-
-
-
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-        $('#main_header').on("click", function() {
-            if(isInsuranceInputDisplay==1){
-                $('#insurance_quote_0').css('transform','translateY(100%)');
-                isInsuranceInputDisplay=0;
-            }
-            if(isInsuranceResultDisplay==1){
-                $('#insurance_quote_0_result').css('transform','translateY(100%)');
-                isInsuranceResultDisplay=0;
-            }
-        });
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-        //select insurance page clicked main header is rendered here, because select insurance page is covered by the main header
-
-        //life insurance button div hover functions
-        //life insurance button div hover functions
-        //life insurance button div hover functions
-        $('#life_insurance_button_div').on("mouseover", function() {
-            //$('#life_insurance_button').css('transform','translateY(20%)');
-        });
-        $('#life_insurance_button_div').on("mouseout", function() {
-            //$('#life_insurance_button').css('transform','translateY(65%)');
-        });
-        //life insurance button div hover functions
-        //life insurance button div hover functions
-        //life insurance button div hover functions
-
-        //group insurance button div hover functions
-        //group insurance button div hover functions
-        //group insurance button div hover functions
-        $('#group_insurance_button_div').on("mouseover", function() {
-            //$('#group_insurance_button').css('transform','translateY(20%)');
-        });
-        $('#group_insurance_button_div').on("mouseout", function() {
-            //$('#group_insurance_button').css('transform','translateY(65%)');
-        });
-        //group insurance button div hover functions
-        //group insurance button div hover functions
-        //group insurance button div hover functions
-
-        //illness insurance button div hover functions
-        //illness insurance button div hover functions
-        //illness insurance button div hover functions
-        $('#illness_insurance_button_div').on("mouseover", function() {
-            //$('#illness_insurance_button').css('transform','translateY(20%)');
-        });
-        $('#illness_insurance_button_div').on("mouseout", function() {
-            //$('#illness_insurance_button').css('transform','translateY(65%)');
-        });
-        //illness insurance button div hover functions
-        //illness insurance button div hover functions
-        //illness insurance button div hover functions
-
-        //general insurance button div hover functions
-        //general insurance button div hover functions
-        //general insurance button div hover functions
-        $('#general_insurance_button_div').on("mouseover", function() {
-            //$('#general_insurance_button').css('transform','translateY(20%)');
-        });
-        $('#general_insurance_button_div').on("mouseout", function() {
-            //$('#general_insurance_button').css('transform','translateY(65%)');
-        });
-        //general insurance button div hover functions
-        //general insurance button div hover functions
-        //general insurance button div hover functions
-
-
-        //close select insurance type page close button hover functions
-        //close select insurance type page close button hover functions
-        //close select insurance type page close button hover functions
-        $('#select_insurance_type_div_close_button').on('mouseover',  function() {
-            $('#select_insurance_type_div_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#select_insurance_type_div_close_button_back').css('width', '250%');
-            $('#select_insurance_type_div_close_text').css('opacity', '1');
-
-        });
-        $('#select_insurance_type_div_close_button').on('mouseout',  function() {
-            $('#select_insurance_type_div_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#select_insurance_type_div_close_button_back').css('width', '100%');
-            $('#select_insurance_type_div_close_text').css('opacity', '0');
-        });
-        //close select insurance type page close button hover functions
-        //close select insurance type page close button hover functions
-        //close select insurance type page close button hover functions
-
-    });
-
-
-    $(function(){//life insurance page functions
-
-        $('#insurance_quote_0_close_button').on("click", function() {
-            $('#insurance_quote_0').css('transform','translateY(100%)');
-            isInsuranceInputDisplay=0;
-        });
-
-
-        //life insurance submit button
-        //life insurance submit button
-        //life insurance submit button
-        $('#insurance_quote_0_submit_button').on("click", function() {
-            $('#insurance_quote_0_result').css('transform','translateY(10%)');
-            setTimeout(function() {
-                isInsuranceResultDisplay=1;
-            }, 10);
-        });
-        //life insurance submit button
-        //life insurance submit button
-        //life insurance submit button
-
-
-
-
-        //life insurance page clicked
-        //life insurance page clicked
-        //life insurance page clicked
-        $('#insurance_quote_0').on("click", function() {
-            if(isInsuranceResultDisplay==1){
-                $('#insurance_quote_0_result').css('transform','translateY(100%)');
-                isInsuranceResultDisplay=0;
-            }
-        });
-        //life insurance page clicked
-        //life insurance page clicked
-        //life insurance page clicked
-
-
-
-    });
-
-    $(function(){//quote result function
-        //life insurance close
-        //life insurance close
-        //life insurance close
-        $('#insurance_quote_0_result_close_button').on("click", function() {
-            isInsuranceResultDisplay=0;
-            $('#insurance_quote_0_result').css('transform','translateY(100%)');
-
-        });
-        //life insurance close
-        //life insurance close
-        //life insurance close
-
-
-        //close quote result page close button hover functions
-        //close quote result page close button hover functions
-        //close quote result page close button hover functions
-        $('#insurance_quote_0_result_close_button').on('mouseover',  function() {
-            $('#insurance_quote_0_result_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#insurance_quote_0_result_close_button_back').css('width', '250%');
-            $('#insurance_quote_0_result_close_text').css('opacity', '1');
-
-        });
-        $('#insurance_quote_0_result_close_button').on('mouseout',  function() {
-            $('#insurance_quote_0_result_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#insurance_quote_0_result_close_button_back').css('width', '100%');
-            $('#insurance_quote_0_result_close_text').css('opacity', '0');
-        });
-        //close quote result page close button hover functions
-        //close quote result page close button hover functions
-        //close quote result page close button hover functions
-    });
-});
-
-
-
-document.writeln("<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js'> </script>")
-
-
-$(document).ready(function(){
-
-
-
-    $(function(){
-        $('#download_pdf_button').on('click',  function() {
-
-            html2canvas($("#result_div"), {
-                onrendered: function(canvas) {
-                    var imgData = canvas.toDataURL('image/png');
-                    var doc = jsPDF('p','mm');
-                    doc.addImage(imgData,'PNG',15, 40, 180, 180);
-                    doc.save('test.pdf');
-                }
-            });
-
-        });
-    });
-
-    //
-    // $(function(){
-    //
-    //     html2canvas($("#result_div"), {
-    //         onrendered: function(canvas) {
-    //             var imgData = canvas.toDataURL('image/png');
-    //             var doc = jsPDF('p','mm');
-    //             doc.addImage(imgData,'PNG',15, 40, 180, 180);
-    //             var pdf = doc.output('datauristring');
-    //         }
-    //     });
-    //
-    //
-    // });
-});
-// //---------------test select from database
-// $(document).ready(function() {
-//     function isEmailExist (sql_query) {
-//         $.ajax( {
-//             type : 'POST',
-//             data : {sql_query:sql_query },
-//             url  : 'http://localhost:3000/wp-content/themes/dongwang/database/selectfromdata.php',              // <=== CALL THE PHP FUNCTION HERE.
-//             success: function ( data ) {
-//                 alert( data );
-//                 // <=== VALUE RETURNED FROM FUNCTION.
-//             },
-//             error: function ( xhr ) {
-//                 alert( "error" );
-//             }
-//         });
-//     };
-//     //---------------
-//     $('.main_header').on('click', '#login_button', function() {
-//         // alert("login is clicked");
-//         var email = $('#email').val();
-//         //var sql_query="SELECT email FROM MyGuests WHERE email LIKE '%"+email+"%'"
-//         var sql_query="SELECT email FROM MyGuests WHERE email = 'qwe' ";
-//
-//         isEmailExist(sql_query);
-//
-//
-//     });
-//
-//
-// });
-
-document.writeln("<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js'> </script>")
-
-$(document).ready(function(){
-    var gender="先生";//0=mr 1=miss
-    var issmoke="否";//0=no 1=yes
-    var iscontact=0;//0=no contact 1= message 2=phone 3=email
-    var first_name;
-    var last_name;
-    var phone_number;
-    var email_address;
-    var age;
-    var baoe=0;
-
-
-
-    $(function(){//life insurance page functions
-        //close life insurance page close button hover functions
-        //close life insurance page close button hover functions
-        //close life insurance page close button hover functions
-        $('#insurance_quote_0_close_button').on('mouseover',  function() {
-            $('#insurance_quote_0_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#insurance_quote_0_close_button_back').css('width', '250%');
-            $('#insurance_quote_0_close_text').css('opacity', '1');
-
-        });
-        $('#insurance_quote_0_close_button').on('mouseout',  function() {
-            $('#insurance_quote_0_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#insurance_quote_0_close_button_back').css('width', '100%');
-            $('#insurance_quote_0_close_text').css('opacity', '0');
-        });
-        //close life insurance page close button hover functions
-        //close life insurance page close button hover functions
-        //close life insurance page close button hover functions
-
-        //life insurance page submit button hover functions
-        //life insurance page submit button hover functions
-        //life insurance page submit button hover functions
-        $('#insurance_quote_0_submit_button').on('mouseover',  function() {
-            $('#insurance_quote_0_submit_button').css('opacity', '1');
-
-        });
-        $('#insurance_quote_0_submit_button').on('mouseout',  function() {
-            $('#insurance_quote_0_submit_button').css('opacity', '0.7');
-        });
-        //life insurance page submit button hover functions
-        //life insurance page submit button hover functions
-        //life insurance page submit button hover functions
-
-        //select gender function
-        //select gender function
-        //select gender function
-        $('#title_mr').on('click',  function() {
-            $('#title_mr').css('background-color', '#42c2f4');
-            $('#title_miss').css('background-color', 'white');
-            gender="先生";
-            //test
-
-
-
-
-
-            //test
-        });
-        $('#title_miss').on('click',  function() {
-            $('#title_mr').css('background-color', 'white');
-            $('#title_miss').css('background-color', '#42c2f4');
-            gender="女士";
-            //test
-
-            //test
-        });
-        //select gender function
-        //select gender function
-        //select gender function
-
-        //select smoke function
-        //select smoke function
-        //select smoke function
-        $('#smoke_yes').on('click',  function() {
-            $('#smoke_yes').css('background-color', '#42c2f4');
-            $('#smoke_no').css('background-color', 'white');
-            issmoke="是";
-        });
-        $('#smoke_no').on('click',  function() {
-            $('#smoke_yes').css('background-color', 'white');
-            $('#smoke_no').css('background-color', '#42c2f4');
-            issmoke="否";
-        });
-        //select smoke function
-        //select smoke function
-        //select smoke function
-
-
-        //select contact method function
-        //select contact method function
-        //select contact method function
-        $('#message').on('click',  function() {
-            $('#message').css('background-color', '#42c2f4');
-            $('#phone').css('background-color', 'white');
-            $('#email_0').css('background-color', 'white');
-            $('#no_contact').css('background-color', 'white');
-            iscontact=1;
-        });
-        $('#phone').on('click',  function() {
-            $('#message').css('background-color', 'white');
-            $('#phone').css('background-color', '#42c2f4');
-            $('#email_0').css('background-color', 'white');
-            $('#no_contact').css('background-color', 'white');
-            iscontact=2;
-        });
-        $('#email_0').on('click',  function() {
-            $('#message').css('background-color', 'white');
-            $('#phone').css('background-color', 'white');
-            $('#email_0').css('background-color', '#42c2f4');
-            $('#no_contact').css('background-color', 'white');
-            iscontact=3;
-        });
-        $('#no_contact').on('click',  function() {
-            $('#message').css('background-color', 'white');
-            $('#phone').css('background-color', 'white');
-            $('#email_0').css('background-color', 'white');
-            $('#no_contact').css('background-color', '#42c2f4');
-            iscontact=0;
-        });
-        //select contact method function
-        //select contact method function
-        //select contact method function
-
-        //select baoe function
-        //select baoe function
-        //select baoe function
-        $('#_5wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_5wan').css('background-color', '#42c2f4');
-            baoe=5;
-        });
-        $('#_10wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_10wan').css('background-color', '#42c2f4');
-            baoe=10;
-        });
-        $('#_20wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_20wan').css('background-color', '#42c2f4');
-            baoe=20;
-        });
-        $('#_30wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_30wan').css('background-color', '#42c2f4');
-            baoe=30;
-        });
-
-        $('#_40wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_40wan').css('background-color', '#42c2f4');
-            baoe=40;
-        });
-        $('#_50wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_50wan').css('background-color', '#42c2f4');
-            baoe=50;
-        });
-        $('#_100wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_100wan').css('background-color', '#42c2f4');
-            baoe=100;
-        });
-        $('#_200wan').on('click',  function() {
-            setallbaoewhite()
-            $('#_200wan').css('background-color', '#42c2f4');
-            baoe=200;
-        });
-        function setallbaoewhite() {
-            $('#_5wan').css('background-color', 'white');
-            $('#_10wan').css('background-color', 'white');
-            $('#_20wan').css('background-color', 'white');
-            $('#_30wan').css('background-color', 'white');
-            $('#_40wan').css('background-color', 'white');
-            $('#_50wan').css('background-color', 'white');
-            $('#_100wan').css('background-color', 'white');
-            $('#_200wan').css('background-color', 'white');
-        };
-
-        //select baoe function
-        //select baoe function
-        //select baoe function
-
-        //life insurance submit button
-        //life insurance submit button
-        //life insurance submit button
-        $('#insurance_quote_0_submit_button').on("click", function() {
-            first_name=$('#first_name_input_lii').val();
-            last_name=$('#last_name_input_lii').val();
-            age=$('#age_input').val();
-            email_address=$('#email_input').val();
-            phone_number=$('#phone_number_input').val();
-            var html=first_name+" "+last_name+" "+gender+","+age+"岁，"+"是否吸烟："+issmoke+"，选择保额"+baoe+"万，" +
-                "电话：" +phone_number+"，email:"+email_address+"，希望通过"+iscontact+"联系他／她";
-            sendquoteemail(html);
-        });
-        //life insurance submit button
-        //life insurance submit button
-        //life insurance submit button
-
-
-    });
-
-    //-----------------------post to email sending php file
-    function sendquoteemail (html) {
-        $.ajax( { type : 'POST',
-            data : { html:html},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/email/testemail.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert(data);               // <=== VALUE RETURNED FROM FUNCTION.
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-
-});
-
-
-
-$(document).ready(function() {
-//close  login page by click close button in  login page
-$('#login_page').on('click', '#login_close_button', function() {
-
-    $('#login_page').css('transform', 'translate3d(100%,0px,0px)');
-
-});
-//close button hover functions
-//close button hover functions
-//close button hover functions
-$('#login_close_button').on('mouseover',  function() {
-    $('#login_close_cross_X').css('transform', 'rotate(90deg)');
-    $('#login_close_button_back').css('width', '250%');
-    $('#login_close_text').css('opacity', '1');
-
-});
-$('#login_close_button').on('mouseout',  function() {
-    $('#login_close_cross_X').css('transform', 'rotate(0deg)');
-    $('#login_close_button_back').css('width', '100%');
-    $('#login_close_text').css('opacity', '0');
-});
-//close button hover functions
-//close button hover functions
-//close button hover functions
-});
-
-$(document).ready(function(){
-//-----------------
-    function login (username,password) {
-        $.ajax( { type : 'POST',
-            data : {username:username,
-                    password:password},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/login/login_session.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                alert(data);
-                var result = $.trim(data);//replace the fucking space that you can't see
-                if(result=='1'){
-                    login_welcome();
-                    updatelogin_button();
-                }              // <=== VALUE RETURNED FROM FUNCTION.
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-
-    function login_welcome() {
-        $('#login_page').css('transform', 'translate3d(-100%,0px,0px)');
-        $('#welcome_page').css('transform', 'translate3d(0px,0px,0px)');
-        var delay=3000; //1 second
-
-        setTimeout(function() {
-            $('#welcome_page').css('transform', 'translate3d(-100%,0px,0px)');
-        }, delay);
-        setTimeout(function() {
-        $('#login_page').css('display', 'none');
-        $('#welcome_page').css('display', 'none');;
-        $('#login_page').css('transform', 'translate3d(100%,0px,0px)');
-        $('#welcome_page').css('transform', 'translate3d(100%,0px,0px)');
-        }, 4000);
-        setTimeout(function() {
-            $('#welcome_page').css('display', 'block');
-            $('#login_page').css('display', 'block');
-        }, 5000);
-
-    }
-    function updatelogin_button(){
-        //update login button here
-        //
-        //
-        //
-        //
-        //
+    $sort_option='id';
+    $sort_direction='up';
+    $sort_type='string';
+    $id='unknown';
+    $name='unknown';
+    $email='unknown';
+    $phone_number='unknown';
+    $wechat='unknown';
+    $start_payDate='unknown';
+    $end_payDate='unknown';
+    $insurance_number='unknown';
+    $payment_amount='unknown';
+    $insurance_type='unknown';
+    $event_status='unknown';
+
+    function set_sort_parameter(sort_option,sort_direction,sort_type){
+        $sort_option=sort_option;
+        $sort_direction=sort_direction;
+        $sort_type=sort_type;
     }
 
-    $('#login_page').on('click', '#login_button_loginpage', function() {
-
-        login("dongwang","liuying123");
-
-    });
-
-    $('.main_container').on('click', '#search_button', function() {
-
-
-        login("getusername","xxx");
-
-    });
-});
-
-
-$(document).ready(function() {
-
-
-    //close menu by click close button in menu page
-    $('#menu').on('click', '#menu_close_button', function() {
-
-        $('#menu').css('transform', 'translate3d(-100%,0px,0px)');
-    });
-
-    //hover close button in menu page
-    //hover close button in menu page
-    //hover close button in menu page
-    $('#menu_close_button').on('mouseover',  function() {
-        $('#cross_X').css('transform', 'rotate(90deg)');
-        $('#menu_close_button_back').css('width', '250%');
-        $('#menu_close_text').css('opacity', '1');
-
-    });
-    $('#menu_close_button').on('mouseout',  function() {
-        $('#cross_X').css('transform', 'rotate(0deg)');
-        $('#menu_close_button_back').css('width', '100%');
-        $('#menu_close_text').css('opacity', '0');
-
-    });
-    //hover close button in menu page
-    //hover close button in menu page
-    //hover close button in menu page
-
-
-    //open customer information input page by click add customer button in menu page
-    $('#menu').on('click', '#add_customer_button', function() {
-
-        $('#add_customer').css('transform', 'translate3d(0px,0px,0px)');
-        $('#menu').css('transform', 'translate3d(100%,0px,0px)');
-
-    });
-    //open system manage page
-    $('#menu').on('click', '#manage_email_button', function() {
-
-        $('#system_manage_page').css('transform', 'translate3d(0px,0px,0px)');
-        $('#menu').css('transform', 'translate3d(100%,0px,0px)');
-
-    });
-    //hover close button in customer information input page
-    //hover close button in customer information input page
-    //hover close button in customer information input page
-    $('#add_customer_close_button').on('mouseover',  function() {
-        $('#cross_X_addpage').css('transform', 'rotate(90deg)');
-        $('#add_customer_button_back').css('width', '250%');
-        $('#add_customer_close_text').css('opacity', '1');
-
-    });
-    $('#add_customer_close_button').on('mouseout',  function() {
-        $('#cross_X_addpage').css('transform', 'rotate(0deg)');
-        $('#add_customer_button_back').css('width', '100%');
-        $('#add_customer_close_text').css('opacity', '0');
-
-    });
-    //hover close button in customer information input page
-    //hover close button in customer information input page
-    //hover close button in customer information input page
-
-
-
-});
-
-
-
-
-$(document).ready(function(){
-
-    var isSelfServiceResultDisplay=0;
-    var isInsuranceResultDisplay=0;
-
-    function posttoselectinsurancebyid (insurance_num) {
+    function set_date_format(date){
+        date=date.split("-");
+        return date[0]+date[1]+date[2];
+    }
+    function post_sortORfilter_request () {
+        //alert($start_payDate);
         $.ajax( { type : 'POST',
-            data : { insurance_num:insurance_num},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/selectinsurancebyid.php',              // <=== CALL THE PHP FUNCTION HERE.
+            data : {
+                sort_option:$sort_option,//sort option && index
+                sort_direction:$sort_direction,//sort direction && value
+                sort_type:$sort_type,
+                id:$id,
+                name:$name,
+                email:$email,
+                phone_number:$phone_number,
+                wechat:$wechat,
+                start_payDate:$start_payDate,
+                end_payDate:$end_payDate,
+                insurance_number:$insurance_number,
+                payment_amount:$payment_amount,
+                insurance_type:$insurance_type,
+                event_status:$event_status
+            },
+            url  : host+'wp-content/themes/dongwang/xml/load_xml/load_xml_to_manage_payment_event.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
-            alert(data);
-                $('#ssr_main_div').empty();
-                $('#ssr_main_div').append(data);               // <=== VALUE RETURNED FROM FUNCTION.
+                $('#show_list_div_mpep').empty();
+                $('#show_list_div_mpep').append(data);
             },
             error: function ( xhr ) {
                 alert( "error" );
             }
         });
     };
-    function refresh_result_page () {
-        $.ajax( { type : 'POST',
-            data : { },
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/templates/self_service_result.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert("new customer added");               // <=== VALUE RETURNED FROM FUNCTION.
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-
-    $(function(){
-
-
-        //self_service_input close
-        $('#self_service_input_div_close_button').on("click", function() {
-            $('#main_container_2').css('transform','translateY(100%)');
-            $('#main_container_0').css('transform','translateY(0%)');
-
-        });
-
-        //self_service_result open
-        $('#self_service_submit_button').on("click", function() {
-            $('#self_service_result').css('transform','translateY(5%)');
-            setTimeout(function() {
-                isSelfServiceResultDisplay=1;
-            }, 10);
-
-            posttoselectinsurancebyid($('#self_service_input').val());
-            // setTimeout(function() {
-            //     refresh_result_page();
-            //
-            // }, 100);
-
-        });
-        //self_service_result close
-        $('#self_service_result_close_button').on("click", function() {
-            isSelfServiceResultDisplay=0;
-            $('#self_service_result').css('transform','translateY(100%)');
-
-        });
-
-        $('#self_service_input_div').on("click", function() {
-            if(isSelfServiceResultDisplay==1){
-                $('#self_service_result').css('transform','translateY(100%)');
-                isSelfServiceResultDisplay=0;
-            }
-        });
-
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-        $('#self_service_input_div_close_button').on('mouseover',  function() {
-            $('#self_service_input_div_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#self_service_input_div_close_button_back').css('width', '250%');
-            $('#self_service_input_div_close_button_text').css('opacity', '1');
-
-        });
-        $('#self_service_input_div_close_button').on('mouseout',  function() {
-            $('#self_service_input_div_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#self_service_input_div_close_button_back').css('width', '100%');
-            $('#self_service_input_div_close_button_text').css('opacity', '0');
-        });
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-
-        //确认 button hover functions
-        //确认 button hover functions
-        //确认 button hover functions
-        $('#self_service_submit_button').on('mouseover',  function() {
-            $('#ss_submit_bt_bot_line').css('width', '6%');
-
-        });
-        $('#self_service_submit_button').on('mouseout',  function() {
-            $('#ss_submit_bt_bot_line').css('width', '0%');
-        });
-        //确认 button hover functions
-        //确认 button hover functions
-        //确认 button hover functions
-
-    });
-
-
-});
-
-
-
-$(document).ready(function(){
-    $(function(){
-
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#self_service_result_close_button').on('mouseover',  function() {
-            $('#self_service_result_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#self_service_result_close_button_back').css('width', '250%');
-            $('#self_service_result_close_button_text').css('opacity', '1');
-
-        });
-        $('#self_service_result_close_button').on('mouseout',  function() {
-            $('#self_service_result_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#self_service_result_close_button_back').css('width', '100%');
-            $('#self_service_result_close_button_text').css('opacity', '0');
-        });
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#self_service_result_close_button').on('click',  function() {
-            $('#self_service_result').css('transform','translateY(5%)');
-            $('#self_service_result').css('transform','translateY(100%)');
-        });
-    });
-});
-
-
-$(document).ready(function() {
-    //-----------------------post sql query
-    function posttodatabase (sql_query) {
+    function postToDatabase (sql_query,status,event_id) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
+            url  : host+'wp-content/themes/dongwang/database/posttodatabase.php',              // <=== CALL THE PHP FUNCTION HERE.
             success: function ( data ) {
-                alert("new customer added");               // <=== VALUE RETURNED FROM FUNCTION.
+                alert("事件ID为:"+event_id+"的支付事件状态已修改为["+status.split('?')[0]+
+                        "],修改日期为["+status.split('?')[1]+"]");
             },
             error: function ( xhr ) {
                 alert( "error" );
             }
         });
     };
-//function validateEmail($email):  check if the customer already exsit by checking the pk email,
-// if not exist add new customer to the database by calling posttodatabase function
-    function validateEmail($email) {
-        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        return emailReg.test( $email );
-    }
-    //-------------
-    function isEmailExist (sql_query_isexsit,sql_query_insert) {
-        $.ajax( {
-            type : 'POST',
-            data : {sql_query:sql_query_isexsit },
-            url  : 'http://localhost:3000/wp-content/themes/dongwang/database/isEmailExist.php',              // <=== CALL THE PHP FUNCTION HERE.
-            success: function ( data ) {
-                //alert( data );
-                if(data=="false"){
+//-------------------------
+    $('#id_sort_up_mpep').on('click', function(){
+        set_sort_parameter('id','up','string');
+        post_sortORfilter_request();
+    });
+    $('#id_sort_down_mpep').on('click', function(){
+        set_sort_parameter('id','down','string');
+        post_sortORfilter_request();
+    });
+    $('#name_sort_up_mpep').on('click', function(){
+        set_sort_parameter('name','up','string');
+        post_sortORfilter_request();
+    });
+    $('#name_sort_down_mpep').on('click', function(){
+        set_sort_parameter('name','down','string');
+        post_sortORfilter_request();
+    });
+    $('#email_sort_up_mpep').on('click', function(){
+        set_sort_parameter('email','up','string');
+        post_sortORfilter_request();
+    });
+    $('#email_sort_down_mpep').on('click', function(){
+        set_sort_parameter('email','down','string');
+        post_sortORfilter_request();
+    });
+    $('#phone_number_up_mpep').on('click', function(){
+        set_sort_parameter('phone_number','up','number');
+        post_sortORfilter_request();
+    });
+    $('#phone_number_down_mpep').on('click', function(){
+        set_sort_parameter('phone_number','down','number');
+        post_sortORfilter_request();
+    });
+    $('#wechat_up_mpep').on('click', function(){
+        set_sort_parameter('wechat','up','string');
+        post_sortORfilter_request();
+    });
+    $('#wechat_down_mpep').on('click', function(){
+        set_sort_parameter('wechat','down','string');
+        post_sortORfilter_request();
+    });
+    $('#pay_date_sort_up_mpep').on('click', function(){
+        set_sort_parameter('payment_date','up','number');
+        post_sortORfilter_request();
+    });
+    $('#pay_date_sort_down_mpep').on('click', function(){
+        set_sort_parameter('payment_date','down','number');
+        post_sortORfilter_request();
+    });
+    $('#insurance_number_up_mpep').on('click', function(){
+        set_sort_parameter('insurance_num','up','string');
+        post_sortORfilter_request();
+    });
+    $('#insurance_number_down_mpep').on('click', function(){
+        set_sort_parameter('insurance_num','down','number');
+        post_sortORfilter_request();
+    });
+    $('#payment_amount_up_mpep').on('click', function(){
+        set_sort_parameter('payment_amount','up','number');
+        post_sortORfilter_request();
+    });
+    $('#payment_amount_down_mpep').on('click', function(){
+        set_sort_parameter('payment_amount','down','number');
+        post_sortORfilter_request();
+    });
+    $('#insurance_type_up_mpep').on('click', function(){
+        set_sort_parameter('insurance_type','up','string');
+        post_sortORfilter_request();
+    });
+    $('#insurance_type_down_mpep').on('click', function(){
+        set_sort_parameter('insurance_type','down','string');
+        post_sortORfilter_request();
+    });
 
-                    alert("email is exist");
+    $('#event_status_up_mpep').on('click', function(){
+        set_sort_parameter('event_status','up','string');
+        post_sortORfilter_request();
+    });
+    $('#event_status_down_mpep').on('click', function(){
+        set_sort_parameter('event_status','down','string');
+        post_sortORfilter_request();
+    });
+    $('#search_button_mpep').on('click', function(){
+        $id='unknown';
+        $name='unknown';
+        $email='unknown';
+        $phone_number='unknown';
+        $wechat='unknown';
+        $start_payDate='unknown';
+        $end_payDate='unknown';
+        $insurance_number='unknown';
+        $payment_amount='unknown';
+        $insurance_type='unknown';
+        $event_status='unknown';
 
-                }
-                else {
-                    // <=== VALUE RETURNED FROM FUNCTION.
-                    posttodatabase(sql_query_insert);
 
-                }
-            },
-            error: function ( xhr ) {
-                alert( "error" );
-            }
-        });
-    };
-   //------------
-
-
-
-    //-----------
-    $('#add_customer').on('click', '#submit_button', function () {
-        var first_name = $('#first_name').val();
-        var last_name = $('#last_name').val();
-        var email = $('#email').val();
-        var phone_number = $('#phone_number').val();
-        var address = $('#address').val();
-        var city = $('#city').val();
-        var post_code = $('#post_code').val();
-        var additional_information_input_field = $('#additional_information_input_field').val();
-
-        if(!validateEmail(email)||email==""){//validate email format
-
-            alert("email address is invalid");
+        if($('#id_input_mpep').val()!=''){
+            $id=$('#id_input_mpep').val();
         }
-        else {
-            var sql_query_isexsit="SELECT email FROM Customers WHERE email = '"+email+"' ";
-            var sql_query_insert = "INSERT INTO Customers (firstname, lastname, email) " +
-                "VALUES ('" + first_name + "', '" + last_name + "','" + email + "')";
-            isEmailExist(sql_query_isexsit,sql_query_insert);
+        if($('#name_input_mpep').val()!=''){
+            $name=$('#name_input_mpep').val();
         }
+        if($('#email_input_mpep').val()!=''){
+            $email=$('#email_input_mpep').val();
+        }
+        if($('#phone_number_input_mpep').val()!=''){
+            $phone_number=$('#phone_number_input_mpep').val();
+        }
+        if($('#wechat_input_mpep').val()!=''){
+            $wechat=$('#wechat_input_mpep').val();
+        }
+        if($('#paydate_start_input_mpep').val()!=''){
+            $start_payDate=$('#paydate_start_input_mpep').val();
+            $start_payDate=set_date_format($start_payDate);
+        }
+        if($('#paydate_end_input_mpep').val()!=''){
+            $end_payDate=$('#paydate_end_input_mpep').val();
+            $end_payDate=set_date_format($end_payDate);
+        }
+        if($('#insurance_number_input_mpep').val()!=''){
+            $insurance_number=$('#insurance_number_input_mpep').val();
+        }
+        if($('#insurance_type_input_mpep').val()!=''){
+            $insurance_type=$('#insurance_type_input_mpep').val();
+        }
+        if($('#event_status_input_mpep').val()!=''){
+            $event_status=$('#event_status_input_mpep').val();
+        }
+
+
+        post_sortORfilter_request();
+    });
+    $(document).on('click', '.status_change_button',function () {
+        //compute event_id
+        //alert("test");
+
+        $element_id=jQuery(this).attr("id").replace('change_button_','');
+        $year_id="#payment_date_"+$element_id;
+        $event_id='#id_'+$element_id;
+        $event_id=parseInt($($event_id).text());
+        $year=$($year_id).text().replace(/\s/g, '').substring(0, 4);;
+        changePaymentStatus(jQuery(this).text(),$event_id,$year);
 
     });
 
+    function changePaymentStatus(innertext,event_id,year) {
+        var date = new Date();
+        $date=""+date.getFullYear()+""+('0' + (date.getMonth()+1)).slice(-2)+
+            ""+('0' + date.getDate()).slice(-2);
+        //set event status
+        if(innertext=="设为已支付"){
+            $status="已支付?"+$date;
+            $eventIdAndTableName=event_id+"-"+"send_plan_"+year;
+            postToPaymentDondAPI($eventIdAndTableName);
+        }
+        else{
+            $status="未支付?"+$date;
+            editSendEvent($event_id);//MOVE SEND EVENT FROM CANCELED EMAIL TO SEND PLAN
+
+        }
+        $sql="UPDATE payment_event SET event_status='"+$status+"'WHERE id="+event_id;
+        postToDatabase($sql,$status,event_id)
+        //post_sortORfilter_request ();//refresh the page
+        //set sql query
+
+    }
+    function editSendEvent(event_id){
+        $.ajax( { type : 'POST',
+            data : { event_id:event_id},
+            url  : host+'wp-content/themes/dongwang/database/edit_send_event.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                //alert(data);
+            },
+            error: function ( xhr ) {
+                alert( "error" );
+            }
+        });
+    }
+    function postToPaymentDondAPI(eventIdAndTableName) {//1281-send_plan_2017
+
+        $.ajax( { type : 'POST',
+            data : { eventIdAndTableName:eventIdAndTableName},
+            url  : host+'wp-content/themes/dongwang/database/payment_done_api.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                //alert(data);
+            },
+            error: function ( xhr ) {
+                alert( "error" );
+            }
+        });
+    }
+    // $('.payment_event_list').on('click', function () {
+    //     //alert(jQuery(this).attr("id"));
+    //     $('#edit_payment_event_page').css('transform', 'translateY(0)');
+    //     writeToEditPaymentevent(jQuery(this).attr("id"));
+    //     //writeToPopupDiv(jQuery(this).attr("id"), "send_plan.xml", 1);
+    // });
+    // function writeToEditPaymentevent(id) {
+    //     var index = id.replace('list_', '');
+    //     var id='#name_'+index;
+    //     //alert($(id).text());
+    //     $('#recipient_input_epep').val( $(id).text());
+    // };
 });
-
-
-
-
 
 $(document).ready(function(){
 
@@ -2108,11 +1185,12 @@ $(document).ready(function(){
         $('#set_email_smp').on('click', function () {
             resetall();
             $('#add_email_sned_plan_page').css('transform', 'translateX(0px)');
+            $('#double_check_page').css('transform', 'translateY(100%)');
         });
 
-        $('#general_set_smp').on('click', function () {
+        $('#manage_payment_event_smp').on('click', function () {
             resetall();
-            $('#general_set_page').css('transform', 'translateX(0px)');
+            $('#manage_payment_event_page').css('transform', 'translateX(0px)');
         });
         $('.send_history_list').on('click', function () {
             //alert(jQuery(this).attr("id"));
@@ -2140,6 +1218,8 @@ $(document).ready(function(){
         $('#email_send_plan_page').css('transform', 'translateX(-100%)');
         $('#add_email_sned_plan_page').css('transform', 'translateX(-100%)');
         $('#general_set_page').css('transform', 'translateX(-100%)');
+        $('#manage_payment_event_page').css('transform', 'translateX(-100%)');
+
 
     };
     function writeToPopupDiv(id, file, towhichphp) {
@@ -2152,32 +1232,4 @@ $(document).ready(function(){
 
     };
 
-});
-$(document).ready(function(){
-    $(function(){
-
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#tax_lecture_close_button').on('mouseover',  function() {
-            $('#tax_lecture_close_button_cross_X').css('transform', 'rotate(90deg)');
-            $('#tax_lecture_close_button_back').css('width', '250%');
-            $('#tax_lecture_close_button_text').css('opacity', '1');
-
-        });
-        $('#tax_lecture_close_button').on('mouseout',  function() {
-            $('#tax_lecture_close_button_cross_X').css('transform', 'rotate(0deg)');
-            $('#tax_lecture_close_button_back').css('width', '100%');
-            $('#tax_lecture_close_button_text').css('opacity', '0');
-        });
-        //close button hover functions
-        //close button hover functions
-        //close button hover functions
-
-        $('#tax_lecture_close_button').on('click',  function() {
-            $('#main_container_3').css('transform','translateY(100%)');
-            $('#main_container_0').css('transform','translateY(0%)');
-        });
-    });
 });

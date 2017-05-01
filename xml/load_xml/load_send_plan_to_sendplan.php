@@ -3,7 +3,7 @@
 $xml=simplexml_load_file($_SERVER['DOCUMENT_ROOT'].'/wp-content/themes/dongwang/xml/send_plan.xml') or die("Error: Cannot create object");
 
 $index=0;
-$issort=false;
+
 
 //set sort parameter
 $sort_option='id';
@@ -22,9 +22,7 @@ $startPayDate='unknown';
 $endPayDate='unknown';
 
 
-if(isset($_POST['issort'])){
-    $issort=$_POST['issort'];
-}
+
 if(isset($_POST['sort_option'])){
     $sort_option=$_POST['sort_option'];
 }
@@ -34,9 +32,9 @@ if(isset($_POST['sort_direction'])){
 if(isset($_POST['sort_type'])){
     $sort_type=$_POST['sort_type'];
 }
-if(isset($_POST['value'])){
-    $value=$_POST['value'];
-}
+//if(isset($_POST['value'])){
+//    $value=$_POST['value'];
+//}
 if(isset($_POST['name'])){
     $name=$_POST['name'];
 }
@@ -46,13 +44,13 @@ if(isset($_POST['email'])){
 if(isset($_POST['start_sendDate'])){
     $startSendDate=$_POST['start_sendDate'];
 }
-if(isset($_POST['endSendDate'])){
+if(isset($_POST['end_sendDate'])){
     $endSendDate=$_POST['end_sendDate'];
 }
-if(isset($_POST['startPayDate'])){
+if(isset($_POST['start_payDate'])){
     $startPayDate=$_POST['start_payDate'];
 }
-if(isset($_POST['endPayDate'])){
+if(isset($_POST['end_payDate'])){
     $endPayDate=$_POST['end_payDate'];
 }
 
@@ -84,10 +82,10 @@ if($email!='unknown'){
     $emails = filter_by_value_sp($emails,'email' , $email);
 }
 if($startSendDate!='unknown'&&$endSendDate!='unknown'){
-    $emails = filter_by_range_sp($emails,'email' , $startSendDate,$endSendDate);
+    $emails = filter_by_range_sp($emails,'send_date' , $startSendDate,$endSendDate);
 }
 if($startPayDate!='unknown'&&$endPayDate!='unknown'){
-    $emails = filter_by_range_sp($emails,'email' , $startPayDate,$endPayDate);
+    $emails = filter_by_range_sp($emails,'payment_date' , $startPayDate,$endPayDate);
 }
 //new filter function
 
@@ -141,6 +139,8 @@ foreach ($emails as &$node) {
               ";
     $index++;
 }
+echo "</ul>";
+
 //functions
 function filter_by_value_sp ($array, $index, $value){
     $newarray=array();

@@ -196,7 +196,7 @@
             <div class="custom_div_0" id="send_time_aesp">
                 <div class="row">
                     <div class="col-4">
-                       <label class="custom_label_0">何时提醒</label>
+                       <label class="custom_label_0">何时提醒:</label>
                     </div>
                     <div class="col-4">
                         <input type="checkbox" class="input_checkbox"
@@ -219,7 +219,7 @@
             <div class="custom_div_0" id="admin_cc_list">
                 <div class="row">
                     <div class="col-4">
-                        <label class="custom_label_0">抄送列表</label>
+                        <label class="custom_label_0">抄送列表:</label>
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="admin_cc_list_input_asep"
@@ -230,7 +230,7 @@
             <div class="custom_div_0" id="remind_method">
                 <div class="row">
                     <div class="col-4">
-                        <label class="custom_label_0">推送方式</label>
+                        <label class="custom_label_0">推送方式:</label>
                     </div>
                     <div class="col-2" id="remind_method_check_box" >
                         <input type="checkbox" class="input_checkbox"
@@ -251,4 +251,6 @@
             </div>
         </div>
     </div>
+    <?php get_template_part( 'templates/Admin_page/double_check_page' ); ?>
+
 </div>
