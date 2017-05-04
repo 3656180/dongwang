@@ -53,6 +53,14 @@ $(document).ready(function(){
             resetall();
             $('#manage_payment_event_page').css('transform', 'translateX(0px)');
         });
+
+        $('#manage_insurance_smp').on('click', function () {
+            resetall();
+            $('#manage_insurance_page').css('transform', 'translateX(0px)');
+            $('#edit_insurance_page').css('transform', 'translateY(100%)');
+
+        });
+
         $('.send_history_list').on('click', function () {
             //alert(jQuery(this).attr("id"));
             $('#pop_up_div_frame_smp').css('transform', 'translateX(0)');
@@ -80,6 +88,7 @@ $(document).ready(function(){
         $('#add_email_sned_plan_page').css('transform', 'translateX(-100%)');
         $('#general_set_page').css('transform', 'translateX(-100%)');
         $('#manage_payment_event_page').css('transform', 'translateX(-100%)');
+        $('#manage_insurance_page').css('transform', 'translateX(-100%)');
 
 
     };

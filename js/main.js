@@ -152,6 +152,7 @@ $(document).ready(function(){
         //$('#reminder_method_dcp').html($('#recipient_input_aesp').val());
 
     });
+});
 
 
     //---------------get insert sql array
@@ -160,100 +161,108 @@ $(document).ready(function(){
         var currentDate=getCurrentDate();
         var insuranceInfo='';
         var emails='';
+        var reminderOption=getReminderOption(sendPlan);
         if(sendInfo.insuranceType=='房屋保险'){
             insuranceInfo=sendInfo.homeinsuranceUsability+"?"+sendInfo.insuredAdress;
         }
         emails=emails+sendInfo.email+',';//add customer's email to email list;
         emails=emails+sendInfo.cc_list;//emails list contain customer's email which is the
-                                        //the first one, and admin email list 2nd to nth
-        //alert(emails);
-        //for loop of PAYMENT event table
-        for(var i=0; i<paymentDateArray.length;i++){
-            //alert('i='+i);
-            var paymentDate='';
-            var resultday=('0' + paymentDate+paymentDateArray[i].day).slice(-2);
-            var resultmonth=('0' + paymentDate+paymentDateArray[i].month).slice(-2);
-            var resultyear=paymentDateArray[i].year;
-            paymentDate=paymentDate+resultyear;
-            paymentDate=paymentDate+resultmonth;
-            paymentDate=paymentDate+resultday;
-            //alert(paymentDate);s
-            var sql="INSERT INTO payment_event (recipient,email,phone_number,wechat," +
-                "payment_amount,payment_date,insurance_number,admin,event_status,insurance_type," +
-                "insurance_info)" +
-                "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
-                "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
-                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
-                sendInfo.insuranceType+"','"+insuranceInfo+"')";
-            var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
 
-            insertToDatabase(sql,sendDateArray,paymentDate,
-                            function(currentPayEventId,sendDateArray,paymentDate) {
-                //for loop of SEND EMAIL event table
-                for(var j=0; j<sendDateArray.length;j++) {
-                    var sendDate = '';
-                    sendDate = sendDate + sendDateArray[j].year;
-                    sendDate = sendDate + sendDateArray[j].month;
-                    sendDate = sendDate + sendDateArray[j].day;
-                    var htmlInfo={  recipient:sendInfo.recipient,
-                                    paymentAmount:sendInfo.paymentAmount,
-                                    insuranceNumber:sendInfo.insuranceNumber,
-                                    paymentDate:paymentDate,
-                                    sendDate:sendDate,
-                                    insuranceType:sendInfo.insuranceType,
-                                    homeinsuranceUsability:sendInfo.homeinsuranceUsability,
-                                    insuredAdress:sendInfo.insuredAdress,
-                                    eventId:currentPayEventId,
-                                    tableName:"send_plan_"+sendDateArray[j].year
+        var sql="INSERT INTO insurance (name,email,phone_number,wechat," +
+            "payment_amount,payment_date,insurance_number,admin,status,insurance_type,start_date,end_date," +
+            "payment_frequency,reminder_option,send_option,cc_list,insurance_info)" +
+            "VALUES ('"+sendInfo.recipient+"','"+sendInfo.email+"','"+ sendInfo.phoneNumber+
+            "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+payDateInfo.payDateDay+
+            "','"+ sendInfo.insuranceNumber+ "','dwang','新添加','"+sendInfo.insuranceType+"','"+
+            payDateInfo.startDate+"','"+payDateInfo.endDate+"','"+payDateInfo.frequency+"','"+
+            reminderOption+"','"+sendInfo.sendOption+"','"+sendInfo.cc_list+"','"+insuranceInfo+"')";
+        console.log(sql);
+        insertToInsuranceTable(sql,paymentDateArray,currentDate,insuranceInfo,emails,
+            function(currentInsuranceId,paymentDateArray,currentDate,insuranceInfo,emails) {
+            //for loop of PAYMENT event table
+            for(var i=0; i<paymentDateArray.length;i++){
+                //alert('i='+i);
+                var paymentDate='';
+                var resultday=('0' + paymentDate+paymentDateArray[i].day).slice(-2);
+                var resultmonth=('0' + paymentDate+paymentDateArray[i].month).slice(-2);
+                var resultyear=paymentDateArray[i].year;
+                paymentDate=paymentDate+resultyear;
+                paymentDate=paymentDate+resultmonth;
+                paymentDate=paymentDate+resultday;
+                //alert(paymentDate);s
+                var sql="INSERT INTO payment_event (recipient,email,phone_number,wechat," +
+                    "payment_amount,payment_date,insurance_number,admin,event_status,insurance_type," +
+                    "insurance_info,insurance_id)" +
+                    "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
+                    "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
+                    "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
+                    sendInfo.insuranceType+"','"+insuranceInfo+"',"+currentInsuranceId+")";
+                var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
+                //alert(sql);
+                insertToDatabase(sql,sendDateArray,paymentDate,
+                function(currentPayEventId,sendDateArray,paymentDate) {
+                    //for loop of SEND EMAIL event table
+                    for(var j=0; j<sendDateArray.length;j++) {
+                        var sendDate = '';
+                        sendDate = sendDate + sendDateArray[j].year;
+                        sendDate = sendDate + sendDateArray[j].month;
+                        sendDate = sendDate + sendDateArray[j].day;
+                        var htmlInfo={  recipient:sendInfo.recipient,
+                            paymentAmount:sendInfo.paymentAmount,
+                            insuranceNumber:sendInfo.insuranceNumber,
+                            paymentDate:paymentDate,
+                            sendDate:sendDate,
+                            insuranceType:sendInfo.insuranceType,
+                            homeinsuranceUsability:sendInfo.homeinsuranceUsability,
+                            insuredAdress:sendInfo.insuredAdress,
+                            eventId:currentPayEventId,
+                            tableName:"send_plan_"+sendDateArray[j].year
+                        }
+                        var htmlAndText=getHtml(htmlInfo);
+
+                        var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
+                            " (recipient,email,send_date,html,text,event_id,phone_number,wechat,send_option) " +
+                            "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
+                            "','"+htmlAndText.html+"','"+htmlAndText.text+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
+                            "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
+
+                        var tableName="send_plan_"+sendDateArray[j].year;
+                        validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
+                        var tableName="send_history_"+sendDateArray[j].year;
+                        validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
                     }
-                    var htmlAndText=getHtml(htmlInfo);
-
-                    var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
-                        " (recipient,email,send_date,html,text,event_id,phone_number,wechat,send_option) " +
-                        "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
-                        "','"+htmlAndText.html+"','"+htmlAndText.text+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
-                        "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
-
-                    var tableName="send_plan_"+sendDateArray[j].year;
-                    validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
-                    var tableName="send_history_"+sendDateArray[j].year;
-                    validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
-                }
-
-            });
-
-        }
-    }
-
-    //--------------------check if table exist, if not create one
-    function validateTableandInsert(tableName,insertSql) {//pass
-        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables "+
-            "WHERE table_schema='wordpress' "+
-            "AND table_name = '"+tableName+"'";
-        // var isTableExist=posttodatabase(checkTableSql,'count_table');
-        // alert('isTableExist='+isTableExist);
-
-        checkIfTableExist(checkTableSql,function(output){
-            //alert('isTableExist='+output);
-            if(output==0){//if table does not exist create one
-                var createTableSql="CREATE TABLE "+tableName+"("+
-                    "id INT NOT NULL AUTO_INCREMENT,"+
-                    "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "email VARCHAR(1000) NOT NULL,"+
-                    "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
-                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
-                    "event_id INT(10) NOT NULL DEFAULT 0,"+
-                    "send_option VARCHAR(45) DEFAULT 0,"+
-                    "PRIMARY KEY (id))";
-                postToDatabase(createTableSql);
-            }
-            if(insertSql!='0'){
-                postToDatabase(insertSql);
+                });
             }
         });
+    }
+    //get reminder option
+    function  getReminderOption(sendPlan) {
+        var reminderOption='';
+        if(sendPlan.ismonth==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.istwoweeks==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isoneweek==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isthreedays==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.istwodays==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isoneday==true)
+            reminderOption=reminderOption+"1";
+        else
+            reminderOption=reminderOption+"0";
+        return reminderOption;
     }
     //--------------------get current date in yyyymmdd
     function getCurrentDate(){
@@ -467,6 +476,37 @@ $(document).ready(function(){
         return sendDateArray;
     }
 
+
+    //--------------------check if table exist, if not create one
+    function validateTableandInsert(tableName,insertSql) {//pass
+        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables "+
+            "WHERE table_schema='wordpress' "+
+            "AND table_name = '"+tableName+"'";
+        // var isTableExist=posttodatabase(checkTableSql,'count_table');
+        // alert('isTableExist='+isTableExist);
+
+        checkIfTableExist(checkTableSql,function(output){
+            //alert('isTableExist='+output);
+            if(output==0){//if table does not exist create one
+                var createTableSql="CREATE TABLE "+tableName+"("+
+                    "id INT NOT NULL AUTO_INCREMENT,"+
+                    "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "email VARCHAR(1000) NOT NULL,"+
+                    "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "event_id INT(10) NOT NULL DEFAULT 0,"+
+                    "send_option VARCHAR(45) DEFAULT 0,"+
+                    "PRIMARY KEY (id))";
+                postToDatabase(createTableSql);
+            }
+            if(insertSql!='0'){
+                postToDatabase(insertSql);
+            }
+        });
+    }
     //-----------------------post sql query
     function checkIfTableExist (sql_query,handleData) {//pass
         $.ajax( { type : 'POST',
@@ -475,6 +515,20 @@ $(document).ready(function(){
             success: function ( data ) {
                 //alert("data="+data);
                 handleData(data);
+            },
+            error: function ( xhr ) {
+                alert( "error" );
+            }
+        });
+    };
+    function insertToInsuranceTable (sql_query,paymentDateArray,currentDate,insuranceInfo,emails,handleData) {//pass
+
+        $.ajax( { type : 'POST',
+            data : { sql_query:sql_query},
+            url  : host+'wp-content/themes/dongwang/database/insert_to_database.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                //alert("data="+data);
+                handleData(data,paymentDateArray,currentDate,insuranceInfo,emails);
             },
             error: function ( xhr ) {
                 alert( "error" );
@@ -495,6 +549,7 @@ $(document).ready(function(){
             }
         });
     };
+
     function postToDatabase (sql_query) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
@@ -507,7 +562,6 @@ $(document).ready(function(){
             }
         });
     };
-});
 //--------------------make html content
 function getHtml(htmlInfo){//pass
     var url=host+"wp-content/themes/dongwang/cancel_event_by_url/cancel_event_by_url.php" +
@@ -605,14 +659,81 @@ function getHtml(htmlInfo){//pass
 }
 
 $(document).ready(function(){
-    $('#close_button_epep').on('click', function () {
-        $('#edit_payment_event_page').css('transform', 'translateY(100%)');
+    $('#close_button_eip').on('click', function () {
+        $('#edit_insurance_page').css('transform', 'translateY(100%)');
     });
 
+    $('#submit_button_eip').on('click', function () {
+        var isSendEmial='0';
+        var isSendMessage='0';
+        var isSendWechat='0';
+        if ($('#chesck_box_email_eip').is(':checked')){
+            isSendEmial='1';
+        }
+        if ($('#chesck_box_message_eip').is(':checked')){
+            isSendMessage='1';
+        }
+        if ($('#chesck_box_wechat_eip').is(':checked')){
+            isSendWechat='1';
+        }
+        var sendOption=isSendEmial+'-'+isSendMessage+'-'+isSendWechat;
+        if (confirm("是否确认修改？") == true) {
+            var sendInfo={
+                recipient:$('#recipient_input_eip').val(),
+                email:$('#email_input_eip').val(),
+                phoneNumber:$('#phone_number_input_eip').val(),
+                wechat:$('#wehcat_number_input_eip').val(),
+                paymentAmount:$('#payment_amount_input_eip').val(),
+                insuranceNumber:$('#insurance_number_input_eip').val(),
+                insuranceType:$('#insurance_type_eip').val(),
+                homeinsuranceUsability:$('#home_insurance_usability_eip').val(),
+                insuredAdress:$('#insured_address_input_eip').val(),
+                cc_list:$('#admin_cc_list_input_eip').val(),
+                sendOption:sendOption
+            }
+            var payDateInfo={
+                startDate:$('#send_period_start_aesp').val(),
+                endDate:$('#send_period_end_aesp').val(),
+                payDateMonth:$('#pay_date_month_aesp').val(),
+                payDateDay:$('#pay_date_day_aesp').val(),
+                frequency:$('#pay_frequency_eip').val(),
+            };
+            var sendPlan={  ismonth:$('#check_box_month').is(':checked'),
+                istwoweeks:$('#check_box_twoweeks').is(':checked'),
+                isoneweek:$('#chesck_box_oneweek').is(':checked'),
+                isthreedays:$('#chesck_box_threedays').is(':checked'),
+                istwodays:$('#chesck_box_twodays').is(':checked'),
+                isoneday:$('#chesck_box_oneday').is(':checked')
+            };
+            //deleteSelectedInsurance( $('#insurance_id_box').val());
+            InsertToDatabase(sendInfo,payDateInfo,sendPlan);
+        }
+    });
 
-
+    $('#delete_button_eip').on('click', function () {
+        if (confirm("是否确认删除？") == true) {
+            deleteSelectedInsurance( $('#insurance_id_box').val());
+        }
+    });
+    $('#cancel_button_eip').on('click', function () {
+        $('#edit_insurance_page').css('transform', 'translateY(100%)');
+    });
 });
 
+function deleteSelectedInsurance(insurancId){
+
+    $.ajax( { type : 'POST',
+        data : {
+            insurancId:insurancId//sort option && index
+        },
+        url  : host+'wp-content/themes/dongwang/database/delete_insurance_api.php',              // <=== CALL THE PHP FUNCTION HERE.
+        success: function ( data ) {
+        },
+        error: function ( xhr ) {
+            alert( "error" );
+        }
+    });
+};
 $(document).ready(function(){
     $value='unknown';
     $sort_option='id';
@@ -864,6 +985,271 @@ $(document).ready(function(){
         });
 
 });
+$(document).ready(function(){
+    $sort_option='id';
+    $sort_direction='up';
+    $sort_type='string';
+    $id='unknown';
+    $name='unknown';
+    $email='unknown';
+    $phone_number='unknown';
+    $wechat='unknown';
+    $start_payDate='unknown';
+    $end_payDate='unknown';
+    $insurance_number='unknown';
+    $payment_amount='unknown';
+    $insurance_type='unknown';
+    $status='unknown';
+
+    function set_sort_parameter(sort_option,sort_direction,sort_type){
+        $sort_option=sort_option;
+        $sort_direction=sort_direction;
+        $sort_type=sort_type;
+    }
+
+    function set_date_format(date){
+        date=date.split("-");
+        return date[0]+date[1]+date[2];
+    }
+    function post_sortORfilter_request () {
+        //alert($start_payDate);
+        $.ajax( { type : 'POST',
+            data : {
+                sort_option:$sort_option,//sort option && index
+                sort_direction:$sort_direction,//sort direction && value
+                sort_type:$sort_type,
+                id:$id,
+                name:$name,
+                email:$email,
+                phone_number:$phone_number,
+                wechat:$wechat,
+                start_payDate:$start_payDate,
+                end_payDate:$end_payDate,
+                insurance_number:$insurance_number,
+                payment_amount:$payment_amount,
+                insurance_type:$insurance_type,
+                status:$status
+            },
+            url  : host+'wp-content/themes/dongwang/xml/load_xml/load_xml_to_manage_insurance_page.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                $('#show_list_div_mip').empty();
+                $('#show_list_div_mip').append(data);
+            },
+            error: function ( xhr ) {
+                alert( "error" );
+            }
+        });
+    };
+
+        //
+    function getMonthAndDay(date){
+        var month=date.substring(4,6);
+        var day=date.substring(6,8);
+        if(month[0]=='0'){
+            month=month[1];
+        }
+        if(day[0]=='0'){
+            day=day[1];
+        }
+        return {month:month,day:day}
+    }
+
+    function getReminderOption(reminderOption){
+        var result=reminderOption.split('-');
+        return{month:parseInt(result[0]),twoweeks:parseInt(result[1]),oneweek:parseInt(result[2]),
+            threedays:parseInt(result[3]),twodays:parseInt(result[4]),oneday:parseInt(result[5])}
+    }
+    function getSendOption(sendOption){
+        var result=sendOption.split('-');
+        return{email:parseInt(result[0]),phone:parseInt(result[1]),wechat:parseInt(result[2])}
+    }
+
+    function writeToEditInsurance(param) {
+        var index = param.replace('list_', '');
+        var id='#mip_name_'+index;
+        //alert($(id).text());
+        $('#recipient_input_eip').val( $('#mip_name_'+index).text().replace(/\s/g, ''));
+        $('#email_input_eip').val( $('#mip_email_'+index).text().replace(/\s/g, ''));
+        $('#phone_number_input_eip').val( $('#mip_phone_number_'+index).text().replace(/\s/g, ''));
+        $('#wehcat_number_input_eip').val( $('#mip_wechat_'+index).text().replace(/\s/g, ''));
+        $('#payment_amount_input_eip').val( $('#mip_payment_amount_'+index).text().replace(/\s/g, ''));
+        $('#insurance_number_input_eip').val( $('#mip_insurance_number_'+index).text().replace(/\s/g, ''));
+        $('#send_period_start_eip').val( $('#mip_start_date_'+index).text().replace(/\s/g, ''));
+        $('#send_period_end_eip').val( $('#mip_end_date_'+index).text().replace(/\s/g, ''));
+        $('#send_period_end_eip').val( $('#mip_end_date_'+index).text().replace(/\s/g, ''));
+        $('#insurance_type_eip').val( $('#mip_insurance_type_'+index).text().replace(/\s/g, ''));
+        if($('#mip_insurance_type_'+index).text().replace(/\s/g, '')=='房屋保险'){
+            //alert($('#mip_insurance_info_'+index).text().replace(/\s/g, ''));
+            $('#home_insurance_usability_eip').css('display','block');
+            $('#insured_address_eip').css('display','block');
+            $('#home_insurance_usability_eip').val($('#mip_insurance_info_'+index).text().split('?')[0]);
+            $('#insured_address_input_eip').val($('#mip_insurance_info_'+index).text().split('?')[1]);
+        }
+        $('#pay_frequency_eip').val($('#mip_frequency_'+index).text().replace(/\s/g, ''));
+        var date=getMonthAndDay($('#mip_payment_date_'+index).text().replace(/\s/g, ''));
+        $('#pay_date_month_eip').val( date.month);
+        $('#pay_date_day_eip').val( date.day);
+        var reminderOption=getReminderOption($('#mip_reminder_option_'+index).text().replace(/\s/g, ''))
+        $('#check_box_month_eip').prop('checked', reminderOption.month);
+        $('#check_box_twoweeks_eip').prop('checked', reminderOption.twoweeks);
+        $('#chesck_box_oneweek_eip').prop('checked', reminderOption.oneweek);
+        $('#chesck_box_threedays_eip').prop('checked', reminderOption.threedays);
+        $('#chesck_box_twodays_eip').prop('checked', reminderOption.twodays);
+        $('#chesck_box_oneday_eip').prop('checked', reminderOption.oneday);
+        $('#admin_cc_list_input_eip').val( $('#mip_cc_list_'+index).text().replace(/\s/g, ''));
+        var sendOption=getSendOption($('#mip_send_option_'+index).text().replace(/\s/g, ''));
+        $('#chesck_box_email_eip').prop('checked', sendOption.email);
+        $('#chesck_box_message_eip').prop('checked', sendOption.phone);
+        $('#chesck_box_wechat_eip').prop('checked', sendOption.wechat);
+        $('#insurance_id_box').val( $('#mip_id_'+index).text().replace(/\s/g, ''));
+
+    };
+
+    $(document).on('click','.insurance_list', function () {
+        //alert(jQuery(this).attr("id"));
+        $('#edit_insurance_page').css('transform', 'translateY(0)');
+        writeToEditInsurance(jQuery(this).attr("id"));
+        //writeToPopupDiv(jQuery(this).attr("id"), "send_plan.xml", 1);
+    });
+
+
+
+
+    //-------------------------
+    $('#id_sort_up_mip').on('click', function(){
+        set_sort_parameter('id','up','string');
+        post_sortORfilter_request();
+    });
+    $('#id_sort_down_mip').on('click', function(){
+        set_sort_parameter('id','down','string');
+        post_sortORfilter_request();
+    });
+    $('#name_sort_up_mip').on('click', function(){
+        set_sort_parameter('name','up','string');
+        post_sortORfilter_request();
+    });
+    $('#name_sort_down_mip').on('click', function(){
+        set_sort_parameter('name','down','string');
+        post_sortORfilter_request();
+    });
+    $('#email_sort_up_mip').on('click', function(){
+        set_sort_parameter('email','up','string');
+        post_sortORfilter_request();
+    });
+    $('#email_sort_down_mip').on('click', function(){
+        set_sort_parameter('email','down','string');
+        post_sortORfilter_request();
+    });
+    $('#phone_number_up_mip').on('click', function(){
+        set_sort_parameter('phone_number','up','number');
+        post_sortORfilter_request();
+    });
+    $('#phone_number_down_mip').on('click', function(){
+        set_sort_parameter('phone_number','down','number');
+        post_sortORfilter_request();
+    });
+    $('#wechat_up_mip').on('click', function(){
+        set_sort_parameter('wechat','up','string');
+        post_sortORfilter_request();
+    });
+    $('#wechat_down_mip').on('click', function(){
+        set_sort_parameter('wechat','down','string');
+        post_sortORfilter_request();
+    });
+    $('#pay_date_sort_up_mip').on('click', function(){
+        set_sort_parameter('payment_date','up','number');
+        post_sortORfilter_request();
+    });
+    $('#pay_date_sort_down_mip').on('click', function(){
+        set_sort_parameter('payment_date','down','number');
+        post_sortORfilter_request();
+    });
+    $('#insurance_number_up_mip').on('click', function(){
+        set_sort_parameter('insurance_num','up','string');
+        post_sortORfilter_request();
+    });
+    $('#insurance_number_down_mip').on('click', function(){
+        set_sort_parameter('insurance_num','down','number');
+        post_sortORfilter_request();
+    });
+    $('#payment_amount_up_mip').on('click', function(){
+        set_sort_parameter('payment_amount','up','number');
+        post_sortORfilter_request();
+    });
+    $('#payment_amount_down_mip').on('click', function(){
+        set_sort_parameter('payment_amount','down','number');
+        post_sortORfilter_request();
+    });
+    $('#insurance_type_up_mip').on('click', function(){
+        set_sort_parameter('insurance_type','up','string');
+        post_sortORfilter_request();
+    });
+    $('#insurance_type_down_mip').on('click', function(){
+        set_sort_parameter('insurance_type','down','string');
+        post_sortORfilter_request();
+    });
+
+    $('#event_status_up_mip').on('click', function(){
+        set_sort_parameter('event_status','up','string');
+        post_sortORfilter_request();
+    });
+    $('#event_status_down_mip').on('click', function(){
+        set_sort_parameter('event_status','down','string');
+        post_sortORfilter_request();
+    });
+    $('#search_button_mip').on('click', function(){
+        $id='unknown';
+        $name='unknown';
+        $email='unknown';
+        $phone_number='unknown';
+        $wechat='unknown';
+        $start_payDate='unknown';
+        $end_payDate='unknown';
+        $insurance_number='unknown';
+        $payment_amount='unknown';
+        $insurance_type='unknown';
+        $status='unknown';
+
+
+        if($('#id_input_mip').val()!=''){
+            $id=$('#id_input_mip').val();
+        }
+        if($('#name_input_mip').val()!=''){
+            $name=$('#name_input_mip').val();
+        }
+        if($('#email_input_mip').val()!=''){
+            $email=$('#email_input_mip').val();
+        }
+        if($('#phone_number_input_mip').val()!=''){
+            $phone_number=$('#phone_number_input_mip').val();
+        }
+        if($('#wechat_input_mip').val()!=''){
+            $wechat=$('#wechat_input_mip').val();
+        }
+        if($('#paydate_start_input_mip').val()!=''){
+            $start_payDate=$('#paydate_start_input_mip').val();
+            $start_payDate=set_date_format($start_payDate);
+        }
+        if($('#paydate_end_input_mip').val()!=''){
+            $end_payDate=$('#paydate_end_input_mip').val();
+            $end_payDate=set_date_format($end_payDate);
+        }
+        if($('#insurance_number_input_mip').val()!=''){
+            $insurance_number=$('#insurance_number_input_mip').val();
+        }
+        if($('#insurance_type_input_mip').val()!=''){
+            $insurance_type=$('#insurance_type_input_mip').val();
+        }
+        if($('#event_status_input_mip').val()!=''){
+            $event_status=$('#event_status_input_mip').val();
+        }
+
+
+        post_sortORfilter_request();
+    });
+
+});
+
 $(document).ready(function(){
     $sort_option='id';
     $sort_direction='up';
@@ -1192,6 +1578,14 @@ $(document).ready(function(){
             resetall();
             $('#manage_payment_event_page').css('transform', 'translateX(0px)');
         });
+
+        $('#manage_insurance_smp').on('click', function () {
+            resetall();
+            $('#manage_insurance_page').css('transform', 'translateX(0px)');
+            $('#edit_insurance_page').css('transform', 'translateY(100%)');
+
+        });
+
         $('.send_history_list').on('click', function () {
             //alert(jQuery(this).attr("id"));
             $('#pop_up_div_frame_smp').css('transform', 'translateX(0)');
@@ -1219,6 +1613,7 @@ $(document).ready(function(){
         $('#add_email_sned_plan_page').css('transform', 'translateX(-100%)');
         $('#general_set_page').css('transform', 'translateX(-100%)');
         $('#manage_payment_event_page').css('transform', 'translateX(-100%)');
+        $('#manage_insurance_page').css('transform', 'translateX(-100%)');
 
 
     };

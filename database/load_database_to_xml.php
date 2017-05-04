@@ -234,6 +234,48 @@ $domtree_all->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/
     }
     $domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/payment_event.xml');
 
+//----------------------------load insurance from insurance table
+/* create a dom document with encoding utf8 */
+$domtree = new DOMDocument('1.0', 'UTF-8');
+/* create the root element of the xml tree */
+$xmlRoot = $domtree->createElement("xml");
+/* append it to the document created */
+$xmlRoot = $domtree->appendChild($xmlRoot);
+
+$sql="SELECT * FROM insurance";
+//load send plan from current send plan table
+$result=$conn->query($sql);
+//-------------
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+
+        $currentTrack = $domtree->createElement("insurance");
+        $currentTrack = $xmlRoot->appendChild($currentTrack);
+        /* you should enclose the following two lines in a cicle */
+        $currentTrack->appendChild($domtree->createElement('id', $row["id"]));
+        $currentTrack->appendChild($domtree->createElement('customer', $row["name"]));
+        $currentTrack->appendChild($domtree->createElement('email', $row["email"]));
+        $currentTrack->appendChild($domtree->createElement('phone_number', $row["phone_number"]));
+        $currentTrack->appendChild($domtree->createElement('wechat', $row["wechat"]));
+        $currentTrack->appendChild($domtree->createElement('payment_amount', $row["payment_amount"]));
+        $currentTrack->appendChild($domtree->createElement('payment_date', $row["payment_date"]));
+        $currentTrack->appendChild($domtree->createElement('admin', $row["admin"]));
+        $currentTrack->appendChild($domtree->createElement('insurance_number', $row["insurance_number"]));
+        $currentTrack->appendChild($domtree->createElement('status', $row["status"]));
+        $currentTrack->appendChild($domtree->createElement('start_date', $row["start_date"]));
+        $currentTrack->appendChild($domtree->createElement('end_date', $row["end_date"]));
+        $currentTrack->appendChild($domtree->createElement('insurance_type', $row["insurance_type"]));
+        $currentTrack->appendChild($domtree->createElement('frequency', $row["payment_frequency"]));
+        $currentTrack->appendChild($domtree->createElement('reminder_option', $row["reminder_option"]));
+        $currentTrack->appendChild($domtree->createElement('send_option', $row["send_option"]));
+        $currentTrack->appendChild($domtree->createElement('cc_list', $row["cc_list"]));
+        $currentTrack->appendChild($domtree->createElement('insurance_info', $row["insurance_info"]));
+
+    }
+}
+$domtree->save($_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/dongwang/xml/insurance.xml');
+
+
 
 $conn->close();
 ?>

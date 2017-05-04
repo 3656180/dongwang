@@ -1,0 +1,44 @@
+#main_div_mip{
+  margin-top: 10%;
+  height: 90%;
+  width: 100%;
+  position: absolute;
+}
+#search_div_mip{
+  width: 90%;
+  height: 7%;
+  margin-left: 3%;
+}
+#mip_title{
+  width: 95%;
+  margin: 2% 2% 0% 2%;
+  text-align: center;
+}
+#show_list_div_mip{
+  border:solid;
+  height: 80%;
+  width: 95%;
+  position: absolute;
+  overflow: scroll;
+  margin: 0 2% 5% 2%;
+}
+#search_button_mip{
+  font-size: 22px;
+  cursor: pointer;
+  height: 70%;
+  text-align: center;
+  background-color: white;
+  &:hover{
+    border: solid 2px $Black ;
+  }
+}
+.insurance_list {
+  border: solid;
+  border-top: hidden;
+  border-width: 1px;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover{
+    background-color: white;
+  }
+}

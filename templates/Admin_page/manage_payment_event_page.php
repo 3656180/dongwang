@@ -98,5 +98,4 @@
         </div>
     </div>
 
-    <?php get_template_part( 'templates/Admin_page/edit_payment_event' ); ?>
 </div>

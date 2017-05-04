@@ -56,9 +56,6 @@
                <div class="smp_list_show_div">
                    <?php get_template_part( 'templates/Admin_page/send_plan_smp_list' ); ?>
                </div>
-
-
-
            </div>
        </div>
        <div class="col-2" id="menu_smp">
@@ -67,6 +64,7 @@
            <button class="buttons" id="send_plan_smp">查看发送计划</button>
            <button class="buttons" id="set_email_smp">设置邮件内容</button>
            <button class="buttons" id="manage_payment_event_smp">管理支付事件</button>
+           <button class="buttons" id="manage_insurance_smp">管理保单</button>
 
        </div>
    </div>
@@ -74,13 +72,14 @@
     <?php get_template_part( 'templates/Admin_page/email_send_plan' ); ?>
     <?php get_template_part( 'templates/Admin_page/add_email_sned_plan' ); ?>
     <?php get_template_part( 'templates/Admin_page/manage_payment_event_page' ); ?>
+    <?php get_template_part( 'templates/Admin_page/manage_insurance_page' ); ?>
 
     <div class="pop_up_div_frame" id="pop_up_div_frame_smp">
         <div class="close_button_bud" id="close_button_puds">X</div>
         <div class="pop_up_div" id="pop_up_div_smp">
 
         </div>
-        </div>
+    </div>
 
 
 

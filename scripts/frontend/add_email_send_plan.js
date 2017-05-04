@@ -145,6 +145,7 @@ $(document).ready(function(){
         //$('#reminder_method_dcp').html($('#recipient_input_aesp').val());
 
     });
+});
 
 
     //---------------get insert sql array
@@ -153,100 +154,108 @@ $(document).ready(function(){
         var currentDate=getCurrentDate();
         var insuranceInfo='';
         var emails='';
+        var reminderOption=getReminderOption(sendPlan);
         if(sendInfo.insuranceType=='房屋保险'){
             insuranceInfo=sendInfo.homeinsuranceUsability+"?"+sendInfo.insuredAdress;
         }
         emails=emails+sendInfo.email+',';//add customer's email to email list;
         emails=emails+sendInfo.cc_list;//emails list contain customer's email which is the
-                                        //the first one, and admin email list 2nd to nth
-        //alert(emails);
-        //for loop of PAYMENT event table
-        for(var i=0; i<paymentDateArray.length;i++){
-            //alert('i='+i);
-            var paymentDate='';
-            var resultday=('0' + paymentDate+paymentDateArray[i].day).slice(-2);
-            var resultmonth=('0' + paymentDate+paymentDateArray[i].month).slice(-2);
-            var resultyear=paymentDateArray[i].year;
-            paymentDate=paymentDate+resultyear;
-            paymentDate=paymentDate+resultmonth;
-            paymentDate=paymentDate+resultday;
-            //alert(paymentDate);s
-            var sql="INSERT INTO payment_event (recipient,email,phone_number,wechat," +
-                "payment_amount,payment_date,insurance_number,admin,event_status,insurance_type," +
-                "insurance_info)" +
-                "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
-                "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
-                "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
-                sendInfo.insuranceType+"','"+insuranceInfo+"')";
-            var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
 
-            insertToDatabase(sql,sendDateArray,paymentDate,
-                            function(currentPayEventId,sendDateArray,paymentDate) {
-                //for loop of SEND EMAIL event table
-                for(var j=0; j<sendDateArray.length;j++) {
-                    var sendDate = '';
-                    sendDate = sendDate + sendDateArray[j].year;
-                    sendDate = sendDate + sendDateArray[j].month;
-                    sendDate = sendDate + sendDateArray[j].day;
-                    var htmlInfo={  recipient:sendInfo.recipient,
-                                    paymentAmount:sendInfo.paymentAmount,
-                                    insuranceNumber:sendInfo.insuranceNumber,
-                                    paymentDate:paymentDate,
-                                    sendDate:sendDate,
-                                    insuranceType:sendInfo.insuranceType,
-                                    homeinsuranceUsability:sendInfo.homeinsuranceUsability,
-                                    insuredAdress:sendInfo.insuredAdress,
-                                    eventId:currentPayEventId,
-                                    tableName:"send_plan_"+sendDateArray[j].year
+        var sql="INSERT INTO insurance (name,email,phone_number,wechat," +
+            "payment_amount,payment_date,insurance_number,admin,status,insurance_type,start_date,end_date," +
+            "payment_frequency,reminder_option,send_option,cc_list,insurance_info)" +
+            "VALUES ('"+sendInfo.recipient+"','"+sendInfo.email+"','"+ sendInfo.phoneNumber+
+            "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+payDateInfo.payDateDay+
+            "','"+ sendInfo.insuranceNumber+ "','dwang','新添加','"+sendInfo.insuranceType+"','"+
+            payDateInfo.startDate+"','"+payDateInfo.endDate+"','"+payDateInfo.frequency+"','"+
+            reminderOption+"','"+sendInfo.sendOption+"','"+sendInfo.cc_list+"','"+insuranceInfo+"')";
+        console.log(sql);
+        insertToInsuranceTable(sql,paymentDateArray,currentDate,insuranceInfo,emails,
+            function(currentInsuranceId,paymentDateArray,currentDate,insuranceInfo,emails) {
+            //for loop of PAYMENT event table
+            for(var i=0; i<paymentDateArray.length;i++){
+                //alert('i='+i);
+                var paymentDate='';
+                var resultday=('0' + paymentDate+paymentDateArray[i].day).slice(-2);
+                var resultmonth=('0' + paymentDate+paymentDateArray[i].month).slice(-2);
+                var resultyear=paymentDateArray[i].year;
+                paymentDate=paymentDate+resultyear;
+                paymentDate=paymentDate+resultmonth;
+                paymentDate=paymentDate+resultday;
+                //alert(paymentDate);s
+                var sql="INSERT INTO payment_event (recipient,email,phone_number,wechat," +
+                    "payment_amount,payment_date,insurance_number,admin,event_status,insurance_type," +
+                    "insurance_info,insurance_id)" +
+                    "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+ sendInfo.phoneNumber+
+                    "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+paymentDate+
+                    "','"+ sendInfo.insuranceNumber+ "','dwang','未支付?"+currentDate+"','"+
+                    sendInfo.insuranceType+"','"+insuranceInfo+"',"+currentInsuranceId+")";
+                var sendDateArray=getSendDate(paymentDateArray[i],sendPlan);
+                //alert(sql);
+                insertToDatabase(sql,sendDateArray,paymentDate,
+                function(currentPayEventId,sendDateArray,paymentDate) {
+                    //for loop of SEND EMAIL event table
+                    for(var j=0; j<sendDateArray.length;j++) {
+                        var sendDate = '';
+                        sendDate = sendDate + sendDateArray[j].year;
+                        sendDate = sendDate + sendDateArray[j].month;
+                        sendDate = sendDate + sendDateArray[j].day;
+                        var htmlInfo={  recipient:sendInfo.recipient,
+                            paymentAmount:sendInfo.paymentAmount,
+                            insuranceNumber:sendInfo.insuranceNumber,
+                            paymentDate:paymentDate,
+                            sendDate:sendDate,
+                            insuranceType:sendInfo.insuranceType,
+                            homeinsuranceUsability:sendInfo.homeinsuranceUsability,
+                            insuredAdress:sendInfo.insuredAdress,
+                            eventId:currentPayEventId,
+                            tableName:"send_plan_"+sendDateArray[j].year
+                        }
+                        var htmlAndText=getHtml(htmlInfo);
+
+                        var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
+                            " (recipient,email,send_date,html,text,event_id,phone_number,wechat,send_option) " +
+                            "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
+                            "','"+htmlAndText.html+"','"+htmlAndText.text+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
+                            "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
+
+                        var tableName="send_plan_"+sendDateArray[j].year;
+                        validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
+                        var tableName="send_history_"+sendDateArray[j].year;
+                        validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
                     }
-                    var htmlAndText=getHtml(htmlInfo);
-
-                    var sql="INSERT INTO send_plan_"+sendDateArray[j].year+
-                        " (recipient,email,send_date,html,text,event_id,phone_number,wechat,send_option) " +
-                        "VALUES ('"+sendInfo.recipient+"','"+emails+"','"+sendDate+
-                        "','"+htmlAndText.html+"','"+htmlAndText.text+"',"+currentPayEventId+",'"+sendInfo.phoneNumber+
-                        "','"+sendInfo.wechat+"','"+sendInfo.sendOption+"')";
-
-                    var tableName="send_plan_"+sendDateArray[j].year;
-                    validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
-                    var tableName="send_history_"+sendDateArray[j].year;
-                    validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
-                }
-
-            });
-
-        }
-    }
-
-    //--------------------check if table exist, if not create one
-    function validateTableandInsert(tableName,insertSql) {//pass
-        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables "+
-            "WHERE table_schema='wordpress' "+
-            "AND table_name = '"+tableName+"'";
-        // var isTableExist=posttodatabase(checkTableSql,'count_table');
-        // alert('isTableExist='+isTableExist);
-
-        checkIfTableExist(checkTableSql,function(output){
-            //alert('isTableExist='+output);
-            if(output==0){//if table does not exist create one
-                var createTableSql="CREATE TABLE "+tableName+"("+
-                    "id INT NOT NULL AUTO_INCREMENT,"+
-                    "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "email VARCHAR(1000) NOT NULL,"+
-                    "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
-                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
-                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
-                    "event_id INT(10) NOT NULL DEFAULT 0,"+
-                    "send_option VARCHAR(45) DEFAULT 0,"+
-                    "PRIMARY KEY (id))";
-                postToDatabase(createTableSql);
-            }
-            if(insertSql!='0'){
-                postToDatabase(insertSql);
+                });
             }
         });
+    }
+    //get reminder option
+    function  getReminderOption(sendPlan) {
+        var reminderOption='';
+        if(sendPlan.ismonth==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.istwoweeks==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isoneweek==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isthreedays==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.istwodays==true)
+            reminderOption=reminderOption+"1-";
+        else
+            reminderOption=reminderOption+"0-";
+        if(sendPlan.isoneday==true)
+            reminderOption=reminderOption+"1";
+        else
+            reminderOption=reminderOption+"0";
+        return reminderOption;
     }
     //--------------------get current date in yyyymmdd
     function getCurrentDate(){
@@ -460,6 +469,37 @@ $(document).ready(function(){
         return sendDateArray;
     }
 
+
+    //--------------------check if table exist, if not create one
+    function validateTableandInsert(tableName,insertSql) {//pass
+        var checkTableSql="SELECT COUNT(*)FROM information_schema.tables "+
+            "WHERE table_schema='wordpress' "+
+            "AND table_name = '"+tableName+"'";
+        // var isTableExist=posttodatabase(checkTableSql,'count_table');
+        // alert('isTableExist='+isTableExist);
+
+        checkIfTableExist(checkTableSql,function(output){
+            //alert('isTableExist='+output);
+            if(output==0){//if table does not exist create one
+                var createTableSql="CREATE TABLE "+tableName+"("+
+                    "id INT NOT NULL AUTO_INCREMENT,"+
+                    "recipient VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "email VARCHAR(1000) NOT NULL,"+
+                    "phone_number VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "wechat VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "send_date VARCHAR(45) NOT NULL DEFAULT 0,"+
+                    "html VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "text VARCHAR(2000) NOT NULL DEFAULT 0,"+
+                    "event_id INT(10) NOT NULL DEFAULT 0,"+
+                    "send_option VARCHAR(45) DEFAULT 0,"+
+                    "PRIMARY KEY (id))";
+                postToDatabase(createTableSql);
+            }
+            if(insertSql!='0'){
+                postToDatabase(insertSql);
+            }
+        });
+    }
     //-----------------------post sql query
     function checkIfTableExist (sql_query,handleData) {//pass
         $.ajax( { type : 'POST',
@@ -468,6 +508,20 @@ $(document).ready(function(){
             success: function ( data ) {
                 //alert("data="+data);
                 handleData(data);
+            },
+            error: function ( xhr ) {
+                alert( "error" );
+            }
+        });
+    };
+    function insertToInsuranceTable (sql_query,paymentDateArray,currentDate,insuranceInfo,emails,handleData) {//pass
+
+        $.ajax( { type : 'POST',
+            data : { sql_query:sql_query},
+            url  : host+'wp-content/themes/dongwang/database/insert_to_database.php',              // <=== CALL THE PHP FUNCTION HERE.
+            success: function ( data ) {
+                //alert("data="+data);
+                handleData(data,paymentDateArray,currentDate,insuranceInfo,emails);
             },
             error: function ( xhr ) {
                 alert( "error" );
@@ -488,6 +542,7 @@ $(document).ready(function(){
             }
         });
     };
+
     function postToDatabase (sql_query) {//pass
         $.ajax( { type : 'POST',
             data : { sql_query:sql_query},
@@ -500,7 +555,6 @@ $(document).ready(function(){
             }
         });
     };
-});
 //--------------------make html content
 function getHtml(htmlInfo){//pass
     var url=host+"wp-content/themes/dongwang/cancel_event_by_url/cancel_event_by_url.php" +

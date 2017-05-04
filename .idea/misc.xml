@@ -39,7 +39,7 @@
     </properties>
   </component>
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/database/selectfromdatabase.php5" />
+    <file url="file://$PROJECT_DIR$/scripts/back/end.js" />
   </component>
   <component name="ProjectRootManager" version="2" default="true" />
 </project>

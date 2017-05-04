@@ -27,7 +27,8 @@ gulp.task('styles', function(){
 });
 
 gulp.task('scripts', function(){
-    return gulp.src(['scripts/vendor/jquery.min.js','scripts/vendor/bootstrap/bootstrap.min.js','scripts/vendor/*.js','scripts/frontend/*.js'])
+    return gulp.src(['scripts/vendor/jquery.min.js','scripts/vendor/bootstrap/bootstrap.min.js',
+                        'scripts/vendor/*.js','scripts/frontend/*.js'])
 
         .pipe(concat('main.js'))
         .pipe(gulp.dest('js/'))
