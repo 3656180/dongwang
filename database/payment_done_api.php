@@ -125,6 +125,7 @@ if ($result->num_rows > 0) {
                     ", 事件id为：".$row["id"]."的支付事件。"
             );
             var_dump($mailin->send_email($data));// send a copy to admin
+
     }
 
 } else {

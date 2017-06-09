@@ -63,7 +63,7 @@
             <div class="custom_div_0" id="insurance_number_asep">
                 <div class="row">
                     <div class="col-4">
-                        <label class="custom_label_0">保单后四位:</label>
+                        <label class="custom_label_0">保单号:</label>
                     </div>
                     <div class="col-8">
                         <input class="custom_text_input_0" id="insurance_number_input_asep"
@@ -115,6 +115,17 @@
                     <div class="col-8">
                         <input class="custom_text_input_0" id="insured_address_input_asep"
                                type="text" placeholder="Address">
+                    </div>
+                </div>
+            </div>
+            <div class="custom_div_0" id="insurance_company">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="custom_label_0">承保公司:</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="custom_text_input_0" id="insurance_company_input_asep"
+                               type="text" placeholder="Insurance Company">
                     </div>
                 </div>
             </div>

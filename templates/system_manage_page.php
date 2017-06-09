@@ -8,20 +8,26 @@
    <div class="row" id ="main_smp_div">
        <div class="col-5" id="recent_send_smp">
            <div id="recent_send_smp_title">
-                <label class="title_label">已发送</label>
+                <label class="title_label">已提醒但未完成的支付事件</label>
            </div>
            <div class="smp_list_div" id="recent_send_smp_list">
                <ul id=recent_send_smp_list_titles">
                    <li id="recent_send_smp_list_title">
                        <div class='row' >
-                           <div class='col-3'>
+                           <div class='col-2'>
+                               支付ID
+                           </div>
+                           <div class='col-2'>
                                姓名
                            </div>
-                           <div class='col-6'>
+                           <div class='col-3'>
                                邮箱
                            </div>
+                           <div class='col-2'>
+                               付款日期
+                           </div>
                            <div class='col-3'>
-                               发送日
+                               已发送次数
                            </div>
                        </div>
                    </li>
@@ -35,7 +41,7 @@
        </div>
        <div class="col-5" id="sent_plan_smp">
            <div id="sent_plan_smp_title">
-               <label class="title_label">未发送</label>
+               <label class="title_label">本月待发邮件</label>
            </div>
            <div class="smp_list_div" id="sent_plan_smp_list">
                <ul id=send_plan_smp_list_titles">
@@ -62,7 +68,7 @@
            <button class="buttons" id="main_page_smp">主页</button>
            <button class="buttons" id="send_history_smp">查看发送历史</button>
            <button class="buttons" id="send_plan_smp">查看发送计划</button>
-           <button class="buttons" id="set_email_smp">设置邮件内容</button>
+           <button class="buttons" id="set_email_smp">添加提醒计划</button>
            <button class="buttons" id="manage_payment_event_smp">管理支付事件</button>
            <button class="buttons" id="manage_insurance_smp">管理保单</button>
 

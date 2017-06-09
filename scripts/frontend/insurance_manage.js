@@ -56,8 +56,8 @@ $(document).ready(function(){
 
         //
     function getMonthAndDay(date){
-        var month=date.substring(4,6);
-        var day=date.substring(6,8);
+        var month=date.substring(0,2);
+        var day=date.substring(2,4);
         if(month[0]=='0'){
             month=month[1];
         }

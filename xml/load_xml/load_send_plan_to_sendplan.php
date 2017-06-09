@@ -63,10 +63,11 @@ foreach ($xml->email_not_send_yet as $node) {
     $emails[]=array(
         'id'            => $node->id,
         'recipient'     => $node->recipient,
-        'email'         => $node->email,
+        'email'         => explode(",",$node->email)[0],
         'send_date'     => $node->send_date,
         'payment_date'  => $node->payment_date,
-        'html'          => $node->html
+        'html'          => $node->html,
+        'email_list'    => $node->email
     );
 }
 
@@ -108,7 +109,7 @@ echo "<ul class='history_and_plan_email_ul'>";
 
 foreach ($emails as &$node) {
     //echo $emails->recipient;
-    $email_array=explode(",", $node['email']);
+    $email_array=explode(",", $node['email_list']);
 
     $email_list="<ul>";
     for ($i=0; $i<count($email_array);$i++) {

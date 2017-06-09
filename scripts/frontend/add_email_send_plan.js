@@ -94,7 +94,8 @@ $(document).ready(function(){
                         homeinsuranceUsability:$('#home_insurance_usability').val(),
                         insuredAdress:$('#insured_address_input_asep').val(),
                         cc_list:$('#admin_cc_list_input_asep').val(),
-                        sendOption:sendOption
+                        sendOption:sendOption,
+                        insurance_company:$('#insurance_company_input_asep').val()
                     }
         var payDateInfo={
                         startDate:$('#send_period_start_aesp').val(),
@@ -119,13 +120,50 @@ $(document).ready(function(){
         alert('添加完毕');
         $('#double_check_page').css('transform', 'translateY(100%)');
         InsertToDatabase(sendInfo,payDateInfo,sendPlan);
-
+        setTimeout(
+            function()
+            {
+                //function in edit_insurance_event.js
+                refreshPage('load_xml_to_manage_payment_event.php','#show_list_div_mpep');
+                refreshPage('load_xml_to_manage_insurance_page.php','#show_list_div_mip');
+                refreshPage('load_send_plan_to_sendplan.php','#show_list_div_espp');
+                refreshPage('load_sent_history_to_senthistory.php','#show_list_div_eshp');
+            }, 500);
     });
 
 
     //-----------
 
     $('#submit_button_aesp').on('click', function(){
+
+        if($('#recipient_input_aesp').val()==''){
+            alert("Recipient name could not be empty!")
+            return;
+        }
+        if(!(validateEmail($('#email_address_input_asep').val()))){
+            alert("Invalid email address!")
+            return;
+        }
+        if($('#payment_amount_input_asep').val()==''){
+            alert("Payment amount could not be empty!")
+            return;
+        }
+        if($('#insurance_number_input_asep').val()==''){
+            alert("Insurance number could not be empty!")
+            return;
+        }
+        if($('#send_period_start_aesp').val()==''){
+            alert("Start date could not be empty!")
+            return;
+        }
+        if($('#send_period_end_aesp').val()==''){
+            alert("End date could not be empty!")
+            return;
+        }
+        if($('#admin_cc_list_input_asep').val()==''){
+            alert("CC list could not be empty!")
+            return;
+        }
         $('#double_check_page').css('transform', 'translateY(0px)');
         $('#recipient_dcp').html($('#recipient_input_aesp').val());
         $('#email_dcp').html($('#email_address_input_asep').val());
@@ -135,14 +173,29 @@ $(document).ready(function(){
         $('#insurance_number_dcp').html($('#insurance_number_input_asep').val());
         $('#send_period_dcp').html($('#send_period_start_aesp').val()+"至"+$('#send_period_end_aesp').val());
         $('#insurance_type_dcp').html($('#insurance_type').val());
+        $('#insurance_company_dcp').html($('#insurance_company_input_asep').val());
         $('#payment_frequency_dcp').html(frequency);
         $('#payment_date_dcp').html($('#pay_date_month_aesp').val()+"月"+$('#pay_date_day_aesp').val()+"日");
         if(frequency=='monthly'){
             $('#payment_date_dcp').html($('#pay_date_day_aesp').val()+"号");
         }
-        //$('#reminder_time_dcp').html($('#recipient_input_aesp').val());
+        var reminderOptionText=getReminderOptionText({
+            ismonth:$('#check_box_month').is(':checked'),
+            istwoweeks:$('#check_box_twoweeks').is(':checked'),
+            isoneweek:$('#chesck_box_oneweek').is(':checked'),
+            isthreedays:$('#chesck_box_threedays').is(':checked'),
+            istwodays:$('#chesck_box_twodays').is(':checked'),
+            isoneday:$('#chesck_box_oneday').is(':checked')
+        });
+
+        $('#reminder_time_dcp').html(reminderOptionText);
         $('#cc_list_dcp').html($('#admin_cc_list_input_asep').val());
-        //$('#reminder_method_dcp').html($('#recipient_input_aesp').val());
+        var sendOptionText=getSendOptionText({
+            isemail:$('#chesck_box_email').is(':checked'),
+            isphone:$('#chesck_box_message').is(':checked'),
+            iswechat:$('#chesck_box_wechat').is(':checked')
+        });
+        $('#reminder_method_dcp').html(sendOptionText);
 
     });
 });
@@ -161,11 +214,25 @@ $(document).ready(function(){
         emails=emails+sendInfo.email+',';//add customer's email to email list;
         emails=emails+sendInfo.cc_list;//emails list contain customer's email which is the
 
+        var payDate=payDateInfo.payDateMonth;
+        if(parseInt(payDateInfo.payDateMonth)<10){
+            payDate='0'+payDateInfo.payDateMonth;
+        }
+        if(parseInt(payDateInfo.frequency)=='monthly'){
+            payDate='00';
+        }
+        if(parseInt(payDateInfo.payDateDay)<10){
+            payDate=payDate+'0'+payDateInfo.payDateDay;
+        }
+        else{
+            payDate=payDate+payDateInfo.payDateDay;
+        }
+
         var sql="INSERT INTO insurance (name,email,phone_number,wechat," +
             "payment_amount,payment_date,insurance_number,admin,status,insurance_type,start_date,end_date," +
             "payment_frequency,reminder_option,send_option,cc_list,insurance_info)" +
             "VALUES ('"+sendInfo.recipient+"','"+sendInfo.email+"','"+ sendInfo.phoneNumber+
-            "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+payDateInfo.payDateDay+
+            "','"+sendInfo.wechat+"','"+sendInfo.paymentAmount+"','"+payDate+
             "','"+ sendInfo.insuranceNumber+ "','dwang','新添加','"+sendInfo.insuranceType+"','"+
             payDateInfo.startDate+"','"+payDateInfo.endDate+"','"+payDateInfo.frequency+"','"+
             reminderOption+"','"+sendInfo.sendOption+"','"+sendInfo.cc_list+"','"+insuranceInfo+"')";
@@ -209,7 +276,8 @@ $(document).ready(function(){
                             homeinsuranceUsability:sendInfo.homeinsuranceUsability,
                             insuredAdress:sendInfo.insuredAdress,
                             eventId:currentPayEventId,
-                            tableName:"send_plan_"+sendDateArray[j].year
+                            tableName:"send_plan_"+sendDateArray[j].year,
+                            insuranceCompany:sendInfo.insurance_company
                         }
                         var htmlAndText=getHtml(htmlInfo);
 
@@ -221,7 +289,7 @@ $(document).ready(function(){
 
                         var tableName="send_plan_"+sendDateArray[j].year;
                         validateTableandInsert(tableName,sql);//check if SEND EMAIL table exist.
-                        var tableName="send_history_"+sendDateArray[j].year;
+                        var tableName="sent_history_"+sendDateArray[j].year;
                         validateTableandInsert(tableName,'0');//check if SEND HISTORY table exist.
                     }
                 });
@@ -256,6 +324,39 @@ $(document).ready(function(){
         else
             reminderOption=reminderOption+"0";
         return reminderOption;
+    }
+    //get reminder option text
+    function  getReminderOptionText(sendPlan) {
+        var reminderOption='';
+        if(sendPlan.ismonth==true)
+            reminderOption=reminderOption+"[提前一个月]";
+        if(sendPlan.istwoweeks==true)
+            reminderOption=reminderOption+",[提前两星期]";
+        if(sendPlan.isoneweek==true)
+            reminderOption=reminderOption+",[提前一星期]";
+        if(sendPlan.isthreedays==true)
+            reminderOption=reminderOption+",[提前三天]";
+        if(sendPlan.istwodays==true)
+            reminderOption=reminderOption+",[提前两天]";
+        if(sendPlan.isoneday==true)
+            reminderOption=reminderOption+",[提前一天]";
+        return reminderOption;
+    }
+    //get send option text
+    function  getSendOptionText(sendPlan) {
+        var sendOption='';
+        if(sendPlan.isemail==true)
+            sendOption=sendOption+"[邮件]";
+        if(sendPlan.isphone==true)
+            sendOption=sendOption+",[短信]";
+        if(sendPlan.iswechat==true)
+            sendOption=sendOption+",[微信]";
+        return sendOption;
+    }
+    //validate email
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
     //--------------------get current date in yyyymmdd
     function getCurrentDate(){
@@ -557,6 +658,7 @@ $(document).ready(function(){
     };
 //--------------------make html content
 function getHtml(htmlInfo){//pass
+    var hidedInsuranceNumber=hideInsuranceNumber(htmlInfo.insuranceNumber);
     var url=host+"wp-content/themes/dongwang/cancel_event_by_url/cancel_event_by_url.php" +
         "?eventIdAndTableName="+htmlInfo.eventId+"-"+htmlInfo.tableName;
     url=url.replace(/\s/g, '');
@@ -566,87 +668,129 @@ function getHtml(htmlInfo){//pass
 
     var html= "<head>缴费通知</head>"+
         "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
-        "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-        "需要于"+paymentDate+"之前缴纳"+
-        "共计$"+htmlInfo.paymentAmount +"保费"+
-        "请您提前做好准备，避免延误缴费时间</p>"+
-        "<p>如有任何疑问请致电778-895-5678</p>"+
-        "<p>Vicky Huang</p>"+
-        "<p></p>"+
+        "<p>感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+        "，保单号为"+hidedInsuranceNumber+
+        "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+        "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
+        "请您提前做好资金准备按时缴付，以免延误引起保单失效。</p>"+
+        "<p>如果您对缴付保费的具体流程需要帮助，请随时联系我们。 </p>"+
+        "<p>客户服务部</p>"+
+        "<p>365财富规划公司</p>"+
+        "<p>电话：778-712-6616</p>"+
+        "<p>网站: http://www.365financial.ca</p>"+
+        "<p>地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 </p>"+
         "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
         "您将不会再收到有关本次缴费的通知</p>";
     var text="缴费通知:"+
         "尊敬的"+htmlInfo.recipient +"先生/女士"+
-        "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-        "需要于"+paymentDate+"之前缴纳"+
-        "共计$"+htmlInfo.paymentAmount +"保费"+
-        "请您提前做好准备，避免延误缴费时间"+
-        "如有任何疑问请致电778-895-5678"+
+        "感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+        "，保单号为"+hidedInsuranceNumber+
+        "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+        "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
+        "请您提前做好资金准备按时缴付，以免延误引起保单失效。"+
+        "如果您对缴付保费的具体流程需要帮助，请随时联系我们。"+
+        "[客户服务部],[365财富规划公司],[电话：778-712-6616],[地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 ]"+
         "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     if(htmlInfo.insuranceType=='房屋保险'){
         html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
-            "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "<p>感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+            "，保单号为"+hidedInsuranceNumber+
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
-            ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
-            "请您提前做好准备，避免延误缴费时间</p>"+
-            "<p>如有任何疑问请致电778-895-5678/p>"+
-            "<p>Vicky Huang</p>"+
-            "<p></p>"+
+            "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+            "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
+            "请您提前做好资金准备按时缴付，以免延误引起保单失效。</p>"+
+            "<p>如果您对缴付保费的具体流程需要帮助，请随时联系我们。 </p>"+
+            "<p>客户服务部</p>"+
+            "<p>365财富规划公司</p>"+
+            "<p>电话：778-712-6616</p>"+
+            "<p>网站: http://www.365financial.ca</p>"+
+            "<p>地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 </p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
         text= "缴费通知:"+
             "尊敬的"+htmlInfo.recipient +"先生/女士"+
-            "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
+            "感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+            "，保单号为"+hidedInsuranceNumber+
             "房屋用途为"+htmlInfo.homeinsuranceUsability+"，受保地址："+htmlInfo.insuredAdress+
-            ",需要于"+paymentDate+"之前缴纳"+ "共计$"+htmlInfo.paymentAmount +"保费"+
-            "请您提前做好准备，避免延误缴费时间"+
-            "如有任何疑问请致电778-895-5678"+
+            "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+            "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
+            "请您提前做好资金准备按时缴付，以免延误引起保单失效。"+
+            "如果您对缴付保费的具体流程需要帮助，请随时联系我们。"+
+            "[客户服务部],[365财富规划公司],[电话：778-712-6616],[地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 ]"+
             "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
     }
 
     if(htmlInfo.sendDate>=htmlInfo.paymentDate){
         html= "<head>缴费通知</head>"+
             "<p>尊敬的"+htmlInfo.recipient +"先生/女士</p>"+
-            "<p>您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-            "需要于"+paymentDate+"之前缴纳"+
-            "共计$"+htmlInfo.paymentAmount +"保费</p>"+
+            "<p>感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+            "，保单号为"+hidedInsuranceNumber+
+            "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+            "共计$"+htmlInfo.paymentAmount +"（加币）的保费</p>"+
             "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-            "<p>如有任何疑问请致电778-895-5678</p>"+
-            "<p>Vicky Huang</p>"+
-            "<p></p>"+
+            "<p>如果您对缴付保费的具体流程需要帮助，请随时联系我们。 </p>"+
+            "<p>客户服务部</p>"+
+            "<p>365财富规划公司</p>"+
+            "<p>电话：778-712-6616</p>"+
+            "<p>网站: http://www.365financial.ca</p>"+
+            "<p>地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 </p>"+
             "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
             "您将不会再收到有关本次缴费的通知</p>";
         text= "缴费通知:"+
             "尊敬的"+htmlInfo.recipient +"先生/女士"+
-            "您所购买的"+htmlInfo.insuranceType +"保险，保单号后四位为"+htmlInfo.insuranceNumber+
-            "需要于"+paymentDate+"之前缴纳"+
-            "共计$"+htmlInfo.paymentAmount +"保费"+
+            "感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+            "，保单号为"+hidedInsuranceNumber+
+            "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+            "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
             "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-            "如有任何疑问请致电778-895-5678"+
+            "如果您对缴付保费的具体流程需要帮助，请随时联系我们。"+
+            "[客户服务部],[365财富规划公司],[电话：778-712-6616],[地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 ]"+
             "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         if(htmlInfo.insuranceType=='房屋保险') {
             html = "<head>缴费通知</head>" +
                 "<p>尊敬的" + htmlInfo.recipient + "先生/女士</p>" +
-                "<p>您所购买的" + htmlInfo.insuranceType + "保险，保单号后四位为" + htmlInfo.insuranceNumber +
-                "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
-                ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费</p>" +
+                "<p>感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+                "，保单号为"+hidedInsuranceNumber+
+                "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+                "共计$"+htmlInfo.paymentAmount +"（加币）的保费</p>"+
                 "<p>您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负</p>" +
-                "<p>如有任何疑问请致电778-895-5678</p>" +
-                "<p>Vicky Huang</p>" +
-                "<p></p>" +
-                "<p>如果您已完成付款请点击[<a href=" + url + ">已付款</a>]," +
+                "<p>如果您对缴付保费的具体流程需要帮助，请随时联系我们。 </p>"+
+                "<p>客户服务部</p>"+
+                "<p>365财富规划公司</p>"+
+                "<p>电话：778-712-6616</p>"+
+                "<p>网站: http://www.365financial.ca</p>"+
+                "<p>地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 </p>"+
+                "<p>如果您已完成付款请点击[<a href="+url+">已付款</a>]," +
                 "您将不会再收到有关本次缴费的通知</p>";
             text = "缴费通知:" +
                 "尊敬的" + htmlInfo.recipient + "先生/女士" +
-                "您所购买的" + htmlInfo.insuranceType + "保险，保单号后四位为" + htmlInfo.insuranceNumber +
+                "感谢您通过我们公司购买"+htmlInfo.insuranceCompany+"公司的"+htmlInfo.insuranceType +
+                "，保单号为"+hidedInsuranceNumber+
                 "房屋用途为" + htmlInfo.homeinsuranceUsability + "，受保地址：" + htmlInfo.insuredAdress +
-                ",需要于" + paymentDate + "之前缴纳" + "共计$" + htmlInfo.paymentAmount + "保费" +
+                "按照合同规定，请您于"+paymentDate+"之前向"+htmlInfo.insuranceCompany+"公司缴付"+
+                "共计$"+htmlInfo.paymentAmount +"（加币）的保费"+
                 "您已经逾期未还款，请务必尽快缴费, 超过宽限期还未缴款，后果自负" +
-                "如有任何疑问请致电778-895-5678" +
+                "如果您对缴付保费的具体流程需要帮助，请随时联系我们。"+
+                "[客户服务部],[365财富规划公司],[电话：778-712-6616],[地址：6180-4000 No. 3 Road, Richmond, B.C. Canada V6X 0J8 ]"+
                 "如果您已完成付款请点击下面的链接，您将不会再收到关于本次交费的提醒" + url;
         }
 
     }
     return {html:html,text:text};
+}
+//----------hide insurance number funrtion
+function hideInsuranceNumber(insuranceNumber){
+    var length=insuranceNumber.length;
+    var hidedLength=length-4;
+    var hidedPart="";
+    var displayedPart="";
+    for(var i=0; i<hidedLength; i++){
+        hidedPart=hidedPart+"*";
+    }
+    for(var i=hidedLength; i<length; i++){
+        displayedPart=displayedPart+insuranceNumber[i];
+    }
+
+    return hidedPart+displayedPart;
 }

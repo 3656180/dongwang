@@ -1,31 +1,10 @@
 $(document).ready(function(){
+    //disable all links
+    $("a").attr('href','#');
+    $(document).on('click',"a", function () {
+        event.preventDefault();
+    });
 
-
-    function loadXmlandappend(url, index, towhichphp) {
-        //alert(url);
-        if (towhichphp == 0) {
-            $phpurl = host + 'wp-content/themes/dongwang/xml/load_xml/load_sent_history_to_popup_smg.php';              // <=== CALL THE PHP FUNCTION HERE.
-        }
-        else {
-            $phpurl = host + 'wp-content/themes/dongwang/xml/load_xml/load_send_plan_to_popup_smg.php';              // <=== CALL THE PHP FUNCTION HERE.
-        }
-        $.ajax({
-            type: 'POST',
-            data: {
-                url: url,
-                index: index
-            },
-            url: $phpurl,              // <=== CALL THE PHP FUNCTION HERE.
-            success: function (data) {
-                //alert("success");               // <=== VALUE RETURNED FROM FUNCTION.
-                $('#pop_up_div_smp').empty();
-                $("#pop_up_div_smp").append(data);
-            },
-            error: function (xhr) {
-                alert("error");
-            }
-        });
-    };
 
 
     $(function () {
@@ -65,7 +44,7 @@ $(document).ready(function(){
             //alert(jQuery(this).attr("id"));
             $('#pop_up_div_frame_smp').css('transform', 'translateX(0)');
 
-            writeToPopupDiv(jQuery(this).attr("id"), "sent_history.xml", 0);
+            writeToPopupDiv(jQuery(this).attr("id"), "unpaid_reminded_events.xml", 0);
         });
         $('.send_plan_list').on('click', function () {
             //alert(jQuery(this).attr("id"));
@@ -78,6 +57,13 @@ $(document).ready(function(){
             $('#pop_up_div_frame_smp').css('transform', 'translateX(-100%)');
         });
 
+        //print email list when click 查看详情 button
+        $(document).on('click', '#email_list_popup',function () {
+            //alert(jQuery(this).attr("id"));
+            //$('#pop_up_div_frame_smp').css('transform', 'translateX(0)');
+            //alert($('#event_id_div_popup').val());
+            writeToPopupDiv($('#event_id_div_popup').val(), "unpaid_reminded_events.xml", 2);
+        });
 
     });
 
@@ -93,13 +79,50 @@ $(document).ready(function(){
 
     };
     function writeToPopupDiv(id, file, towhichphp) {
-        var index = id.replace('list_', '');
+        if(towhichphp==2){
+            index=id+"?1";
+        }
+        else{
+            var index = id.replace('list_', '');
+            if(towhichphp==0){
+                var div_id_event='#col_1_unpaid_list_'+index;
+                index= $(div_id_event).html();
+            }
+        }
+
+
         //alert(index);
         var url = "/wp-content/themes/dongwang/xml/" + file;
         //alert(url);
+
         loadXmlandappend(url, index, towhichphp);
 
 
     };
 
+    function loadXmlandappend(url, index, towhichphp) {
+        //alert(url);
+        if (towhichphp == 0||towhichphp == 2) {
+            $phpurl = host + 'wp-content/themes/dongwang/xml/load_xml/load_sent_history_to_popup_smg.php';              // <=== CALL THE PHP FUNCTION HERE.
+        }
+        else {
+            $phpurl = host + 'wp-content/themes/dongwang/xml/load_xml/load_send_plan_to_popup_smg.php';              // <=== CALL THE PHP FUNCTION HERE.
+        }
+        $.ajax({
+            type: 'POST',
+            data: {
+                url: url,
+                index: index
+            },
+            url: $phpurl,              // <=== CALL THE PHP FUNCTION HERE.
+            success: function (data) {
+                //alert("success");               // <=== VALUE RETURNED FROM FUNCTION.
+                $('#pop_up_div_smp').empty();
+                $("#pop_up_div_smp").append(data);
+            },
+            error: function (xhr) {
+                alert("error");
+            }
+        });
+    };
 });

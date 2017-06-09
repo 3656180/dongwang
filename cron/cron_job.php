@@ -59,7 +59,7 @@ if ($result->num_rows > 0) {
             var_dump($mailin->send_sms($data));
 
             //insert sent email to send history table
-            $sql = "INSERT INTO send_history_$year 
+            $sql = "INSERT INTO sent_history_$year 
                     (recipient, email, phone_number,wechat, send_date, html, event_id, send_option)
                     VALUES ('".$row["recipient"]."','".$row["email"]."','".$row["phone_number"]."',
                     '".$row["wechat"]."','".$row["send_date"]."','".$row["html"]."',

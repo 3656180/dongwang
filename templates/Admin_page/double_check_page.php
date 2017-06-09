@@ -73,6 +73,14 @@
             <div class="custom_div_0">
                 <div class="row">
                     <div class="col-4">
+                        <label class="custom_label_0">承保公司:</label>
+                    </div>
+                    <div class="col-8" id="insurance_company_dcp"></div>
+                </div>
+            </div>
+            <div class="custom_div_0">
+                <div class="row">
+                    <div class="col-4">
                         <label class="custom_label_0">缴费频率:</label>
                     </div>
                     <div class="col-8" id="payment_frequency_dcp"></div>

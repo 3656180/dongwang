@@ -60,6 +60,8 @@ $(document).ready(function(){
             success: function ( data ) {
                 alert("事件ID为:"+event_id+"的支付事件状态已修改为["+status.split('?')[0]+
                         "],修改日期为["+status.split('?')[1]+"]");
+                refreshPage('load_xml_to_manage_payment_event.php','#show_list_div_mpep');
+                //function in edit_insurance_event.js
             },
             error: function ( xhr ) {
                 alert( "error" );
@@ -257,16 +259,5 @@ $(document).ready(function(){
             }
         });
     }
-    // $('.payment_event_list').on('click', function () {
-    //     //alert(jQuery(this).attr("id"));
-    //     $('#edit_payment_event_page').css('transform', 'translateY(0)');
-    //     writeToEditPaymentevent(jQuery(this).attr("id"));
-    //     //writeToPopupDiv(jQuery(this).attr("id"), "send_plan.xml", 1);
-    // });
-    // function writeToEditPaymentevent(id) {
-    //     var index = id.replace('list_', '');
-    //     var id='#name_'+index;
-    //     //alert($(id).text());
-    //     $('#recipient_input_epep').val( $(id).text());
-    // };
+
 });

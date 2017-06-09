@@ -110,7 +110,7 @@ if($startPayDate!='unknown'&&$endPayDate!='unknown'){
     $events = filter_by_range_mi($events,'payment_date' , $startPayDate,$endPayDate);
 }
 if($insuranceNumber!='unknown'){
-    $events = filter_by_value_mi($events,'insurance_number' , $insuranceNumber);
+    $events = filter_by_value_mi($events,'insurance_num' , $insuranceNumber);
 }
 if($paymentAmount!='unknown'){
     $events = filter_by_value_mi($events,'payment_amount' , $paymentAmount);

@@ -329,7 +329,7 @@ input {
 
 #_365_logo_div {
   position: absolute;
-  margin-top: 3vh;
+  margin-top: 0vh;
   height: 10vh;
   width: 25vw;
   margin-left: 20%;
@@ -641,6 +641,21 @@ input {
 .pop_up_div_body {
   margin: 20px; }
 
+#unpaid_emails_list_in_popup {
+  margin: 1% 5% 10% 5%;
+  position: absolute;
+  height: 80%;
+  width: 90%;
+  overflow: scroll;
+  border: solid black 2px; }
+
+#unpaid_email_list {
+  height: 100%; }
+
+#title_ul_popup {
+  width: 90%;
+  margin: 5% 5% 1% 5%; }
+
 #double_check_page {
   position: fixed;
   height: 80vh;
@@ -717,7 +732,8 @@ input {
 .status_change_button {
   background-color: blanchedalmond;
   border: solid 1px;
-  cursor: pointer; }
+  cursor: pointer;
+  text-align: center; }
   .status_change_button:hover {
     background-color: white; }
 

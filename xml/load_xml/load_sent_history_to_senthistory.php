@@ -61,12 +61,13 @@ if(isset($_POST['end_payDate'])){
 $emails = array();
 foreach ($xml->sent_email as $node) {
     $emails[]=array(
-        'id'             =>(string) $node->id,
-        'recipient'          => (string)$node->recipient,
-        'email'           => (string)$node->recipient_email,
-        'send_date'         => (string)$node->sent_date,
+        'id'            =>(string) $node->id,
+        'recipient'     => (string)$node->recipient,
+        'email'         => explode(",",$node->recipient_email)[0],
+        'send_date'     => (string)$node->sent_date,
         'payment_date'  => $node->payment_date,
-        'html' => $node->html
+        'html'          => $node->html,
+        'email_list'    =>$node->recipient_email
     );
 }
 
@@ -103,7 +104,7 @@ echo "<ul class='history_and_plan_email_ul'>";
 
 foreach ($emails as &$node) {
     //echo $emails->recipient;
-    $email_array=explode(",", $node['email']);
+    $email_array=explode(",", $node['email_list']);
 
     $email_list="<ul>";
     for ($i=0; $i<count($email_array);$i++) {

@@ -68,14 +68,15 @@ foreach($xml->payment_events as $node){
     $events[]=array(
         'id'            =>$node->id,
         'name'          =>$node->recipient,
-        'email'         =>$node->email,
+        'email'         =>explode(",",$node->email)[0],
         'phone_number'  =>$node->phone_number,
         'wechat'        =>$node->wechat,
         'payment_amount'=>$node->payment_amount,
         'payment_date'  =>$node->payment_date,
         'insurance_num' =>$node->insurance_number,
         'insurance_type'=>$node->insurance_type,
-        'event_status'  =>$node->event_status
+        'event_status'  =>$node->event_status,
+        'email_list'    =>$node->email
     );
 }
 
@@ -119,7 +120,7 @@ echo "<ul class='history_and_plan_email_ul'>";
 
 foreach ($events as &$node) {
     //echo $emails->recipient;
-    $email_array=explode(",", $node['email']);
+    $email_array=explode(",", $node['email_list']);
     $event_status=explode("?", $node['event_status'])[0];
 
     $email_list="<ul>";
@@ -129,8 +130,10 @@ foreach ($events as &$node) {
     $email_list=$email_list."</ul>";
 
     $changeButton='设为未支付';
+    $color='#c10707';
     if($event_status=='未支付'){
         $changeButton='设为已支付';
+        $color='#07c120';
     }
     echo "<li class='payment_event_list'  id='list_$index'>
                 <div class='row'>
@@ -162,7 +165,7 @@ foreach ($events as &$node) {
                         <div class='send_history_list_row'>".$node['insurance_type']."</div>
                     </div>
                     <div class='col-1' id='event_status_$index' style='border-right:solid 1px '>
-                        <div class='send_history_list_row'>".$event_status."</div>
+                        <div class='send_history_list_row' style='background-color: $color'>".$event_status."</div>
                         <div class='status_change_button' id='change_button_$index'>".$changeButton."</div>
                     </div>
                 </div>
